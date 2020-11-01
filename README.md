@@ -1,108 +1,140 @@
-## Create-React-App-Lambda
+# Free React landing page template
 
-This project is a reference demo showing you how to use [Create React App v3](https://github.com/facebookincubator/create-react-app) and [netlify-lambda v1](https://github.com/netlify/netlify-lambda) together in a [Netlify Dev](https://www.netlify.com/docs/cli/?utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex#netlify-dev-beta) workflow. You can clone this and immediately be productive with a React app with serverless Netlify Functions in the same repo. Alternatively you can deploy straight to Netlify with this one-click Deploy:
+![Open React template preview](https://user-images.githubusercontent.com/2683512/78789364-545e7100-79ad-11ea-9e3c-9528c99cda8e.png)
 
+**Open** is a **free React landing page template designed** for developers/makers who want to create a quick and professional landing page for their open source projects, SaaS products, online services, and more.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg?utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/create-react-app-lambda&utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex)
+Use it for whatever you want, and be sure to reach us out on [Twitter](https://twitter.com/Cruip_com) if you build anything cool/useful with it.
 
-> ⚠️NOTE: You may not need this project at all. [Netlify Dev](https://github.com/netlify/netlify-dev-plugin) works with `create-react-app` out of the box! Only use `netlify-lambda` if you need a build step for your functions, eg if you want to use Babel or TypeScript ([see its README for details](https://github.com/netlify/netlify-lambda/blob/master/README.md#netlify-lambda)).
+Created and maintained with ❤️ by [Cruip.com](https://cruip.com).
 
-## Project Setup
+## Live demo
 
-**Source**: The main addition to base Create-React-App is a new folder: `src/lambda`. This folder is specified and can be changed in the `package.json` script: `"build:lambda": "netlify-lambda build src/lambda"`.
+Check the live demo here 👉️ [https://open.cruip.com/](https://open.cruip.com/)
 
-**Dist**: Each JavaScript file in there will be built for Netlify Function deployment in `/built-lambda`, specified in [`netlify.toml`](https://www.netlify.com/docs/netlify-toml-reference/?utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex).
+## Open PRO
 
-As an example, we've included a small `src/lambda/hello.js` function, which will be deployed to `/.netlify/functions/hello`. We've also included an async lambda example using async/await syntax in `async-dadjoke.js`.
+Looking for more pages and components? Have a look at the **premium version** here 👉️ [https://cruip.com/demos/open-pro/](https://cruip.com/demos/open-pro/)
 
-## Video
+*The premium template is built on-the-top of [Tailwind CSS](https://tailwindcss.com/), and React components have been re-built from scratch.* 
 
-Learn how to set this up yourself (and why everything is the way it is) from scratch in a video: https://www.youtube.com/watch?v=3ldSM98nCHI
+## Table of contents
 
-## Babel/webpack compilation
+* [Usage](#usage)
+  * [Available Scripts](#available-scripts)
+    * [npm start](#npm-start)
+    * [npm test](#npm-test)
+    * [npm run build](#npm-run-build)
+    * [npm run eject](#npm-run-eject)
+  * [Learn More](#learn-more)
+    * [Code Splitting](#code-splitting)
+    * [Analyzing the Bundle Size](#analyzing-the-bundle-size)
+    * [Making a Progressive Web App](#making-a-progressive-web-app)
+    * [Advanced Configuration](#advanced-configuration)
+    * [Deployment](#deployment)
+    * [npm run build fails to minify](#npm-run-build-fails-to-minify)
+  * [Google Analytics Setup](#google-analytics-setup)
+* [Credits](#credits)
+* [Terms and License](#terms-and-license)
+* [About Us](#about-us)
+* [Stay in the loop](#stay-in-the-loop)
 
-All functions (inside `src/lambda`) are compiled with webpack using Babel, so you can use modern JavaScript, import npm modules, etc., without any extra setup.
+## Usage
 
-## Local Development
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-```bash
-## prep steps for first time users
-npm i -g netlify-cli # Make sure you have the [Netlify CLI](https://github.com/netlify/cli) installed
-git clone https://github.com/netlify/create-react-app-lambda ## clone this repo
-cd create-react-app-lambda ## change into this repo
-yarn # install all dependencies
+### Available Scripts
 
-## done every time you start up this project
-ntl dev ## nice shortcut for `netlify dev`, starts up create-react-app AND a local Node.js server for your Netlify functions
-```
+In the project directory, you can run:
 
-This fires up [Netlify Dev](https://www.netlify.com/docs/cli/?utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex#netlify-dev-beta), which:
+#### `npm install`
+To install the dependencies package.
 
-- Detects that you are running a `create-react-app` project and runs the npm script that contains `react-scripts start`, which in this project is the `start` script
-- Detects that you use `netlify-lambda` as a [function builder](https://github.com/netlify/netlify-dev-plugin/#function-builders-function-builder-detection-and-relationship-with-netlify-lambda), and runs the npm script that contains `netlify-lambda build`, which in this project is the `build:lambda` script.
+#### `npm start`
 
-You can view the project locally via Netlify Dev, via `localhost:8888`.
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Each function will be available at the same port as well:
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-- `http://localhost:8888/.netlify/functions/hello` and 
-- `http://localhost:8888/.netlify/functions/async-dadjoke`
+#### `npm test`
 
-## Deployment
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-During deployment, this project is configured, inside `netlify.toml` to run the build `command`: `yarn build`.
+#### `npm run build`
 
-`yarn build` corresponds to the npm script `build`, which uses `npm-run-all` (aka `run-p`) to concurrently run `"build:app"` (aka `react-scripts build`) and `build:lambda` (aka `netlify-lambda build src/lambda`).
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Typescript
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-<details>
-  <summary>
-    <b id="typescript">Click for instructions</b>
-  </summary>
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-You can use Typescript in both your frontend React code (with `react-scripts` v2.1+) and your serverless functions (with `netlify-lambda` v1.1+). Follow these instructions:
+#### `npm run eject`
 
-1. `yarn add -D typescript @types/node @types/react @types/react-dom @babel/preset-typescript @types/aws-lambda`
-2. convert `src/lambda/hello.js` to `src/lambda/hello.ts`
-3. use types in your event handler:
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-```ts
-import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda'
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-interface HelloResponse {
-  statusCode: number
-  body: string
-}
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-const handler: Handler = (event: APIGatewayEvent, context: Context, callback: Callback) => {
-  const params = event.queryStringParameters
-  const response: HelloResponse = {
-    statusCode: 200,
-    body: JSON.stringify({
-      msg: `Hello world ${Math.floor(Math.random() * 10)}`,
-      params,
-    }),
-  }
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-  callback(undefined, response)
-}
+### Learn More
 
-export { handler }
-```
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-rerun and see it work!
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-You are free to set up your `tsconfig.json` and `tslint` as you see fit.
+#### Code Splitting
 
-</details>
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-**If you want to try working in Typescript on the client and lambda side**: There are a bunch of small setup details to get right. Check https://github.com/sw-yx/create-react-app-lambda-typescript for a working starter.
+#### Analyzing the Bundle Size
 
-## Routing and authentication with Netlify Identity
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-For a full demo of routing and authentication, check this branch: https://github.com/netlify/create-react-app-lambda/pull/18 This example will not be maintained but may be helpful.
+#### Making a Progressive Web App
 
-## Service Worker
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-`create-react-app`'s default service worker (in `src/index.js`) does not work with lambda functions out of the box. It prevents calling the function and returns the app itself instead ([Read more](https://github.com/facebook/create-react-app/issues/2237#issuecomment-302693219)). To solve this you have to eject and enhance the service worker configuration in the webpack config. Whitelist the path of your lambda function and you are good to go.
+#### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+#### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+#### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### Google Analytics Setup
+
+This template uses the [React Google Analytics Module](https://github.com/react-ga/react-ga).
+
+In order to track visitors, you need to set an [environment variable](https://create-react-app.dev/docs/adding-custom-environment-variables/) called `REACT_APP_GA_CODE` storing your [GA Tracking ID](https://support.google.com/analytics/answer/7372977).
+
+## Credits
+
+- [Nucleo](https://nucleoapp.com/)
+- [Unsplash](https://unsplash.com/)
+
+## Terms and License
+
+- Released under the [GPL](https://www.gnu.org/licenses/gpl-3.0.html).
+- Copyright 2020 [Cruip](https://cruip.com/).
+- Use it for personal and commercial projects, but please don’t republish, redistribute, or resell the template.
+- Attribution is not required, although it is really appreciated.
+
+## About Us
+
+We're an Italian developer/designer duo creating high-quality design/code resources for developers, makers, and startups.
+
+## Stay in the loop
+
+If you would like to know when we release new resources, you can follow us on [Twitter](https://twitter.com/Cruip_com), or you can subscribe to our monthly [newsletter](https://cruip.com/#subscribe).
