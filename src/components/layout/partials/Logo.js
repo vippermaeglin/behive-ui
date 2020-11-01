@@ -21,10 +21,10 @@ const Logo = ({
       <h1 className="m-0">
         <Link to="/">
           <Image
-            src={require('./../../../assets/images/logo.svg')}
+            src={require('./../../../assets/images/behive_nofit_logo_transparent.png')}
             alt="Open"
-            width={32}
-            height={32} />
+            width={150}
+            height={150} />
         </Link>
       </h1>
     </div>

@@ -60,20 +60,26 @@ const Hero = ({
       <div className="container-sm">
         <div className={innerClasses}>
           <div className="hero-content">
+            <Image
+                className="has-shadow"
+                src={require('./../../assets/images/behive_nofit_logo_transparent.png')}
+                alt="Behive Fit"
+                width={400}
+                height={400} />
             <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
-              Landing template for <span className="text-color-primary">startups</span>
+              Coworking para <span className="text-color-primary">Personal Trainers</span>
             </h1>
             <div className="container-xs">
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-                Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.
+              Transforme sua academia em um espaço de coworking paa profissionais do fitness, aumentando sua rentabilidade e fidelização.
                 </p>
               <div className="reveal-from-bottom" data-reveal-delay="600">
                 <ButtonGroup>
                   <Button tag="a" color="primary" wideMobile href="https://cruip.com/">
-                    Get started
+                    Saiba Mais
                     </Button>
                   <Button tag="a" color="dark" wideMobile href="https://github.com/cruip/open-react-template/">
-                    View on Github
+                    Entrar
                     </Button>
                 </ButtonGroup>
               </div>
