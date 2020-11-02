@@ -62,10 +62,10 @@ const Hero = ({
           <div className="hero-content">
             <Image
                 className="has-shadow"
-                src={require('./../../assets/images/behive_nofit_logo_transparent.png')}
+                src={require('./../../assets/images/behive_presentation.png')}
                 alt="Behive Fit"
-                width={400}
-                height={400} />
+                width={500}
+                height={500} />
             <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
               Coworking para <span className="text-color-primary">Personal Trainers</span>
             </h1>
