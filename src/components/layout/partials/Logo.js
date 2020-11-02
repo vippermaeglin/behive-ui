@@ -23,8 +23,8 @@ const Logo = ({
           <Image
             src={require('./../../../assets/images/behive_nofit_logo_transparent.png')}
             alt="Open"
-            width={150}
-            height={150} />
+            width={80}
+            height={80} />
         </Link>
       </h1>
     </div>
