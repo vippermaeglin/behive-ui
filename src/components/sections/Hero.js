@@ -67,11 +67,11 @@ const Hero = ({
                 width={500}
                 height={500} />
             <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
-              Coworking para <span className="text-color-primary">Personal Trainers</span>
+              Academias Coworking<i><br></br>para</i> <span className="text-color-primary">Personal Trainers</span>
             </h1>
             <div className="container-xs">
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-              Transforme sua academia em um espaço de coworking paa profissionais do fitness, aumentando sua rentabilidade e fidelização.
+              Transforme sua academia em um espaço de coworking para profissionais do fitness, aumentando sua rentabilidade e fidelização de alunos.
                 </p>
               <div className="reveal-from-bottom" data-reveal-delay="600">
                 <ButtonGroup>
@@ -85,27 +85,6 @@ const Hero = ({
               </div>
             </div>
           </div>
-          <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
-            <a
-              data-video="https://player.vimeo.com/video/174002812"
-              href="#0"
-              aria-controls="video-modal"
-              onClick={openModal}
-            >
-              <Image
-                className="has-shadow"
-                src={require('./../../assets/images/video-placeholder.jpg')}
-                alt="Hero"
-                width={896}
-                height={504} />
-            </a>
-          </div>
-          <Modal
-            id="video-modal"
-            show={videoModalActive}
-            handleClose={closeModal}
-            video="https://player.vimeo.com/video/174002812"
-            videoTag="iframe" />
         </div>
       </div>
     </section>
