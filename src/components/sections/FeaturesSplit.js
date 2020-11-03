@@ -50,7 +50,7 @@ const FeaturesSplit = ({
   );
 
   const sectionHeader = {
-    title: 'Personal Trainers: Melhor ferramenta de fidelização do mercado',
+    title: 'Personal Training: Melhor ferramenta de fidelização do mercado',
     paragraph: 'É comprovado que um treinamento personalizado é a chave para a motivação e consequentemente a fidelização de alunos em uma academia.'
   };
 
@@ -70,10 +70,10 @@ const FeaturesSplit = ({
                   Academias
                   </div>
                 <h3 className="mt-0 mb-12">
-                  Aumento de fidelização e maior rentabilidade do espaço
+                  Retenção de CLIENTES e maior rentabilidade do espaço
                   </h3>
                 <p className="m-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Este é o cenário ideal, não é mesmo empresário? Diante do incentivo da atuação de Personal Trainers em seu estabelecimento, sua empresa terá menor necessidade de contratação CLT, sua academia se tornará uma referência de mercado na prestação de serviços. O que acarretará na maior fidelização de alunos e otimização da ocupação do espaço de sua academia. Horários ociosos nunca mais...
                   </p>
               </div>
               <div className={
@@ -96,10 +96,10 @@ const FeaturesSplit = ({
                   Personal Trainers
                   </div>
                 <h3 className="mt-0 mb-12">
-                  Maior rentabilidade como profissional autônomo
+                  Liberdade PROFISSIONAL e maior lucratividade
                   </h3>
                 <p className="m-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Com um canal exclusivo de captação de novos clientes para atender em várias academias, é possível ter controle de sua própria agenda e gerir carteira de clientes, pagar taxas justas relacionadas à produtividade e valor de mercado. Facilidade para cobrar pelos serviços prestados e compartilhamento de informações com seus clientes.
                   </p>
               </div>
               <div className={
@@ -122,10 +122,10 @@ const FeaturesSplit = ({
                   Alunos
                   </div>
                 <h3 className="mt-0 mb-12">
-                  Treinamentos personalizados a um preço acessível
+                  Personal training de QUALIDADE ao seu alcance
                   </h3>
                 <p className="m-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Nossa plataforma oferece acesso a uma rede de profissionais certificados e academias credenciadas, garantindo a excelência nas prestações de serviços. É comprovado que um treinamento sob medida é a base para a satisfação com os resultados eficientes e duradouros.
                   </p>
               </div>
               <div className={
