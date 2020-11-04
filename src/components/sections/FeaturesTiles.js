@@ -74,9 +74,11 @@ const FeaturesTiles = ({
                   <h4 className="mt-0 mb-8">
                     Fidelização
                     </h4>
+                    <div style={{ display: 'none'}}>
                   <p className="m-0 text-sm">
                   Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat..
                     </p>
+                    </div>
                 </div>
               </div>
             </div>
@@ -96,9 +98,11 @@ const FeaturesTiles = ({
                   <h4 className="mt-0 mb-8">
                     Desburocratização
                     </h4>
+                    <div style={{ display: 'none'}}>
                   <p className="m-0 text-sm">
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.
                     </p>
+                    </div>
                 </div>
               </div>
             </div>
@@ -118,9 +122,11 @@ const FeaturesTiles = ({
                   <h4 className="mt-0 mb-8">
                     Gestão Online
                     </h4>
+                    <div style={{ display: 'none'}}>
                   <p className="m-0 text-sm">
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.
                     </p>
+                    </div>
                 </div>
               </div>
             </div>
@@ -140,9 +146,11 @@ const FeaturesTiles = ({
                   <h4 className="mt-0 mb-8">
                     Lucratividade
                     </h4>
+                    <div style={{ display: 'none'}}>
                   <p className="m-0 text-sm">
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.
                     </p>
+                    </div>
                 </div>
               </div>
             </div>
@@ -162,9 +170,11 @@ const FeaturesTiles = ({
                   <h4 className="mt-0 mb-8">
                     Smart Gym
                     </h4>
+                    <div style={{ display: 'none'}}>
                   <p className="m-0 text-sm">
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.
                     </p>
+                    </div>
                 </div>
               </div>
             </div>
@@ -184,9 +194,11 @@ const FeaturesTiles = ({
                   <h4 className="mt-0 mb-8">
                     Agilidade
                     </h4>
+                    <div style={{ display: 'none'}}>
                   <p className="m-0 text-sm">
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.
                     </p>
+                    </div>
                 </div>
               </div>
             </div>

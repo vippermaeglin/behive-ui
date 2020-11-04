@@ -53,6 +53,8 @@ const Testimonial = ({
       {...props}
       className={outerClasses}
     >
+
+<div style={{ display: 'none'}}>
       <div className="container">
         <div className={innerClasses}>
           <SectionHeader data={sectionHeader} className="center-content" />
@@ -111,6 +113,7 @@ const Testimonial = ({
 
           </div>
         </div>
+      </div>
       </div>
     </section>
   );
