@@ -3,14 +3,15 @@
   "version": "0.5.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^1.2.0",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.1.2",
     "react-ga": "^3.2.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
     "redux": "^4.0.5"
   },
