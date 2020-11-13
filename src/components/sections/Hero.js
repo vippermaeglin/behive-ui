@@ -4,6 +4,7 @@ import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
+import { useAuth0 } from '../../auth/react-auth0-spa';
 
 const propTypes = {
   ...SectionProps.types
@@ -39,6 +40,8 @@ const Hero = ({
     bottomDivider && 'has-bottom-divider'
   );
 
+  const { isAuthenticated, loginWithRedirect, logoutWithRedirect } = useAuth0();
+
   return (
     <section
       {...props}
@@ -65,7 +68,7 @@ const Hero = ({
                   <Button tag="a" color="primary" wideMobile href="#featuresTiles">
                     Saiba Mais
                     </Button>
-                  <Button tag="a" color="dark" wideMobile href="http://www.personal4all.com.br/">
+                  <Button tag="a" color="dark" wideMobile onClick={() => loginWithRedirect({})}>
                     Entrar
                     </Button>
                 </ButtonGroup>

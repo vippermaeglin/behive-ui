@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import { Auth0Provider } from './auth/react-auth0-spa';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -12,9 +13,15 @@ import './assets/scss/style.scss';
 const history = createBrowserHistory();
 
 ReactDOM.render(
-  <Router history={history}>
-    <App />
-  </Router>,
+  <Auth0Provider
+    domain={"vinicius-arruda.auth0.com"}
+    client_id={"OHjOTVUUmLZJ0vpjKt7TCqQBrUBF6Rge"}
+    redirect_uri={window.location.origin}
+  >
+    <Router history={history}>
+      <App />
+    </Router>
+  </Auth0Provider>,
   document.getElementById('root')
 );
 

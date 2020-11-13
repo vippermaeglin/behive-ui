@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from './partials/Logo';
+import { useAuth0 } from '../../auth/react-auth0-spa';
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -74,6 +75,8 @@ const Header = ({
     className
   );
 
+  const { isAuthenticated, loginWithRedirect, logoutWithRedirect } = useAuth0();
+
   return (
     <header
       {...props}
@@ -120,7 +123,7 @@ const Header = ({
                       className="list-reset header-nav-right"
                     >
                       <li>
-                        <Link to="#0" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Entrar</Link>
+                        <Link to="#0" className="button button-primary button-wide-mobile button-sm" onClick={() => loginWithRedirect({})}>Entrar</Link>
                       </li>
                     </ul>}
                 </div>
