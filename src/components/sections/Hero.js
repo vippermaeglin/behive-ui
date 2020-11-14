@@ -4,7 +4,6 @@ import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
-import { useAuth0 } from '../../auth/react-auth0-spa';
 
 const propTypes = {
   ...SectionProps.types
@@ -40,8 +39,6 @@ const Hero = ({
     bottomDivider && 'has-bottom-divider'
   );
 
-  const { isAuthenticated, loginWithRedirect, logoutWithRedirect } = useAuth0();
-
   return (
     <section
       {...props}
@@ -54,9 +51,9 @@ const Hero = ({
                 className="has-shadow"
                 src={require('./../../assets/images/behive_presentation.png')}
                 alt="Behive Fit"
-                width={500}
-                height={500} />
-            <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
+                width={350}
+                height={350} />
+            <h1 data-reveal-delay="200">
               Academias Coworking<i><br></br>para</i> <span className="text-color-primary">Personal Trainers</span>
             </h1>
             <div className="container-xs">
@@ -67,10 +64,7 @@ const Hero = ({
                 <ButtonGroup>
                   <Button tag="a" color="primary" wideMobile href="#featuresTiles">
                     Saiba Mais
-                    </Button>
-                  <Button tag="a" color="dark" wideMobile onClick={() => loginWithRedirect({})}>
-                    Entrar
-                    </Button>
+                  </Button>
                 </ButtonGroup>
               </div>
             </div>

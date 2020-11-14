@@ -6,6 +6,7 @@ import { Auth0Provider } from './auth/react-auth0-spa';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import auth0Config from './auth/auth0.config.json';
 
 //import './App.css';
 import './assets/scss/style.scss';
@@ -14,8 +15,9 @@ const history = createBrowserHistory();
 
 ReactDOM.render(
   <Auth0Provider
-    domain={"vinicius-arruda.auth0.com"}
-    client_id={"OHjOTVUUmLZJ0vpjKt7TCqQBrUBF6Rge"}
+    domain={auth0Config.domain}
+    client_id={auth0Config.clientId}
+    audience={auth0Config.audience}
     redirect_uri={window.location.origin}
   >
     <Router history={history}>

@@ -123,7 +123,12 @@ const Header = ({
                       className="list-reset header-nav-right"
                     >
                       <li>
-                        <Link to="#0" className="button button-primary button-wide-mobile button-sm" onClick={() => loginWithRedirect({})}>Entrar</Link>
+                        {!isAuthenticated && (
+                          <Link to="#0" className="button button-primary button-wide-mobile button-sm" onClick={() => loginWithRedirect({})}>Entrar</Link>
+                        )}
+                        {isAuthenticated && (
+                          <Link to="#0" className="button button-primary button-wide-mobile button-sm" onClick={() => logoutWithRedirect({})}>Sair</Link>
+                        )}
                       </li>
                     </ul>}
                 </div>

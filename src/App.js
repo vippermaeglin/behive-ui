@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useLocation, Switch } from 'react-router-dom';
+import { useLocation, Switch, BrowserRouter, Route } from 'react-router-dom';
 import AppRoute from './utils/AppRoute';
 import ScrollReveal from './utils/ScrollReveal';
 import ReactGA from 'react-ga';
@@ -37,6 +37,16 @@ const App = () => {
       children={() => (
         <Switch>
           <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
+          {/*<BrowserRouter>
+            <header>
+              TODO...
+            </header>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <AuthenticatedRoute path="/profile" component={Profile} />
+              <AuthenticatedRoute path="/gym" component={Gym} />
+            </Switch>
+          </BrowserRouter>*/}
         </Switch>
       )} />
   );
