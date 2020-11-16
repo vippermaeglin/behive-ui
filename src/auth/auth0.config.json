@@ -1,5 +1,7 @@
 {
     "domain": "behive-fit.us.auth0.com",
     "clientId": "lebYz5rum1mvUvsJGWvkHVPkOSQPZ6Rx",
-    "audience": "https://behive.fit"
+    "audience": "https://behive.fit",
+    "roleUrl": "https://rbac-tutorial-app/role",
+    "callbackUrl": "http://localhost:3000/callback"
 }

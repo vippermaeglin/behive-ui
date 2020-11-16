@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Auth0Provider } from './auth/react-auth0-spa';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import auth0Config from './auth/auth0.config.json';
+
+import Home from './views/Home';
+import Dashboard from './views/Dashboard';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 
 //import './App.css';
 import './assets/scss/style.scss';
@@ -22,6 +26,10 @@ ReactDOM.render(
   >
     <Router history={history}>
       <App />
+      <Switch>
+        <Route path="/" component={Home}/>
+        <AuthenticatedRoute path="/dashboard" component={Dashboard}/>
+      </Switch>
     </Router>
   </Auth0Provider>,
   document.getElementById('root')
