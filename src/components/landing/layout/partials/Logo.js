@@ -21,7 +21,7 @@ const Logo = ({
       <h1 className="m-0">
         <Link to="/">
           <Image
-            src={require('./../../../assets/images/behive_fit_logo_transparent.png')}
+            src={require('./../../../../assets/images/behive_fit_logo_transparent.png')}
             alt="Open"
             width={80}
             height={80} />

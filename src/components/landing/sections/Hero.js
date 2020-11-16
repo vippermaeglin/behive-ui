@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SectionProps } from '../../utils/SectionProps';
+import { SectionProps } from '../../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
@@ -49,7 +49,7 @@ const Hero = ({
           <div className="hero-content">
             <Image
                 className="has-shadow"
-                src={require('./../../assets/images/behive_presentation.png')}
+                src={require('./../../../assets/images/behive_presentation.png')}
                 alt="Behive Fit"
                 width={500}
                 height={500} />
