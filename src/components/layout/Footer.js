@@ -45,7 +45,7 @@ const Footer = ({
           </div>
           <div className="footer-bottom space-between text-xxs invert-order-desktop">
             <FooterNav />
-            <div className="footer-copyright">Direitos reservados a  <a href="https://behive.fit">Behive Fit</a>.</div>
+            <div className="footer-copyright">Copyright © {new Date().getFullYear()}, <a href="https://behive.fit">Behive Fit Tecnologia Ltda (Behive Fit), Inc.</a> - Todos os direitos reservados.</div>
           </div>
         </div>
       </div>
