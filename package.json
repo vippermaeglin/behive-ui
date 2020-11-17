@@ -4,15 +4,18 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.0",
+    "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.1.2",
     "react-ga": "^3.2.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
-    "redux": "^4.0.5"
+    "react-validation": "^3.0.7",
+    "redux": "^4.0.5",
+    "validator": "^13.1.17"
   },
   "scripts": {
     "start": "react-scripts start",
