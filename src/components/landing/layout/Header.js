@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from './partials/Logo';
+import AuthService from "../../../services/auth.service";
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -74,6 +75,15 @@ const Header = ({
     className
   );
 
+  const logOut = () => {
+    AuthService.logout();
+    window.location.reload(false);
+  };
+
+  const isVisitor = () => {
+    return AuthService.getCurrentUser === null;
+  };
+
   return (
     <header
       {...props}
@@ -120,7 +130,12 @@ const Header = ({
                       className="list-reset header-nav-right"
                     >
                       <li>
-                        <Link to="#0" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Entrar</Link>
+                        {isVisitor && (
+                          <Link to="/login" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Entrar</Link>
+                        )}
+                        {!isVisitor && (
+                          <Link to="/" className="button button-primary button-wide-mobile button-sm" onClick={logOut}>Sair</Link>
+                        )}
                       </li>
                     </ul>}
                 </div>

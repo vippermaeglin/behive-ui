@@ -7,9 +7,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 // Layouts
 import LayoutDefault from './layouts/LayoutDefault';
+import LayoutAuth from './layouts/LayoutAuth';
 
 // Views 
 import Home from './views/Home';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import Profile from './components/auth/Profile';
 
 // Initialize Google Analytics
 ReactGA.initialize(process.env.REACT_APP_GA_CODE);
@@ -36,9 +40,12 @@ const App = () => {
     <ScrollReveal
       ref={childRef}
       children={() => (
-        <Switch>
-          <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
-        </Switch>
+          <Switch>
+            <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
+            <AppRoute exact path="/register" component={Register} layout={LayoutAuth} />
+            <AppRoute exact path="/login" component={Login} layout={LayoutAuth}/>
+            <AppRoute exact path="/profile" component={Profile} layout={LayoutAuth}/>
+          </Switch>
       )} />
   );
 }
