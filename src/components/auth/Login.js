@@ -90,9 +90,8 @@ const Login = (props) => {
     <div className="col-md-12">
       <div className="card card-container">
         <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          src={require('./../../assets/images/behive_logo_transparent.png')}
           alt="profile-img"
-          className="profile-img-card"
         />
 
         <Form onSubmit={handleLogin} ref={form}>
