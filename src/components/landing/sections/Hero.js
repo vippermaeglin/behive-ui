@@ -53,7 +53,7 @@ const Hero = ({
                 alt="Behive Fit"
                 width={500}
                 height={500} />
-            <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
+            <h1 className="mt-0 mb-16" data-reveal-delay="200">
               Academias Coworking<i><br></br>para</i> <span className="text-color-primary">Personal Trainers</span>
             </h1>
             <div className="container-xs">
