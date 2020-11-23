@@ -16,7 +16,7 @@ const required = (value) => {
   }
 };
 
-const vusername = (value) => {
+const vcpf = (value) => {
   if (value.length !== 14) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -40,14 +40,14 @@ const Login = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
-  const [username, setUsername] = useState("");
+  const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const onChangeUsername = (e) => {
-    const username = cpfMask(e.target.value);
-    setUsername(username);
+  const onChangeCpf = (e) => {
+    const cpf = cpfMask(e.target.value);
+    setCpf(cpf);
   };
 
   const onChangePassword = (e) => {
@@ -64,7 +64,7 @@ const Login = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.login(username, password).then(
+      AuthService.login(cpf, password).then(
         () => {
           props.history.push("/profile");
           window.location.reload();
@@ -100,10 +100,10 @@ const Login = (props) => {
             <Input
               type="text"
               className="form-control"
-              name="username"
-              value={username}
-              onChange={onChangeUsername}
-              validations={[required, vusername]}
+              name="cpf"
+              value={cpf}
+              onChange={onChangeCpf}
+              validations={[required, vcpf]}
             />
           </div>
 

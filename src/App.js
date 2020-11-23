@@ -14,6 +14,7 @@ import Home from './views/Home';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Profile from './components/auth/Profile';
+import BoardAdmin from "./components/admin/board-admin.component";
 
 // Initialize Google Analytics
 ReactGA.initialize(process.env.REACT_APP_GA_CODE);
@@ -45,6 +46,7 @@ const App = () => {
             <AppRoute exact path="/register" component={Register} layout={LayoutAuth} />
             <AppRoute exact path="/login" component={Login} layout={LayoutAuth}/>
             <AppRoute exact path="/profile" component={Profile} layout={LayoutAuth}/>
+            <AppRoute path="/admin" component={BoardAdmin} />
           </Switch>
       )} />
   );

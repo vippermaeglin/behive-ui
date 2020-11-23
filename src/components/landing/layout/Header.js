@@ -36,10 +36,20 @@ const Header = ({
   const nav = useRef(null);
   const hamburger = useRef(null);
 
+  const [isVisitor, setIsVisitor] = useState(true);
+  const [setShowAdminBoard] = useState(false);
+  const [setCurrentUser] = useState(undefined);
+
   useEffect(() => {
     isActive && openMenu();
     document.addEventListener('keydown', keyPress);
     document.addEventListener('click', clickOutside);
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      setIsVisitor(false);
+      setCurrentUser(user);
+      setShowAdminBoard(user.roles.includes("B_ADMIN") || user.roles.includes("SYS_ADMIN"));
+    }
     return () => {
       document.removeEventListener('keydown', keyPress);
       document.addEventListener('click', clickOutside);
@@ -78,10 +88,6 @@ const Header = ({
   const logOut = () => {
     AuthService.logout();
     window.location.reload(false);
-  };
-
-  const isVisitor = () => {
-    return AuthService.getCurrentUser === null;
   };
 
   return (
@@ -123,6 +129,15 @@ const Header = ({
                     )}>
                     <li>
                       <Link to="#0" onClick={closeMenu}>Produto</Link>
+                    </li>
+                  </ul>
+                  <ul className={
+                    classNames(
+                      'list-reset text-xs',
+                      navPosition && `header-nav-${navPosition}`
+                    )}>
+                    <li>
+                      <Link to="/admin" onClick={closeMenu}>Administrador</Link>
                     </li>
                   </ul>
                   {!hideSignin &&
