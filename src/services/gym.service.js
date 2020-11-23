@@ -7,6 +7,9 @@ class GymService {
   getAllGyms = () => {
     return axios.get(API_URL, { headers: authHeader() });
   };
+  search = (name) => {
+    return axios.get(API_URL+"/search", { headers: authHeader() });
+  };
 }
 
 export default new GymService();

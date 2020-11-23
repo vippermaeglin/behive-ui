@@ -46,7 +46,7 @@ const App = () => {
             <AppRoute exact path="/register" component={Register} layout={LayoutAuth} />
             <AppRoute exact path="/login" component={Login} layout={LayoutAuth}/>
             <AppRoute exact path="/profile" component={Profile} layout={LayoutAuth}/>
-            <AppRoute path="/admin" component={BoardAdmin} />
+            <AppRoute path="/admin" component={BoardAdmin} layout={LayoutDefault}/>
           </Switch>
       )} />
   );

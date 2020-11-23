@@ -42,8 +42,18 @@ const Header = ({
   // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = useState(undefined);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+
+    const keyPress = (e) => {
+      isActive && e.keyCode === 27 && closeMenu();
+    }
+  
+    const clickOutside = (e) => {
+      if (!nav.current) return
+      if (!isActive || nav.current.contains(e.target) || e.target === hamburger.current) return;
+      closeMenu();
+    }  
+  
     isActive && openMenu();
     document.addEventListener('keydown', keyPress);
     document.addEventListener('click', clickOutside);
@@ -53,12 +63,16 @@ const Header = ({
       setCurrentUser(user);
       setShowAdminBoard(user.roles.includes("B_ADMIN") || user.roles.includes("SYS_ADMIN"));
     }
+    else {
+      setIsVisitor(true);
+      setShowAdminBoard(false);
+    }
     return () => {
       document.removeEventListener('keydown', keyPress);
       document.addEventListener('click', clickOutside);
       closeMenu();
     };
-  });  
+  }, [isActive]);  
 
   const openMenu = () => {
     document.body.classList.add('off-nav-is-active');
@@ -71,16 +85,6 @@ const Header = ({
     nav.current && (nav.current.style.maxHeight = null);
     setIsactive(false);
   }
-
-  const keyPress = (e) => {
-    isActive && e.keyCode === 27 && closeMenu();
-  }
-
-  const clickOutside = (e) => {
-    if (!nav.current) return
-    if (!isActive || nav.current.contains(e.target) || e.target === hamburger.current) return;
-    closeMenu();
-  }  
 
   const classes = classNames(
     'site-header',

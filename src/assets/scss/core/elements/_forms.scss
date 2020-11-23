@@ -452,6 +452,7 @@ textarea.form-input {
 
 .form-group {
 	display: flex;
+	flex-direction: column;
 
 	.form-input {
 		flex-grow: 1;

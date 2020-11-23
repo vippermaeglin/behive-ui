@@ -3,12 +3,16 @@ import axios from "axios";
 const API_URL = "https://behive-fit.herokuapp.com/api/auth/" || "http://localhost:8080/api/auth/";
 
 class AuthService {
-  register = (cpf, email, password, role) => {
+  register = (cpf, email, password, role, phone, userName, birthday, gender) => {
     return axios.post(API_URL + "signup", {
       cpf,
       email,
       password,
-      role
+      role,
+      phone,
+      userName,
+      birthday,
+      gender
     });
   };
 

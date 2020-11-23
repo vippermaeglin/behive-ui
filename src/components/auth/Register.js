@@ -7,6 +7,7 @@ import { isEmail } from "validator";
 
 import AuthService from "../../services/auth.service";
 import {cpfMask} from "./CpfMask"
+import {phoneMask} from "./PhoneMask"
 
 const required = (value) => {
   if (!value) {
@@ -28,7 +29,17 @@ const validEmail = (value) => {
   }
 };
 
-const vusername = (value) => {
+const validPhone = (value) => {
+  if (value.length !== 14) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Celular inválido.
+      </div>
+    );
+  }
+};
+
+const vcpf = (value) => {
   if (value.length !== 14) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -52,16 +63,20 @@ const Register = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
-  const [username, setUsername] = useState("");
+  const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profile, setProfile] = useState("");
+  const [userName, setUserName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [gender, setGender] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
 
-  const onChangeUsername = (e) => {
-    const username = cpfMask(e.target.value);
-    setUsername(username);
+  const onChangeCpf = (e) => {
+    const cpf = cpfMask(e.target.value);
+    setCpf(cpf);
   };
 
   const onChangeEmail = (e) => {
@@ -79,6 +94,26 @@ const Register = (props) => {
     setProfile(profile);
   };
 
+  const onChangePhone = (e) => {
+    const phone = phoneMask(e.target.value);
+    setPhone(phone);
+  };
+
+  const onChangeUserName = (e) => {
+    const userName = e.target.value;
+    setUserName(userName);
+  };
+
+  const onChangeBirthday = (e) => {
+    const birthday = e.target.value;
+    setBirthday(birthday);
+  };
+
+  const onChangeGender = (e) => {
+    const gender = e.target.value;
+    setGender(gender);
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -88,7 +123,7 @@ const Register = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password, profile).then(
+      AuthService.register(cpf, email, password, profile, phone, userName, birthday, gender).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
@@ -114,20 +149,36 @@ const Register = (props) => {
         <img
           src={require('./../../assets/images/behive_logo_transparent.png')}
           alt="profile-img"
-        />
+        />              
 
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
+
               <div className="form-group">
-                <label htmlFor="username">CPF</label>
+                <label htmlFor="profile">Perfil</label>
+                <Select name='profile'
+                  className="form-control"
+                  value={profile}
+                  onChange={onChangeProfile}
+                  validations={[required]}
+                >
+                  <option value=''>Escolha um tipo</option>
+                  <option value='GYM'>Academia</option>
+                  <option value='PERSONAL'>Personal Trainer</option>
+                  <option value='CUSTOMER'>Aluno</option>
+                </Select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="cpf">CPF</label>
                 <Input
                   type="text"
                   className="form-control"
-                  name="username"
-                  value={username}
-                  onChange={onChangeUsername}
-                  validations={[required, vusername]}
+                  name="cpf"
+                  value={cpf}
+                  onChange={onChangeCpf}
+                  validations={[required, vcpf]}
                 />
               </div>
 
@@ -156,19 +207,57 @@ const Register = (props) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="profile">Perfil</label>
-                <Select name='profile'
+                <label htmlFor="phone">Celular</label>
+                <Input
+                  type="text"
                   className="form-control"
-                  value={profile}
-                  onChange={onChangeProfile}
+                  name="phone"
+                  value={phone}
+                  onChange={onChangePhone}
+                  validations={[required, validPhone]}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="userName">Nome</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="userName"
+                  value={userName}
+                  onChange={onChangeUserName}
+                  validations={[required]}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="birthday">Nascimento</label>
+                <br/>
+                <Input
+                  type="date"
+                  className="form-control"
+                  name="birthday"
+                  value={birthday}
+                  onChange={onChangeBirthday}
+                  validations={[required]}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="gender">Sexo</label>
+                <Select name='gender'
+                  className="form-control"
+                  value={gender}
+                  onChange={onChangeGender}
                   validations={[required]}
                 >
-                  <option value=''>Escolha um tipo</option>
-                  <option value='GYM'>Academia</option>
-                  <option value='PERSONAL'>Personal Trainer</option>
-                  <option value='CUSTOMER'>Aluno</option>
+                  <option value=''>Escolha um sexo</option>
+                  <option value='FEMININO'>Feminino</option>
+                  <option value='MASCULINO'>Masculino</option>
+                  <option value='OUTRO'>Outro</option>
                 </Select>
               </div>
+
 
               <div className="form-group">
                 <button className="button button-primary button-wide-mobile button-block">Cadastrar</button>
