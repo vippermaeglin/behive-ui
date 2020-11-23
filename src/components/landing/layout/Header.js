@@ -37,9 +37,12 @@ const Header = ({
   const hamburger = useRef(null);
 
   const [isVisitor, setIsVisitor] = useState(true);
-  const [setShowAdminBoard] = useState(false);
-  const [setCurrentUser] = useState(undefined);
+  // eslint-disable-next-line no-unused-vars
+  const [adminBoard, setShowAdminBoard] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [currentUser, setCurrentUser] = useState(undefined);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     isActive && openMenu();
     document.addEventListener('keydown', keyPress);
