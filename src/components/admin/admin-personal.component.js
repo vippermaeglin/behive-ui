@@ -1,45 +1,46 @@
 import React, { Component } from "react";
 
-import GymService from "../../services/gym.service";
+import PersonalService from "../../services/personal.service";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
+import Moment from 'moment';
 
-export default class BoardAdmin extends Component {
+export default class AdminPersonal extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangeSearchGym = this.onChangeSearchGym.bind(this);
-    this.retrieveGyms = this.retrieveGyms.bind(this);
+    this.onChangeSearchPersonal = this.onChangeSearchPersonal.bind(this);
+    this.retrievePersonal = this.retrievePersonal.bind(this);
     this.refreshList = this.refreshList.bind(this);
-    this.setActiveGym = this.setActiveGym.bind(this);
-    this.searchGym = this.searchGym.bind(this);
+    this.setActivePersonal = this.setActivePersonal.bind(this);
+    this.searchPersonal = this.searchPersonal.bind(this);
 
     this.state = {
-      gyms: [],
-      currentGym: null,
+      personals: [],
+      currentPersonal: null,
       currentIndex: -1,
-      searchGym: ""
+      searchPersonal: ""
     };
   }
 
   componentDidMount() {
-    this.retrieveGyms();
+    this.retrievePersonal();
   }
 
-  onChangeSearchGym(e) {
-    const searchGym = e.target.value;
+  onChangeSearchPersonal(e) {
+    const searchPersonal = e.target.value;
 
     this.setState({
-      searchTitle: searchGym
+      searchTitle: searchPersonal
     });
   }
 
-  retrieveGyms() {
-    GymService.getAllGyms().then(
+  retrievePersonal() {
+    PersonalService.getAllPersonal().then(
       response => {
         this.setState({
-          gyms: response.data
+          personals: response.data
         });
         console.log(response.data);
       }
@@ -50,25 +51,25 @@ export default class BoardAdmin extends Component {
   }
 
   refreshList() {
-    this.retrieveGyms();
+    this.retrievePersonal();
     this.setState({
-      currentGym: null,
+      currentPersonal: null,
       currentIndex: -1
     });
   }
 
-  setActiveGym(gym, index) {
+  setActivePersonal(personal, index) {
     this.setState({
-      currentGym: gym,
+      currentPersonal: personal,
       currentIndex: index
     });
   }
 
-  searchGym() {
-    GymService.search(this.state.searchTitle)
+  searchPersonal() {
+    PersonalService.search(this.state.searchTitle)
       .then(response => {
         this.setState({
-          gyms: response.data
+          personals: response.data
         });
         console.log(response.data);
       })
@@ -78,26 +79,26 @@ export default class BoardAdmin extends Component {
   }
 
   render() {
-    const { searchGym, gyms, currentGym, currentIndex } = this.state;
+    const { searchPersonal, personals, currentPersonal, currentIndex } = this.state;
     return (
       <>
         <div className="container section-inner">
-              <h4>Academias</h4>
+              <h4>Personal Trainers</h4>
           <div className="list row">
             <div className="col-md-8">
               <div className="input-group mb-3">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Buscar academia"
-                  value={searchGym}
+                  placeholder="Buscar personal trainer"
+                  value={searchPersonal}
                   onChange={this.onChangeSearchTitle}
                 />
                 <div className="input-group-append">
                   <button
                     className="button button-primary button-wide-mobile button-block"
                     type="button"
-                    onClick={this.searchGym}
+                    onClick={this.searchPersonal}
                   >
                     Procurar
                   </button>
@@ -106,37 +107,37 @@ export default class BoardAdmin extends Component {
             </div>
             <div className="col-md-6">
               <ul className="list-group">
-                {gyms &&
-                  gyms.map((gym, index) => (
+                {personals &&
+                  personals.map((personal, index) => (
                     <li
                       className={
                         "list-group-item " +
                         (index === currentIndex ? "active" : "")
                       }
-                      onClick={() => this.setActiveGym(gym, index)}
+                      onClick={() => this.setActivePersonal(personal, index)}
                       key={index}
                     >
-                      {gym.brandName} ({gym.cnpj})
+                      {personal.brandName} (CPF {personal.user.cpf})
                     </li>
                   ))}
               </ul>
             </div>
             <div className="col-md-6">
-              {currentGym ? (
+              {currentPersonal ? (
                 <div>
                   <h4>Detalhes</h4>
                   <div>
                     <img  className="logo-tile-small"
-                      src={currentGym.logo}
+                      src={currentPersonal.logo}
                       alt="profile-img"
                     />
                   </div>
                   <div className="form-group-horizontal">
                     <label>
-                      <strong>Academia:</strong>
+                      <strong>Personal Trainer:</strong>
                     </label>
                     <label>
-                      {" "+currentGym.brandName}
+                      {" "+currentPersonal.brandName}
                     </label>
                   </div>
                   <div className="form-group-horizontal">
@@ -144,7 +145,23 @@ export default class BoardAdmin extends Component {
                       <strong>Telefone:</strong>
                     </label>
                     <label>
-                      {" "+currentGym.commercialPhone}
+                      {" "+currentPersonal.commercialPhone}
+                    </label>
+                  </div>
+                  <div className="form-group-horizontal">
+                    <label>
+                      <strong>CREF:</strong>
+                    </label>
+                    <label>
+                      {" "+currentPersonal.cref}
+                    </label>
+                  </div>
+                  <div className="form-group-horizontal">
+                    <label>
+                      <strong>Validade CREF:</strong>
+                    </label>
+                    <label>
+                      {" "+Moment(currentPersonal.crefExpiration).format('DD/MM/YYYY')}
                     </label>
                   </div>
                   <div className="form-group-horizontal">
@@ -152,7 +169,7 @@ export default class BoardAdmin extends Component {
                       <strong>CNPJ:</strong>
                     </label>
                     <label>
-                      {" "+currentGym.cnpj}
+                      {" "+currentPersonal.cnpj}
                     </label>
                   </div>
                   <div className="form-group-horizontal">
@@ -160,7 +177,7 @@ export default class BoardAdmin extends Component {
                       <strong>Razão Social:</strong>
                     </label>
                     <label>
-                      {" "+currentGym.companyName}
+                      {" "+currentPersonal.companyName}
                     </label>
                   </div>
                   <div className="form-group-horizontal">
@@ -168,7 +185,7 @@ export default class BoardAdmin extends Component {
                       <strong>Representante:</strong>
                     </label>
                     <label>
-                      {" "+currentGym.user.userName}
+                      {" "+currentPersonal.user.userName}
                     </label>
                   </div>
                   <div className="form-group-horizontal">
@@ -176,12 +193,12 @@ export default class BoardAdmin extends Component {
                       <strong>Preço hora/aula:</strong>
                     </label>
                     <label>
-                      {" R$"+currentGym.price+" ("+currentGym.lowPricePct+"-"+currentGym.highPricePct+"%)"}
+                      {" R$"+currentPersonal.price+" ("+currentPersonal.lowPricePct+"-"+currentPersonal.highPricePct+"%)"}
                     </label>
                   </div>
                   <div>
                     <label>
-                      <strong>Funcionamento:</strong>
+                      <strong>Atendimento:</strong>
                     </label>  
                     <table>
                       <tr>
@@ -191,79 +208,79 @@ export default class BoardAdmin extends Component {
                       </tr>
                       <tr>
                         <th>
-                          {currentGym.workHours.monday.day}
+                          {currentPersonal.workHours.monday.day}
                         </th>
                         <th>
-                          {currentGym.workHours.monday.open}
+                          {currentPersonal.workHours.monday.open}
                         </th>
                         <th>
-                          {currentGym.workHours.monday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.tuesday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.tuesday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.tuesday.close}
+                          {currentPersonal.workHours.monday.close}
                         </th>
                       </tr>
                       <tr>
                         <th>
-                          {currentGym.workHours.wednesday.day}
+                          {currentPersonal.workHours.tuesday.day}
                         </th>
                         <th>
-                          {currentGym.workHours.wednesday.open}
+                          {currentPersonal.workHours.tuesday.open}
                         </th>
                         <th>
-                          {currentGym.workHours.wednesday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.thursday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.thursday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.thursday.close}
+                          {currentPersonal.workHours.tuesday.close}
                         </th>
                       </tr>
                       <tr>
                         <th>
-                          {currentGym.workHours.friday.day}
+                          {currentPersonal.workHours.wednesday.day}
                         </th>
                         <th>
-                          {currentGym.workHours.friday.open}
+                          {currentPersonal.workHours.wednesday.open}
                         </th>
                         <th>
-                          {currentGym.workHours.friday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.saturday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.saturday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.saturday.close}
+                          {currentPersonal.workHours.wednesday.close}
                         </th>
                       </tr>
                       <tr>
                         <th>
-                          {currentGym.workHours.sunday.day}
+                          {currentPersonal.workHours.thursday.day}
                         </th>
                         <th>
-                          {currentGym.workHours.sunday.open}
+                          {currentPersonal.workHours.thursday.open}
                         </th>
                         <th>
-                          {currentGym.workHours.sunday.close}
+                          {currentPersonal.workHours.thursday.close}
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {currentPersonal.workHours.friday.day}
+                        </th>
+                        <th>
+                          {currentPersonal.workHours.friday.open}
+                        </th>
+                        <th>
+                          {currentPersonal.workHours.friday.close}
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {currentPersonal.workHours.saturday.day}
+                        </th>
+                        <th>
+                          {currentPersonal.workHours.saturday.open}
+                        </th>
+                        <th>
+                          {currentPersonal.workHours.saturday.close}
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {currentPersonal.workHours.sunday.day}
+                        </th>
+                        <th>
+                          {currentPersonal.workHours.sunday.open}
+                        </th>
+                        <th>
+                          {currentPersonal.workHours.sunday.close}
                         </th>
                       </tr>
                     </table>
@@ -273,7 +290,7 @@ export default class BoardAdmin extends Component {
                       <strong>Endereço:</strong>
                     </label>
                     <label>
-                      {" "+currentGym.address.street+", "+currentGym.address.number+" - "+currentGym.address.neighborhood+", "+currentGym.address.city+" - "+currentGym.address.state+", CEP "+currentGym.address.zipCode}
+                      {" "+currentPersonal.address.street+", "+currentPersonal.address.number+" - "+currentPersonal.address.neighborhood+", "+currentPersonal.address.city+" - "+currentPersonal.address.state+", CEP "+currentPersonal.address.zipCode}
                     </label>
                   </div>
                   <div>
@@ -283,25 +300,41 @@ export default class BoardAdmin extends Component {
                     <ul className="list-group">
                       <li>
                         <FontAwesomeIcon icon={faInstagram} />
-                        <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Instagram</a>
+                        <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Instagram</a>
                       </li>
                       <li>
                         <FontAwesomeIcon icon={faFacebook} />
-                        <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Faceboook</a>
+                        <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Faceboook</a>
                       </li>
                       <li>
                         <FontAwesomeIcon icon={faTwitter} />
-                        <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Twitter</a>
+                        <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Twitter</a>
                       </li>
                       <li>
                         <FontAwesomeIcon icon={faWeebly} />
-                        <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Website</a>
+                        <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Website</a>
                       </li>
                     </ul>
                   </div>
+                  <div className="form-group-horizontal">
+                    <label>
+                      <strong>Certificates:</strong>
+                    </label>
+                    <label>
+                      {" "}
+                    </label>
+                  </div>
+                  <div className="form-group-horizontal">
+                    <label>
+                      <strong>Graduation:</strong>
+                    </label>
+                    <label>
+                      {" "}
+                    </label>
+                  </div>
                   <br/>
                   <Link
-                    to={"/gyms/" + currentGym.id}
+                    to={"/personals/" + currentPersonal.id}
                     className="button button-primary button-wide-mobile"
                   >
                     Editar
@@ -310,7 +343,7 @@ export default class BoardAdmin extends Component {
               ) : (
                 <div>
                   <br />
-                  <p>Selecione uma academia para detalhes...</p>
+                  <p>Selecione uma personal trainer para detalhes...</p>
                 </div>
               )}
             </div>

@@ -4,8 +4,10 @@ import GymService from "../../services/gym.service";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
+import Collapsible from 'react-collapsible';
+import Moment from 'moment';
 
-export default class BoardAdmin extends Component {
+export default class AdminGym extends Component {
   constructor(props) {
     super(props);
 
@@ -116,7 +118,7 @@ export default class BoardAdmin extends Component {
                       onClick={() => this.setActiveGym(gym, index)}
                       key={index}
                     >
-                      {gym.brandName} ({gym.cnpj})
+                      {gym.brandName} (CNPJ {gym.cnpj})
                     </li>
                   ))}
               </ul>
@@ -147,6 +149,53 @@ export default class BoardAdmin extends Component {
                       {" "+currentGym.commercialPhone}
                     </label>
                   </div>
+                  <div className="form-group">
+                    <label>
+                      <strong>Representante:</strong>
+                    </label>
+                    <Collapsible trigger={currentGym.user.userName}>
+                      <div className="form-group-horizontal">
+                        <label>
+                          <strong>Celular:</strong>
+                        </label>
+                        <label>
+                          {" "+currentGym.user.phone}
+                        </label>
+                      </div>
+                      <div className="form-group-horizontal">
+                        <label>
+                          <strong>Email:</strong>
+                        </label>
+                        <label>
+                          {" "+currentGym.user.email}
+                        </label>
+                      </div>
+                      <div className="form-group-horizontal">
+                        <label>
+                          <strong>CPF:</strong>
+                        </label>
+                        <label>
+                          {" "+currentGym.user.cpf}
+                        </label>
+                      </div>
+                      <div className="form-group-horizontal">
+                        <label>
+                          <strong>Aniversário:</strong>
+                        </label>
+                        <label>
+                          {" "+Moment(currentGym.user.bithday).format('DD/MM/YYYY')}
+                        </label>
+                      </div>
+                      <div className="form-group-horizontal">
+                        <label>
+                          <strong>Sexo:</strong>
+                        </label>
+                        <label>
+                          {" "+currentGym.user.gender}
+                        </label>
+                      </div>
+                    </Collapsible>
+                  </div>
                   <div className="form-group-horizontal">
                     <label>
                       <strong>CNPJ:</strong>
@@ -161,14 +210,6 @@ export default class BoardAdmin extends Component {
                     </label>
                     <label>
                       {" "+currentGym.companyName}
-                    </label>
-                  </div>
-                  <div className="form-group-horizontal">
-                    <label>
-                      <strong>Representante:</strong>
-                    </label>
-                    <label>
-                      {" "+currentGym.user.userName}
                     </label>
                   </div>
                   <div className="form-group-horizontal">

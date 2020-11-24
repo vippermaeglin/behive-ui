@@ -31,7 +31,7 @@ const FooterSocial = ({
           </a>
         </li>
         <li>
-          <a href="mailto:eduardo@behive.fit">
+          <a href="mailto:contato@behive.fit">
             <svg
               width="16"
               height="16"

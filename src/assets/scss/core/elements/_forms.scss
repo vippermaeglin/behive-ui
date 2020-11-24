@@ -483,6 +483,41 @@ textarea.form-input {
 	}
 }
 
+
+
+.form-group-horizontal {
+	display: flex;
+	flex-direction: row;
+
+	.form-input {
+		flex-grow: 1;
+		flex-shrink: 1;
+		margin-right: $button-form--group-padding;
+
+		@if ( $button-form--group-padding == null ) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+			border-right-width: 0;
+		}
+	}
+
+	.button {
+        padding-left: $button-w-form--padding-h;
+		padding-right: $button-w-form--padding-h;
+		flex-shrink: 0;
+
+		@if ( $button-form--group-padding == null ) {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+	}
+
+	.button-sm {
+		padding-left: $button-sm-w-form--padding-h;
+		padding-right: $button-sm-w-form--padding-h;
+	}
+}
+
 .form-hint {
 	@include font-size(hint);
 	margin-top: $form-hint--margin;

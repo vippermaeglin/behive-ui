@@ -38,7 +38,7 @@ const Header = ({
 
   const [isVisitor, setIsVisitor] = useState(true);
   // eslint-disable-next-line no-unused-vars
-  const [adminBoard, setShowAdminBoard] = useState(false);
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = useState(undefined);
 
@@ -94,7 +94,7 @@ const Header = ({
 
   const logOut = () => {
     AuthService.logout();
-    window.location.reload(false);
+    window.location.href = "/";
   };
 
   return (
@@ -134,18 +134,41 @@ const Header = ({
                       'list-reset text-xs',
                       navPosition && `header-nav-${navPosition}`
                     )}>
-                    <li>
-                      <Link to="#0" onClick={closeMenu}>Produto</Link>
-                    </li>
+                    {isVisitor && (
+                      <>
+                      <li>
+                        <a href="/#featuresTiles" onClick={closeMenu}>Vantagens</a>
+                      </li>
+                      <li>
+                        <a href="/#sectionProduct" onClick={closeMenu}>Produto</a>
+                      </li>
+                      <li>
+                        <a href="/#sectionContact" onClick={closeMenu}>Contato</a>
+                      </li>
+                      </>
+                    )}
                   </ul>
                   <ul className={
                     classNames(
                       'list-reset text-xs',
                       navPosition && `header-nav-${navPosition}`
                     )}>
-                    <li>
-                      <Link to="/admin" onClick={closeMenu}>Administrador</Link>
-                    </li>
+                    {showAdminBoard && (
+                      <>
+                      <li>                      
+                        <Link to="/admin" onClick={closeMenu}>Início</Link>
+                      </li>
+                      <li>
+                          <Link to="/admin-gym" onClick={closeMenu}>Academias</Link>
+                      </li>
+                      <li>
+                          <Link to="/admin-personal" onClick={closeMenu}>Personal</Link>
+                      </li>
+                      <li>
+                          <Link to="/admin-customer" onClick={closeMenu}>Alunos</Link>
+                      </li>
+                      </>
+                    )}
                   </ul>
                   {!hideSignin &&
                     <ul

@@ -43,7 +43,7 @@ const Cta = ({
   );  
 
   return (
-    <section
+    <section id={'sectionContact'}
       {...props}
       className={outerClasses}
     >

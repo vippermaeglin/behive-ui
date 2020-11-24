@@ -55,7 +55,7 @@ const FeaturesSplit = ({
   };
 
   return (
-    <section
+    <section id={'sectionProduct'}
       {...props}
       className={outerClasses}
     >
