@@ -95,7 +95,7 @@ export default class CreateGym extends Component {
     this.form = createRef();
     this.checkBtn = createRef();
 
-    this.states = [];//states;
+    this.states = ["MG"];//states;
 
     this.state = {
       users: [],
@@ -393,7 +393,7 @@ export default class CreateGym extends Component {
                       /* onChange={this.onChangeUser} */
                       validations={[required]}
                     >
-                      {states.map((s, index) => (
+                      {this.states.map((s, index) => (
                         <option value={index}>{s}</option>
                       ))}
                   </Select>    
