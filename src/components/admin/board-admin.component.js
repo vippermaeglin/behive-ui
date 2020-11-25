@@ -26,8 +26,6 @@ const BoardAdmin = ({
   ...props
 }) => {
 
-  const user = authService.getCurrentUser;
-
   const outerClasses = classNames(
     'features-tiles section',
     topOuterDivider && 'has-top-divider',
