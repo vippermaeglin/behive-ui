@@ -1,5 +1,4 @@
 import React from "react";
-import authService from "../../services/auth.service";
 import Image from '../landing/elements/Image';
 import classNames from 'classnames';
 import { SectionTilesProps } from '../../utils/SectionProps';
