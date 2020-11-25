@@ -9,15 +9,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LayoutDefault from './layouts/LayoutDefault';
 import LayoutAuth from './layouts/LayoutAuth';
 
-// Views 
+// Views & Components 
 import Home from './views/Home';
+import Dashboard from './views/Dashboard';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Profile from './components/auth/Profile';
-import BoardAdmin from "./components/admin/board-admin.component";
 import AdminGym from "./components/admin/admin-gym.component";
 import AdminPersonal from "./components/admin/admin-personal.component";
 import AdminCustomer from "./components/admin/admin-customer.component";
+import CreateGym from "./components/admin/create-gym.component";
+import CreatePersonal from "./components/admin/create-personal.component";
+import CreateCustomer from "./components/admin/create-customer.component";
 
 // Services
 //import AuthService from "./services/auth.service";
@@ -70,10 +73,13 @@ const App = () => {
             <AppRoute exact path="/register" component={Register} layout={LayoutAuth} />
             <AppRoute exact path="/login" component={Login} layout={LayoutAuth}/>
             <AppRoute exact path="/profile" component={Profile} layout={LayoutAuth}/>
-            <AppRoute path="/admin" component={BoardAdmin} layout={LayoutDefault}/>
+            <AppRoute path="/dashboard" component={Dashboard} layout={LayoutDefault}/>
             <AppRoute path="/admin-gym" component={AdminGym} layout={LayoutDefault}/>
             <AppRoute path="/admin-personal" component={AdminPersonal} layout={LayoutDefault}/>
             <AppRoute path="/admin-customer" component={AdminCustomer} layout={LayoutDefault}/>
+            <AppRoute path="/create-gym" component={CreateGym} layout={LayoutDefault}/>
+            <AppRoute path="/create-personal" component={CreatePersonal} layout={LayoutDefault}/>
+            <AppRoute path="/create-customer" component={CreateCustomer} layout={LayoutDefault}/>
           </Switch>
       )} />
   );

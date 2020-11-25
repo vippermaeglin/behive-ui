@@ -61,7 +61,7 @@ const Header = ({
     if (user) {
       setIsVisitor(false);
       setCurrentUser(user);
-      setShowAdminBoard(user.roles.includes("B_ADMIN") || user.roles.includes("SYS_ADMIN"));
+      setShowAdminBoard(user.role === "B_ADMIN" || user.role === "SYS_ADMIN");
     }
     else {
       setIsVisitor(true);
@@ -156,7 +156,7 @@ const Header = ({
                     {showAdminBoard && (
                       <>
                       <li>                      
-                        <Link to="/admin" onClick={closeMenu}>Início</Link>
+                        <Link to="/dashboard" onClick={closeMenu}>Início</Link>
                       </li>
                       <li>
                           <Link to="/admin-gym" onClick={closeMenu}>Academias</Link>

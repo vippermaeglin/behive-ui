@@ -8,6 +8,7 @@ import { isEmail } from "validator";
 import AuthService from "../../services/auth.service";
 import {cpfMask} from "./CpfMask"
 import {phoneMask} from "./PhoneMask"
+import { cpf } from 'cpf-cnpj-validator'; 
 
 const required = (value) => {
   if (!value) {
@@ -40,7 +41,8 @@ const validPhone = (value) => {
 };
 
 const vcpf = (value) => {
-  if (value.length !== 14) {
+  value = cpfMask(value)
+  if (!cpf.isValid(value)) {
     return (
       <div className="alert alert-danger" role="alert">
         CPF inválido.
@@ -146,9 +148,10 @@ const Register = (props) => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        <img
+        <img className="img-center"
           src={require('./../../assets/images/behive_logo_transparent.png')}
           alt="profile-img"
+          width="350"
         />              
 
         <Form onSubmit={handleRegister} ref={form}>
@@ -179,6 +182,7 @@ const Register = (props) => {
                   value={cpf}
                   onChange={onChangeCpf}
                   validations={[required, vcpf]}
+                  maxLength="14"
                 />
               </div>
 

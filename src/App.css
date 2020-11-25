@@ -9,7 +9,7 @@ label {
 }
 
 .card-container.card {
-  max-width: 350px !important;
+  max-width: 700px !important;
   padding: 40px 40px !important;
 }
 
@@ -70,4 +70,15 @@ label {
 .Collapsible__trigger.is-closed {
   color: #e1af0b;
   font-weight: bold;
+}
+
+.img-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.dark-label {
+  color: #212529;
 }

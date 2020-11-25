@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 
 const API_URL = "https://behive-fit.herokuapp.com/api/auth/" || "http://localhost:8080/api/auth/";
 
@@ -31,6 +32,11 @@ class AuthService {
       });
   };
 
+  getAll = () => {
+    return axios
+      .get(API_URL + "users", { headers: authHeader() });
+  };
+
   logout = () => {
     localStorage.removeItem("user");
   };
@@ -38,6 +44,15 @@ class AuthService {
   getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user"));
   };
+
+  getCurrentRole = () => {
+    let role = "VISITOR";
+    if(this.getCurrentUser() !== null) {
+      role = this.getCurrentUser().role;
+    }
+    return role;
+  }
+
 }
 
 export default new AuthService();

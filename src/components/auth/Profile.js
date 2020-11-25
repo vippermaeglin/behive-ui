@@ -8,9 +8,12 @@ const Profile = () => {
     <div className="container">
       <header className="jumbotron">
         <h3>
-          <strong>{currentUser.username}</strong> Profile
+          <strong>{currentUser.userName}</strong> Profile
         </h3>
       </header>
+      <p>
+        <strong>CPF:</strong> {currentUser.cpf}
+      </p>
       <p>
         <strong>Token:</strong> {currentUser.token.substring(0, 20)} ...{" "}
         {currentUser.token.substr(currentUser.token.length - 20)}
@@ -21,11 +24,12 @@ const Profile = () => {
       <p>
         <strong>Email:</strong> {currentUser.email}
       </p>
-      <strong>Authorities:</strong>
-      <ul>
-        {currentUser.roles &&
-          currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-      </ul>
+      <p>
+        <strong>CPF:</strong> {currentUser.cpf}
+      </p>
+      <p>
+        <strong>Role:</strong> {currentUser.role}
+      </p>
     </div>
   );
 };
