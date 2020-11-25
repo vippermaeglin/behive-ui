@@ -9,7 +9,7 @@ import {cnpjMask} from "../auth/CnpjMask"
 import {phoneMask} from "../auth/PhoneMask"
 import {zipMask} from "../auth/ZipMask"
 import { cnpj } from 'cpf-cnpj-validator'; 
-//import { states, citiesBy} from 'cidades-estados-brasil-json';
+import { consultarCep } from 'correios-brasil'; 
 
 const required = (value) => {
   if (!value) {
@@ -84,9 +84,7 @@ export default class CreateGym extends Component {
     this.onChangeBrandName = this.onChangeBrandName.bind(this);
     this.onChangeCompanyName = this.onChangeCompanyName.bind(this);
     this.onChangePhone = this.onChangePhone.bind(this);
-    this.onChangeStreet = this.onChangeStreet.bind(this);
     this.onChangeNumber = this.onChangeNumber.bind(this);
-    this.onChangeNeighborhood = this.onChangeNeighborhood.bind(this);
     this.onChangeZipCode = this.onChangeZipCode.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.onChangeHighPricePct = this.onChangeHighPricePct.bind(this);
@@ -94,8 +92,7 @@ export default class CreateGym extends Component {
 
     this.form = createRef();
     this.checkBtn = createRef();
-
-    this.states = ["MG"];//states;
+    this.inputNumber = createRef();
 
     this.state = {
       users: [],
@@ -106,10 +103,46 @@ export default class CreateGym extends Component {
       cnpj: null,
       phone: null,
       address: {},
-      state: null,
       price: null,
       highPricePct: null,
-      lowPricePct: null
+      lowPricePct: null,
+      workHours: {
+        monday: {
+          day: "Segunda",
+          open: "06:00",
+          close: "22:00"
+        },
+        tuesday: {
+          day: "Terça",
+          open: "06:00",
+          close: "22:00"
+        },
+        wednesday: {
+          day: "Quarta",
+          open: "06:00",
+          close: "22:00"
+        },
+        thursday: {
+          day: "Quinta",
+          open: "06:00",
+          close: "22:00"
+        },
+        friday: {
+          day: "Sexta",
+          open: "06:00",
+          close: "22:00"
+        },
+        saturday: {
+          day: "Sábado",
+          open: "06:00",
+          close: "22:00"
+        },
+        sunday: {
+          day: "Domingo",
+          open: "06:00",
+          close: "22:00"
+        }
+      }
     };
   }
 
@@ -154,24 +187,10 @@ export default class CreateGym extends Component {
     });
   };
 
-  onChangeStreet(e) {
-    const street = e.target.value;
-    this.setState({
-      address: {...this.state.address, street: street}
-    });
-  };
-
   onChangeNumber(e) {
     const number = e.target.value;
     this.setState({
       address: {...this.state.address, number: number}
-    });
-  };
-
-  onChangeNeighborhood(e) {
-    const neighborhood = e.target.value;
-    this.setState({
-      address: {...this.state.address, neighborhood: neighborhood}
     });
   };
 
@@ -180,6 +199,20 @@ export default class CreateGym extends Component {
     this.setState({
       address: {...this.state.address, zipCode: zipCode}
     });
+    if(zipCode.length ===9){
+      consultarCep(zipCode).then((response) => {
+        this.setState({
+          address: {
+            ...this.state.address, 
+            street: response.logradouro,
+            neighborhood: response.bairro,
+            city: response.localidade,
+            state: response.uf
+          }
+        });
+      });
+      this.inputNumber.current.focus();
+    }
   };
 
   onChangePrice(e) {
@@ -259,7 +292,7 @@ export default class CreateGym extends Component {
 
   render() {
     const { users, loading, message, userIndex, cnpj, brandName, companyName, phone, address, 
-      price, highPricePct, lowPricePct, state } = this.state;    
+      price, highPricePct, lowPricePct, workHours } = this.state;    
     return (
       <>
         <div className="container section-inner">
@@ -337,20 +370,33 @@ export default class CreateGym extends Component {
                   />            
                 </div>
                 <div className="form-group">
+                  <label className="dark-label" htmlFor="zipCode">CEP</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="zipCode"
+                    value={address.zipCode}
+                    onChange={this.onChangeZipCode}
+                    validations={[required, vzipcode]}
+                    maxLength="9"
+                  />        
+                </div>
+                <div className="form-group">
                   <label className="dark-label" htmlFor="street">Rua</label>
                   <Input
                     type="text"
                     className="form-control"
                     name="street"
                     value={address.street}
-                    onChange={this.onChangeStreet}
                     validations={[required]}
                     maxLength="255"
+                    disabled
                   />        
                 </div>
                 <div className="form-group">
                   <label className="dark-label" htmlFor="number">N°/Complemento</label>
-                  <Input
+                  <input
+                    ref={this.inputNumber}
                     type="text"
                     className="form-control"
                     name="number"
@@ -367,60 +413,33 @@ export default class CreateGym extends Component {
                     className="form-control"
                     name="neighborhood"
                     value={address.neighborhood}
-                    onChange={this.onChangeNeighborhood}
                     validations={[required]}
                     maxLength="255"
+                    disabled
                   />        
-                </div>
-                <div className="form-group">
-                  <label className="dark-label" htmlFor="zipCode">CEP</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="zipCode"
-                    value={address.zipCode}
-                    onChange={this.onChangeZipCode}
-                    validations={[required, vzipcode]}
-                    maxLength="9"
-                  />        
-                </div>
-                <div className="form-group">
-                  <label className="dark-label" htmlFor="state">Estado:</label>
-                  {users &&(
-                    <Select name='state'
-                      className="form-control"
-                      value={state}
-                      /* onChange={this.onChangeUser} */
-                      validations={[required]}
-                    >
-                      {this.states.map((s, index) => (
-                        <option value={index}>{s}</option>
-                      ))}
-                  </Select>    
-                  )}
                 </div>
                 <div className="form-group">
                   <label className="dark-label" htmlFor="city">Cidade</label>
                   <Input
                     type="text"
                     className="form-control"
-                    name="neighborhood"
-                    value={address.neighborhood}
-                    onChange={this.onChangeNeighborhood}
+                    name="city"
+                    value={address.city}
                     validations={[required]}
                     maxLength="255"
+                    disabled
                   />        
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="neighborhood">Estado</label>
+                  <label className="dark-label" htmlFor="state">Estado</label>
                   <Input
                     type="text"
                     className="form-control"
-                    name="neighborhood"
-                    value={address.neighborhood}
-                    onChange={this.onChangeNeighborhood}
+                    name="state"
+                    value={address.state}
                     validations={[required]}
                     maxLength="255"
+                    disabled
                   />        
                 </div>
                 <div className="form-group">
@@ -464,14 +483,189 @@ export default class CreateGym extends Component {
                 </div>
                 <div className="form-group">
                   <label className="dark-label" htmlFor="username">Funcionamento</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="cnpj"
-                    value={cnpj}
-                    onChange={this.onChangeCnpj}
-                    validations={[required, vcnpj]}
-                  />            
+                   
+                  <table className="dark-label">
+                      <tr>
+                        <th>DIA</th>
+                        <th>ABERTURA</th>
+                        <th>ENCERRAMENTO</th>
+                      </tr>
+                      <tr>
+                        <th>     
+                          {workHours.monday.day}
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="mondayOpen"
+                            value={workHours.monday.open}
+                            onChange={this.onChangeMondayOpen}
+                            validations={[required]}        
+                          />            
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="mondayClose"
+                            value={workHours.monday.close}
+                            onChange={this.onChangeMondayClose}
+                            validations={[required]}        
+                          />     
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {workHours.tuesday.day}
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="tuesdayOpen"
+                            value={workHours.tuesday.open}
+                            onChange={this.onChangeTuesdayOpen}
+                            validations={[required]}        
+                          />            
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="tuesdayClose"
+                            value={workHours.tuesday.close}
+                            onChange={this.onChangeTuesdayClose}
+                            validations={[required]}        
+                          />     
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {workHours.wednesday.day}
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="wednesdayOpen"
+                            value={workHours.wednesday.open}
+                            onChange={this.onChangeWednesdayOpen}
+                            validations={[required]}        
+                          />            
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="wednesdayClose"
+                            value={workHours.wednesday.close}
+                            onChange={this.onChangeWednesdayClose}
+                            validations={[required]}        
+                          />     
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {workHours.thursday.day}
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="thursdayOpen"
+                            value={workHours.thursday.open}
+                            onChange={this.onChangeThursdayOpen}
+                            validations={[required]}        
+                          />            
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="thursdayClose"
+                            value={workHours.thursday.close}
+                            onChange={this.onChangeThursdayClose}
+                            validations={[required]}        
+                          />     
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {workHours.friday.day}
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="fridayOpen"
+                            value={workHours.friday.open}
+                            onChange={this.onChangeFridayOpen}
+                            validations={[required]}        
+                          />            
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="fridayClose"
+                            value={workHours.friday.close}
+                            onChange={this.onChangefridayClose}
+                            validations={[required]}        
+                          />     
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {workHours.saturday.day}
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="saturdayOpen"
+                            value={workHours.saturday.open}
+                            onChange={this.onChangeSaturdayOpen}
+                            validations={[required]}        
+                          />            
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="saturdayClose"
+                            value={workHours.saturday.close}
+                            onChange={this.onChangeSaturdayClose}
+                            validations={[required]}        
+                          />     
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>
+                          {workHours.sunday.day}
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="sundayOpen"
+                            value={workHours.sunday.open}
+                            onChange={this.onChangeSundayOpen}
+                            validations={[required]}        
+                          />            
+                        </th>
+                        <th>
+                          <Input
+                            type="time"
+                            className="form-control"
+                            name="sundayClose"
+                            value={workHours.sunday.close}
+                            onChange={this.onChangeSundayClose}
+                            validations={[required]}        
+                          />     
+                        </th>
+                      </tr>
+                    </table> 
                 </div>
                 <div className="form-group">
                   <label className="dark-label" htmlFor="username">Mídias Sociais</label>

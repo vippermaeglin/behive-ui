@@ -10,6 +10,7 @@
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
+    "correios-brasil": "^2.1.0",
     "cpf-cnpj-validator": "^1.0.3",
     "lodash": "^4.17.15",
     "moment": "^2.29.1",
