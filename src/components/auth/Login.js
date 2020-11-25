@@ -68,7 +68,7 @@ const Login = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(cpf, password).then(
         () => {
-          props.history.push("/");
+          props.history.push("/dashboard");
           window.location.reload();
         },
         (error) => {

@@ -5,6 +5,7 @@ import CheckButton from "react-validation/build/button";
 import Select from "react-validation/build/select";
 
 import AuthService from "../../services/auth.service";
+import GymService from "../../services/gym.service";
 import {cnpjMask} from "../auth/CnpjMask"
 import {phoneMask} from "../auth/PhoneMask"
 import {zipMask} from "../auth/ZipMask"
@@ -89,6 +90,25 @@ export default class CreateGym extends Component {
     this.onChangePrice = this.onChangePrice.bind(this);
     this.onChangeHighPricePct = this.onChangeHighPricePct.bind(this);
     this.onChangeLowPricePct = this.onChangeLowPricePct.bind(this);
+    this.onChangeMondayOpen = this.onChangeMondayOpen.bind(this);
+    this.onChangeMondayClose = this.onChangeMondayClose.bind(this);
+    this.onChangeTuesdayOpen = this.onChangeTuesdayOpen.bind(this);
+    this.onChangeTuesdayClose = this.onChangeTuesdayClose.bind(this);
+    this.onChangeWednesdayOpen = this.onChangeWednesdayOpen.bind(this);
+    this.onChangeWednesdayClose = this.onChangeWednesdayClose.bind(this);
+    this.onChangeThursdayOpen = this.onChangeThursdayOpen.bind(this);
+    this.onChangeThursdayClose = this.onChangeThursdayClose.bind(this);
+    this.onChangeFridayOpen = this.onChangeFridayOpen.bind(this);
+    this.onChangeFridayClose = this.onChangeFridayClose.bind(this);
+    this.onChangeSaturdayOpen = this.onChangeSaturdayOpen.bind(this);
+    this.onChangeSaturdayClose = this.onChangeSaturdayClose.bind(this);
+    this.onChangeSundayOpen = this.onChangeSundayOpen.bind(this);
+    this.onChangeSundayClose = this.onChangeSundayClose.bind(this);
+    this.onChangeFacebook = this.onChangeFacebook.bind(this);
+    this.onChangeInstagram = this.onChangeInstagram.bind(this);
+    this.onChangeTwitter = this.onChangeTwitter.bind(this);
+    this.onChangeLinkedin = this.onChangeLinkedin.bind(this);
+    this.onChangeWebsite = this.onChangeWebsite.bind(this);
 
     this.form = createRef();
     this.checkBtn = createRef();
@@ -101,11 +121,11 @@ export default class CreateGym extends Component {
       userIndex: null,
       user: null,
       cnpj: null,
-      phone: null,
+      commercialPhone: null,
       address: {},
-      price: null,
-      highPricePct: null,
-      lowPricePct: null,
+      price: 6,
+      highPricePct: 120,
+      lowPricePct: 80,
       workHours: {
         monday: {
           day: "Segunda",
@@ -142,7 +162,15 @@ export default class CreateGym extends Component {
           open: "06:00",
           close: "22:00"
         }
-      }
+      },
+      socialMedia: {
+        facebook: "https://www.facebook.com/",
+        instagram: "https://www.instagram.com/",
+        twitter: "https://twitter.com/",
+        linkedin: "https://www.linkedin.com/",
+        website: "https://www.behive.fit"
+      },
+      logo: "https://conteudo.imguol.com.br/c/esporte/8b/2017/02/23/a-academia-de-marcelo-bordon-em-ribeirao-preto-nao-tem-luminarias-no-teto-ha-uma-escultura-em-gesso-com-o-formato-da-logomarca-da-academia-e-a-iluminacao-e-embutida-e-indireta-com-luzes-de-led-1487901701002_300x200.jpg"
     };
   }
 
@@ -183,7 +211,7 @@ export default class CreateGym extends Component {
   onChangePhone(e) {
     const phone = phoneMask(e.target.value);
     this.setState({
-      phone: phone
+      commercialPhone: phone
     });
   };
 
@@ -236,6 +264,257 @@ export default class CreateGym extends Component {
     });
   };
 
+  onChangeMondayOpen(e) {
+    const open = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        monday: {
+          ...this.state.workHours.monday,
+          open: open  
+        }      
+      }
+    });
+    console.log("Open:"+this.state.workHours)
+  };
+
+  onChangeMondayClose(e) {
+    const close = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        monday: {
+          ...this.state.workHours.monday,
+          close: close  
+        }      
+      }
+    });
+    console.log("Close:"+this.state.workHours)
+  };
+
+  onChangeTuesdayOpen(e) {
+    const open = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        tuesday: {
+          ...this.state.workHours.tuesday,
+          open: open  
+        }      
+      }
+    });
+    console.log("Open:"+this.state.workHours)
+  };
+
+  onChangeTuesdayClose(e) {
+    const close = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        tuesday: {
+          ...this.state.workHours.tuesday,
+          close: close  
+        }      
+      }
+    });
+    console.log("Close:"+this.state.workHours)
+  };
+
+  onChangeWednesdayOpen(e) {
+    const open = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        wednesday: {
+          ...this.state.workHours.wednesday,
+          open: open  
+        }      
+      }
+    });
+    console.log("Open:"+this.state.workHours)
+  };
+
+  onChangeWednesdayClose(e) {
+    const close = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        wednesday: {
+          ...this.state.workHours.wednesday,
+          close: close  
+        }      
+      }
+    });
+    console.log("Close:"+this.state.workHours)
+  };
+
+  onChangeThursdayOpen(e) {
+    const open = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        thursday: {
+          ...this.state.workHours.thursday,
+          open: open  
+        }      
+      }
+    });
+    console.log("Open:"+this.state.workHours)
+  };
+
+  onChangeThursdayClose(e) {
+    const close = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        thursday: {
+          ...this.state.workHours.thursday,
+          close: close  
+        }      
+      }
+    });
+    console.log("Close:"+this.state.workHours)
+  };
+
+  onChangeFridayOpen(e) {
+    const open = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        friday: {
+          ...this.state.workHours.friday,
+          open: open  
+        }      
+      }
+    });
+    console.log("Open:"+this.state.workHours)
+  };
+
+  onChangeFridayClose(e) {
+    const close = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        friday: {
+          ...this.state.workHours.friday,
+          close: close  
+        }      
+      }
+    });
+    console.log("Close:"+this.state.workHours)
+  };
+
+  onChangeSaturdayOpen(e) {
+    const open = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        saturday: {
+          ...this.state.workHours.saturday,
+          open: open  
+        }      
+      }
+    });
+    console.log("Open:"+this.state.workHours)
+  };
+
+  onChangeSaturdayClose(e) {
+    const close = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        saturday: {
+          ...this.state.workHours.saturday,
+          close: close  
+        }      
+      }
+    });
+    console.log("Close:"+this.state.workHours)
+  };
+
+  onChangeSundayOpen(e) {
+    const open = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        sunday: {
+          ...this.state.workHours.sunday,
+          open: open  
+        }      
+      }
+    });
+    console.log("Open:"+this.state.workHours)
+  };
+
+  onChangeSundayClose(e) {
+    const close = e.target.value;
+    this.setState({
+      workHours: {
+        ...this.state.workHours, 
+        sunday: {
+          ...this.state.workHours.sunday,
+          close: close  
+        }      
+      }
+    });
+    console.log("Close:"+this.state.workHours)
+  };
+
+  onChangeFacebook(e) {
+    const url = e.target.value;
+    this.setState({
+      socialMedia: {
+        ...this.state.socialMedia, 
+        facebook: url
+      }
+    });
+    console.log("Open:"+this.state.socialMedia)
+  };
+
+  onChangeInstagram(e) {
+    const url = e.target.value;
+    this.setState({
+      socialMedia: {
+        ...this.state.socialMedia, 
+        instagram: url
+      }
+    });
+    console.log("Open:"+this.state.socialMedia)
+  };
+
+  onChangeTwitter(e) {
+    const url = e.target.value;
+    this.setState({
+      socialMedia: {
+        ...this.state.socialMedia, 
+        twitter: url
+      }
+    });
+    console.log("Open:"+this.state.socialMedia)
+  };
+
+  onChangeLinkedin(e) {
+    const url = e.target.value;
+    this.setState({
+      socialMedia: {
+        ...this.state.socialMedia, 
+        linkedin: url
+      }
+    });
+    console.log("Open:"+this.state.socialMedia)
+  };
+
+  onChangeWebsite(e) {
+    const url = e.target.value;
+    this.setState({
+      socialMedia: {
+        ...this.state.socialMedia, 
+        website: url
+      }
+    });
+    console.log("Open:"+this.state.socialMedia)
+  };
+
   retrieveUsers(e) {
     AuthService.getAll().then(
       response => {
@@ -260,10 +539,13 @@ export default class CreateGym extends Component {
     this.form.current.validateAll();
 
     if (this.checkBtn.current.context._errors.length === 0) {
-      this.GymService.create(cnpj).then(
+      const {user, cnpj, brandName, companyName, commercialPhone, address, 
+        price, highPricePct, lowPricePct, workHours, socialMedia, logo} = this.state;
+      GymService.create(address, brandName, cnpj, commercialPhone, companyName, highPricePct,
+        lowPricePct, price, socialMedia, user, workHours, logo).then(
         () => {
           this.setState({
-            message: "Sucesso na falha!",
+            message: "Cadastro com sucesso!",
             loading: false
           });
           //props.history.push("/");
@@ -291,8 +573,8 @@ export default class CreateGym extends Component {
   };
 
   render() {
-    const { users, loading, message, userIndex, cnpj, brandName, companyName, phone, address, 
-      price, highPricePct, lowPricePct, workHours } = this.state;    
+    const { users, loading, message, userIndex, cnpj, brandName, companyName, commercialPhone, address, 
+      price, highPricePct, lowPricePct, workHours, socialMedia } = this.state;    
     return (
       <>
         <div className="container section-inner">
@@ -357,12 +639,12 @@ export default class CreateGym extends Component {
                   />            
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="phone">Telefone:</label>
+                  <label className="dark-label" htmlFor="commercialPhone">Telefone:</label>
                   <Input
                     type="text"
                     className="form-control"
-                    name="phone"
-                    value={phone}
+                    name="commercialPhone"
+                    value={commercialPhone}
                     onChange={this.onChangePhone}
                     validations={[required, vphone]}
                     maxLength="15"
@@ -482,8 +764,7 @@ export default class CreateGym extends Component {
                   />            
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="username">Funcionamento</label>
-                   
+                  <label className="dark-label" htmlFor="workHours">Funcionamento</label>                   
                   <table className="dark-label">
                       <tr>
                         <th>DIA</th>
@@ -668,15 +949,84 @@ export default class CreateGym extends Component {
                     </table> 
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="username">Mídias Sociais</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="cnpj"
-                    value={cnpj}
-                    onChange={this.onChangeCnpj}
-                    validations={[required, vcnpj]}
-                  />            
+                  <label className="dark-label" htmlFor="socialMedia">Mídias Sociais</label>                   
+                  <table className="dark-label">
+                    <tr>
+                      <th>     
+                        Facebook
+                      </th>
+                      <th>
+                        <Input
+                          type="text"
+                          className="form-control"
+                          name="facebook"
+                          value={socialMedia.facebook}
+                          onChange={this.onChangeFacebook}
+                          validations={[required]}        
+                        />            
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>     
+                        Instagram
+                      </th>
+                      <th>
+                        <Input
+                          type="text"
+                          className="form-control"
+                          name="instagram"
+                          value={socialMedia.instagram}
+                          onChange={this.onChangeInstagram}
+                          validations={[required]}        
+                        />            
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>     
+                        Twitter
+                      </th>
+                      <th>
+                        <Input
+                          type="text"
+                          className="form-control"
+                          name="twitter"
+                          value={socialMedia.twitter}
+                          onChange={this.onChangeTwitter}
+                          validations={[required]}        
+                        />            
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>     
+                        Linkedin
+                      </th>
+                      <th>
+                        <Input
+                          type="text"
+                          className="form-control"
+                          name="linkedin"
+                          value={socialMedia.linkedin}
+                          onChange={this.onChangeLinkedin}
+                          validations={[required]}        
+                        />            
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>     
+                        Website
+                      </th>
+                      <th>
+                        <Input
+                          type="text"
+                          className="form-control"
+                          name="website"
+                          value={socialMedia.website}
+                          onChange={this.onChangeWebsite}
+                          validations={[required]}        
+                        />            
+                      </th>
+                    </tr>
+                  </table>
                 </div>
                 <br/>
                 <div className="form-group">

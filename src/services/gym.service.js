@@ -10,8 +10,10 @@ class GymService {
   search = (name) => {
     return axios.get(API_URL+"/search", { headers: authHeader() });
   };
-  create(cnpj) {
-    return axios.post(API_URL, {cnpj}, { headers: authHeader() })
+  create(address, brandName, cnpj, commercialPhone, companyName, highPricePct,
+    lowPricePct, price, socialMedia, user, workHours, logo) {
+    return axios.post(API_URL, {address, brandName, cnpj, commercialPhone, companyName, highPricePct,
+      lowPricePct, price, socialMedia, user, workHours, logo}, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
