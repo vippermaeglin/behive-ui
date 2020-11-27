@@ -62,14 +62,18 @@ label {
   border-radius: 50%;
 }
 
-.Collapsible__trigger.is-open {
+.Collapsible__trigger {
   color: #e1af0b;
-
+  cursor: pointer;
 }
 
 .Collapsible__trigger.is-closed {
-  color: #e1af0b;
   font-weight: bold;
+}
+
+.border-panel {
+  border-style: double;
+  padding: 0px 20px;
 }
 
 .img-center {

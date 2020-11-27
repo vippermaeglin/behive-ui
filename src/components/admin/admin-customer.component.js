@@ -195,19 +195,19 @@ export default class AdminCustomer extends Component {
                     <ul className="list-group">
                       <li>
                         <FontAwesomeIcon icon={faInstagram} />
-                        <a href={currentCustomer.socialMedia.instagram} class="fa fa-facebook">{" "}Instagram</a>
+                        <a href={currentCustomer.socialMedia.instagram}>{" "}Instagram</a>
                       </li>
                       <li>
                         <FontAwesomeIcon icon={faFacebook} />
-                        <a href={currentCustomer.socialMedia.instagram} class="fa fa-facebook">{" "}Faceboook</a>
+                        <a href={currentCustomer.socialMedia.instagram}>{" "}Faceboook</a>
                       </li>
                       <li>
                         <FontAwesomeIcon icon={faTwitter} />
-                        <a href={currentCustomer.socialMedia.instagram} class="fa fa-facebook">{" "}Twitter</a>
+                        <a href={currentCustomer.socialMedia.instagram}>{" "}Twitter</a>
                       </li>
                       <li>
                         <FontAwesomeIcon icon={faWeebly} />
-                        <a href={currentCustomer.socialMedia.instagram} class="fa fa-facebook">{" "}Website</a>
+                        <a href={currentCustomer.socialMedia.instagram}>{" "}Website</a>
                       </li>
                     </ul>
                   </div>

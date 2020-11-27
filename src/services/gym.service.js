@@ -15,9 +15,9 @@ class GymService {
     return axios.post(API_URL, {address, brandName, cnpj, commercialPhone, companyName, highPricePct,
       lowPricePct, price, socialMedia, user, workHours, logo}, { headers: authHeader() })
     .then((response) => {
-      return response.data;
+      return response;
     });
-  }
+  };
 }
 
 export default new GymService();

@@ -31,7 +31,7 @@ const validEmail = (value) => {
 };
 
 const validPhone = (value) => {
-  if (value.length !== 14) {
+  if (value.length !== 15) {
     return (
       <div className="alert alert-danger" role="alert">
         Celular inválido.
@@ -157,7 +157,6 @@ const Register = (props) => {
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
-
               <div className="form-group">
                 <label htmlFor="profile">Perfil</label>
                 <Select name='profile'
@@ -219,6 +218,7 @@ const Register = (props) => {
                   value={phone}
                   onChange={onChangePhone}
                   validations={[required, validPhone]}
+                  maxLength="15"
                 />
               </div>
 

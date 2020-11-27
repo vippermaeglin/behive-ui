@@ -10,6 +10,12 @@ class PersonalService {
   search = (name) => {
     return axios.get(API_URL+"/search", { headers: authHeader() });
   };
+  create(user, address, socialMedia, logo) {
+    return axios.post(API_URL, {user, address, socialMedia, logo}, { headers: authHeader() })
+    .then((response) => {
+      return response;
+    });
+  };
 }
 
 export default new PersonalService();

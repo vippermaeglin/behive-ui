@@ -154,45 +154,47 @@ export default class AdminGym extends Component {
                       <strong>Representante:</strong>
                     </label>
                     <Collapsible trigger={currentGym.user.userName}>
-                      <div className="form-group-horizontal">
-                        <label>
-                          <strong>Celular:</strong>
-                        </label>
-                        <label>
-                          {" "+currentGym.user.phone}
-                        </label>
-                      </div>
-                      <div className="form-group-horizontal">
-                        <label>
-                          <strong>Email:</strong>
-                        </label>
-                        <label>
-                          {" "+currentGym.user.email}
-                        </label>
-                      </div>
-                      <div className="form-group-horizontal">
-                        <label>
-                          <strong>CPF:</strong>
-                        </label>
-                        <label>
-                          {" "+currentGym.user.cpf}
-                        </label>
-                      </div>
-                      <div className="form-group-horizontal">
-                        <label>
-                          <strong>Aniversário:</strong>
-                        </label>
-                        <label>
-                          {" "+Moment(currentGym.user.bithday).format('DD/MM/YYYY')}
-                        </label>
-                      </div>
-                      <div className="form-group-horizontal">
-                        <label>
-                          <strong>Sexo:</strong>
-                        </label>
-                        <label>
-                          {" "+currentGym.user.gender}
-                        </label>
+                      <div className="border-panel">
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>Celular:</strong>
+                          </label>
+                          <label>
+                            {" "+currentGym.user.phone}
+                          </label>
+                        </div>
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>Email:</strong>
+                          </label>
+                          <label>
+                            {" "+currentGym.user.email}
+                          </label>
+                        </div>
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>CPF:</strong>
+                          </label>
+                          <label>
+                            {" "+currentGym.user.cpf}
+                          </label>
+                        </div>
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>Aniversário:</strong>
+                          </label>
+                          <label>
+                            {" "+Moment(currentGym.user.bithday).format('DD/MM/YYYY')}
+                          </label>
+                        </div>
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>Sexo:</strong>
+                          </label>
+                          <label>
+                            {" "+currentGym.user.gender}
+                          </label>
+                        </div>
                       </div>
                     </Collapsible>
                   </div>

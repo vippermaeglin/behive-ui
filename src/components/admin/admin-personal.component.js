@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import PersonalService from "../../services/personal.service";
 import { Link } from "react-router-dom";
+import Collapsible from 'react-collapsible';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
 import Moment from 'moment';
@@ -180,13 +181,54 @@ export default class AdminPersonal extends Component {
                       {" "+currentPersonal.companyName}
                     </label>
                   </div>
-                  <div className="form-group-horizontal">
+                  <div className="form-group">
                     <label>
                       <strong>Representante:</strong>
                     </label>
-                    <label>
-                      {" "+currentPersonal.user.userName}
-                    </label>
+                    <Collapsible trigger={currentPersonal.user.userName}>
+                      <div className="border-panel">
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>Celular:</strong>
+                          </label>
+                          <label>
+                            {" "+currentPersonal.user.phone}
+                          </label>
+                        </div>
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>Email:</strong>
+                          </label>
+                          <label>
+                            {" "+currentPersonal.user.email}
+                          </label>
+                        </div>
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>CPF:</strong>
+                          </label>
+                          <label>
+                            {" "+currentPersonal.user.cpf}
+                          </label>
+                        </div>
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>Aniversário:</strong>
+                          </label>
+                          <label>
+                            {" "+Moment(currentPersonal.user.bithday).format('DD/MM/YYYY')}
+                          </label>
+                        </div>
+                        <div className="form-group-horizontal">
+                          <label>
+                            <strong>Sexo:</strong>
+                          </label>
+                          <label>
+                            {" "+currentPersonal.user.gender}
+                          </label>
+                        </div>
+                      </div>
+                    </Collapsible>
                   </div>
                   <div className="form-group-horizontal">
                     <label>
@@ -203,8 +245,8 @@ export default class AdminPersonal extends Component {
                     <table>
                       <tr>
                         <th>DIA</th>
-                        <th>ABERTURA</th>
-                        <th>ENCERRAMENTO</th>
+                        <th>INÍCIO</th>
+                        <th>FIM</th>
                       </tr>
                       <tr>
                         <th>

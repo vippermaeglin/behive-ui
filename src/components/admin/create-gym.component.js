@@ -3,6 +3,9 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import Select from "react-validation/build/select";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFacebook, faInstagram, faTwitter, faLinkedin, faWeebly } from '@fortawesome/free-brands-svg-icons'
+import { faImages } from '@fortawesome/free-solid-svg-icons'
 
 import AuthService from "../../services/auth.service";
 import GymService from "../../services/gym.service";
@@ -69,7 +72,18 @@ const vlowprice = (value) => {
   if (value > 100) {
     return (
       <div className="alert alert-danger" role="alert">
-        Valor com desconto precisa ser menor ou igual a 100%!
+        Valor com DESCONTO precisa ser menor ou igual a 100%!
+      </div>
+    );
+  }
+};
+
+const vlogo = (value) => {
+  const fileType = value.split('.').pop();
+  if (fileType !== "jpg" && fileType !== "jpeg" && fileType !== "png" && fileType !== "gif") {
+    return (
+      <div className="alert alert-danger" role="alert">
+        URL precisa terminar em jpg/jpeg/png/gif!
       </div>
     );
   }
@@ -109,10 +123,12 @@ export default class CreateGym extends Component {
     this.onChangeTwitter = this.onChangeTwitter.bind(this);
     this.onChangeLinkedin = this.onChangeLinkedin.bind(this);
     this.onChangeWebsite = this.onChangeWebsite.bind(this);
+    this.onChangeLogo = this.onChangeLogo.bind(this);
 
     this.form = createRef();
     this.checkBtn = createRef();
     this.inputNumber = createRef();
+    this.image = createRef();
 
     this.state = {
       users: [],
@@ -170,7 +186,7 @@ export default class CreateGym extends Component {
         linkedin: "https://www.linkedin.com/",
         website: "https://www.behive.fit"
       },
-      logo: "https://conteudo.imguol.com.br/c/esporte/8b/2017/02/23/a-academia-de-marcelo-bordon-em-ribeirao-preto-nao-tem-luminarias-no-teto-ha-uma-escultura-em-gesso-com-o-formato-da-logomarca-da-academia-e-a-iluminacao-e-embutida-e-indireta-com-luzes-de-led-1487901701002_300x200.jpg"
+      logo: "http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
     };
   }
 
@@ -515,6 +531,13 @@ export default class CreateGym extends Component {
     console.log("Open:"+this.state.socialMedia)
   };
 
+  onChangeLogo(e) {
+    const logo = e.target.value;
+    this.setState({
+      logo: logo
+    });
+  };
+
   retrieveUsers(e) {
     AuthService.getAll().then(
       response => {
@@ -545,11 +568,9 @@ export default class CreateGym extends Component {
         lowPricePct, price, socialMedia, user, workHours, logo).then(
         () => {
           this.setState({
-            message: "Cadastro com sucesso!",
             loading: false
           });
-          //props.history.push("/");
-          //window.location.reload();
+          window.location.href = "/admin-gym";
         },
         (error) => {
           const resMessage =
@@ -574,21 +595,37 @@ export default class CreateGym extends Component {
 
   render() {
     const { users, loading, message, userIndex, cnpj, brandName, companyName, commercialPhone, address, 
-      price, highPricePct, lowPricePct, workHours, socialMedia } = this.state;    
+      price, highPricePct, lowPricePct, workHours, socialMedia, logo } = this.state;    
     return (
       <>
         <div className="container section-inner">
           <h4>Cadastrar Academia</h4>
           <div className="col-md-12">
             <div className="card card-container">
-                <img
-                src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                alt="profile-img"
-                className="profile-img-card"
-              />
               <Form onSubmit={this.handleSubmit} ref={this.form}>
+                <div className="form-group-horizontal">
+                  <label className="dark-label" htmlFor="user">Logo URL:</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="logo"
+                    value={logo}
+                    onChange={this.onChangeLogo}
+                    validations={[required, vlogo]}
+                  />  
+                  {"___"}
+                  <a href="https://imgur.com/upload" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faImages} size="2x" color="red"/>
+                  </a>
+                </div>  
+                <br/>                
+                <img ref={this.image}
+                  src={logo}
+                  alt="profile-img"
+                  className="profile-img-card"
+                />      
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="user">Representante:</label>
+                  <label className="dark-label" htmlFor="user">Representante</label>
                   {users &&(
                     <Select name='user'
                       className="form-control"
@@ -615,7 +652,7 @@ export default class CreateGym extends Component {
                   />            
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="brandname">Nome Fantasia:</label>
+                  <label className="dark-label" htmlFor="brandname">Nome Fantasia</label>
                   <Input
                     type="text"
                     className="form-control"
@@ -627,7 +664,7 @@ export default class CreateGym extends Component {
                   />            
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="companyName">Razão Social:</label>
+                  <label className="dark-label" htmlFor="companyName">Razão Social</label>
                   <Input
                     type="text"
                     className="form-control"
@@ -639,7 +676,7 @@ export default class CreateGym extends Component {
                   />            
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="commercialPhone">Telefone:</label>
+                  <label className="dark-label" htmlFor="commercialPhone">Telefone</label>
                   <Input
                     type="text"
                     className="form-control"
@@ -725,7 +762,7 @@ export default class CreateGym extends Component {
                   />        
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="price">Preço base da hora/aula:</label>
+                  <label className="dark-label" htmlFor="price">Preço base da hora/aula</label>
                   R$
                   <Input
                     type="number"
@@ -738,20 +775,7 @@ export default class CreateGym extends Component {
                   />            
                 </div>
                 <div className="form-group">
-                  <label className="dark-label" htmlFor="highPricePct">Preço com acréscimo:</label>
-                  %
-                  <Input
-                    type="number"
-                    className="form-control"
-                    name="highPricePct"
-                    value={highPricePct}
-                    onChange={this.onChangeHighPricePct}
-                    validations={[required, vhighprice]}
-                    placeHolder="Sugestão de mercado: 120%"                  
-                  />            
-                </div>
-                <div className="form-group">
-                  <label className="dark-label" htmlFor="lowPricePct">Preço com acréscimo:</label>
+                  <label className="dark-label" htmlFor="lowPricePct">Preço com desconto</label>
                   %
                   <Input
                     type="number"
@@ -761,6 +785,19 @@ export default class CreateGym extends Component {
                     onChange={this.onChangeLowPricePct}
                     validations={[required, vlowprice]}
                     placeHolder="Sugestão de mercado: 80%"                  
+                  />            
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="highPricePct">Preço com acréscimo</label>
+                  %
+                  <Input
+                    type="number"
+                    className="form-control"
+                    name="highPricePct"
+                    value={highPricePct}
+                    onChange={this.onChangeHighPricePct}
+                    validations={[required, vhighprice]}
+                    placeHolder="Sugestão de mercado: 120%"                  
                   />            
                 </div>
                 <div className="form-group">
@@ -948,86 +985,91 @@ export default class CreateGym extends Component {
                       </tr>
                     </table> 
                 </div>
-                <div className="form-group">
-                  <label className="dark-label" htmlFor="socialMedia">Mídias Sociais</label>                   
-                  <table className="dark-label">
-                    <tr>
-                      <th>     
-                        Facebook
-                      </th>
-                      <th>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="facebook"
-                          value={socialMedia.facebook}
-                          onChange={this.onChangeFacebook}
-                          validations={[required]}        
-                        />            
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>     
-                        Instagram
-                      </th>
-                      <th>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="instagram"
-                          value={socialMedia.instagram}
-                          onChange={this.onChangeInstagram}
-                          validations={[required]}        
-                        />            
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>     
-                        Twitter
-                      </th>
-                      <th>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="twitter"
-                          value={socialMedia.twitter}
-                          onChange={this.onChangeTwitter}
-                          validations={[required]}        
-                        />            
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>     
-                        Linkedin
-                      </th>
-                      <th>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="linkedin"
-                          value={socialMedia.linkedin}
-                          onChange={this.onChangeLinkedin}
-                          validations={[required]}        
-                        />            
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>     
-                        Website
-                      </th>
-                      <th>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="website"
-                          value={socialMedia.website}
-                          onChange={this.onChangeWebsite}
-                          validations={[required]}        
-                        />            
-                      </th>
-                    </tr>
-                  </table>
-                </div>
+                  <div className="form-group">
+                    <label className="dark-label" htmlFor="socialMedia">Mídias Sociais</label>                   
+                    <table className="dark-label">
+                      <tr>
+                        <th>     
+                          <FontAwesomeIcon icon={faFacebook} />
+                          {" "} Facebook
+                        </th>
+                        <th>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            name="facebook"
+                            value={socialMedia.facebook}
+                            onChange={this.onChangeFacebook}
+                            validations={[required]}        
+                          />            
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>  
+                          <FontAwesomeIcon icon={faInstagram} />
+                          {" "} Instagram
+                        </th>
+                        <th>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            name="instagram"
+                            value={socialMedia.instagram}
+                            onChange={this.onChangeInstagram}
+                            validations={[required]}        
+                          />            
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>  
+                          <FontAwesomeIcon icon={faTwitter} />
+                          {" "} Twitter
+                        </th>
+                        <th>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            name="twitter"
+                            value={socialMedia.twitter}
+                            onChange={this.onChangeTwitter}
+                            validations={[required]}        
+                          />            
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>   
+                          <FontAwesomeIcon icon={faLinkedin} />
+                          {" "} Linkedin
+                        </th>
+                        <th>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            name="linkedin"
+                            value={socialMedia.linkedin}
+                            onChange={this.onChangeLinkedin}
+                            validations={[required]}        
+                          />            
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>   
+                          <FontAwesomeIcon icon={faWeebly} />
+                          {" "} Website
+                        </th>
+                        <th>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            name="website"
+                            value={socialMedia.website}
+                            onChange={this.onChangeWebsite}
+                            validations={[required]}        
+                          />            
+                        </th>
+                      </tr>
+                    </table>
+                  </div>
                 <br/>
                 <div className="form-group">
                   <button className="button button-primary button-wide-mobile button-block" disabled={loading}>
