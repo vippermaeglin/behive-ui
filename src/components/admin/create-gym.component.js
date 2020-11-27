@@ -94,6 +94,7 @@ export default class CreateGym extends Component {
   constructor(props) {
     super(props);
     this.retrieveUsers = this.retrieveUsers.bind(this);
+    this.retrieveGym = this.retrieveGym.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChangeCnpj = this.onChangeCnpj.bind(this);
     this.onChangeUser = this.onChangeUser.bind(this);
@@ -132,12 +133,15 @@ export default class CreateGym extends Component {
     this.image = createRef();
 
     this.state = {
+      isNew: true,
       users: [],
       loading: false,
       message: null,
       userIndex: null,
       user: null,
       cnpj: null,
+      companyName: null,
+      brandName: null,
       commercialPhone: null,
       address: {},
       price: 6,
@@ -193,6 +197,12 @@ export default class CreateGym extends Component {
 
   componentDidMount() {
     this.retrieveUsers();
+    if(this.props.match.params.id !== "new"){
+      this.retrieveGym(this.props.match.params.id);
+      this.setState({
+        isNew: false
+      });
+    }
   }
 
   onChangeCnpj(e) {
@@ -552,6 +562,34 @@ export default class CreateGym extends Component {
     });
   }
 
+  retrieveGym(id) {
+    GymService.getGymById(id).then(
+      response => {
+        let g = response.data[0]
+        this.setState({
+          isNew: false,
+          users: [g.user],
+          userIndex: 1,
+          user: g.user,
+          cnpj: g.cnpj,
+          brandName: g.brandName,
+          companyName: g.companyName,
+          commercialPhone: g.commercialPhone,
+          address: g.address,
+          price: g.price,
+          highPricePct: g.highPricePct,
+          lowPricePct: g.lowPricePct,
+          workHours: g.workHours,
+          socialMedia: g.socialMedia,
+          logo: g.logo
+        });
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
   handleSubmit (e) {
     e.preventDefault();
     
@@ -595,7 +633,7 @@ export default class CreateGym extends Component {
   };
 
   render() {
-    const { users, loading, message, userIndex, cnpj, brandName, companyName, commercialPhone, address, 
+    const { isNew, users, loading, message, userIndex, user, cnpj, brandName, companyName, commercialPhone, address, 
       price, highPricePct, lowPricePct, workHours, socialMedia, logo } = this.state;    
     return (
       <>
@@ -633,10 +671,14 @@ export default class CreateGym extends Component {
                       value={userIndex}
                       onChange={this.onChangeUser}
                       validations={[required]}
+                      enabled="false"
                     >
-                      {users.map((user, index) => (
-                        <option value={index}>{user.userName+" ("+user.cpf+")"}</option>
+                      {isNew && users.map((u, index) => (
+                        <option value={index}>{u.userName+" ("+u.cpf+")"}</option>
                       ))}
+                      {!isNew && user && (
+                        <option value={1}>{user.userName+" ("+user.cpf+")"}</option>
+                      )}
                   </Select>    
                   )}
                 </div>

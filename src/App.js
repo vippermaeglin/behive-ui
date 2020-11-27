@@ -77,9 +77,9 @@ const App = () => {
             <AppRoute path="/admin-gym" component={AdminGym} layout={LayoutDefault}/>
             <AppRoute path="/admin-personal" component={AdminPersonal} layout={LayoutDefault}/>
             <AppRoute path="/admin-customer" component={AdminCustomer} layout={LayoutDefault}/>
-            <AppRoute path="/create-gym" component={CreateGym} layout={LayoutDefault}/>
-            <AppRoute path="/create-personal" component={CreatePersonal} layout={LayoutDefault}/>
-            <AppRoute path="/create-customer" component={CreateCustomer} layout={LayoutDefault}/>
+            <AppRoute path="/gym/:id" component={CreateGym} layout={LayoutDefault}/>
+            <AppRoute path="/personal/:id" component={CreatePersonal} layout={LayoutDefault}/>
+            <AppRoute path="/customer/:id" component={CreateCustomer} layout={LayoutDefault}/>
           </Switch>
       )} />
   );

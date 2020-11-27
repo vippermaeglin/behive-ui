@@ -162,7 +162,7 @@ export default class AdminPersonal extends Component {
                       <strong>Validade CREF:</strong>
                     </label>
                     <label>
-                      {" "+Moment(currentPersonal.crefExpiration).format('DD/MM/YYYY')}
+                      {" "+currentPersonal.crefExpiration}
                     </label>
                   </div>
                   <div className="form-group-horizontal">
@@ -376,7 +376,7 @@ export default class AdminPersonal extends Component {
                   </div>
                   <br/>
                   <Link
-                    to={"/personals/" + currentPersonal.id}
+                    to={"/personal/" + currentPersonal.id}
                     className="button button-primary button-wide-mobile"
                   >
                     Editar

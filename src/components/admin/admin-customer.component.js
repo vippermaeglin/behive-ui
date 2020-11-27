@@ -4,7 +4,6 @@ import CustomerService from "../../services/customer.service";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
-import Moment from 'moment';
 
 export default class AdminCustomer extends Component {
   constructor(props) {
@@ -169,7 +168,7 @@ export default class AdminCustomer extends Component {
                       <strong>Aniversário:</strong>
                     </label>
                     <label>
-                      {" "+Moment(currentCustomer.user.birthday).format('DD/MM/YYYY')}
+                      {" "+currentCustomer.user.birthday}
                     </label>
                   </div>
                   <div className="form-group-horizontal">
@@ -213,7 +212,7 @@ export default class AdminCustomer extends Component {
                   </div>
                   <br/>
                   <Link
-                    to={"/customers/" + currentCustomer.id}
+                    to={"/customer/" + currentCustomer.id}
                     className="button button-primary button-wide-mobile"
                   >
                     Editar

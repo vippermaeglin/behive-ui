@@ -49,6 +49,7 @@ export default class CreateGym extends Component {
   constructor(props) {
     super(props);
     this.retrieveUsers = this.retrieveUsers.bind(this);
+    this.retrieveCustomer = this.retrieveCustomer.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChangeUser = this.onChangeUser.bind(this);
     this.onChangeNumber = this.onChangeNumber.bind(this);
@@ -66,6 +67,7 @@ export default class CreateGym extends Component {
     this.image = createRef();
 
     this.state = {
+      isNew: true,
       users: [],
       loading: false,
       message: null,
@@ -86,6 +88,12 @@ export default class CreateGym extends Component {
 
   componentDidMount() {
     this.retrieveUsers();
+    if(this.props.match.params.id !== "new"){
+      this.retrieveCustomer(this.props.match.params.id);
+      this.setState({
+        isNew: false
+      });
+    }
   }
 
   onChangeUser(e) {
@@ -200,6 +208,27 @@ export default class CreateGym extends Component {
     });
   }
 
+  retrieveCustomer(id) {
+    CustomerService.getCustomerById(id).then(
+      response => {
+        let g = response.data[0]
+        this.setState({
+          isNew: false,
+          users: [g.user],
+          userIndex: 1,
+          user: g.user,
+          address: g.address,
+          socialMedia: g.socialMedia,
+          logo: g.logo
+        });
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+
   handleSubmit (e) {
     e.preventDefault();
     
@@ -245,7 +274,7 @@ export default class CreateGym extends Component {
   };
 
   render() {
-    const { users, loading, message, successful, userIndex, address, socialMedia, logo } = this.state;    
+    const { isNew, users, loading, message, successful, userIndex, user, address, socialMedia, logo } = this.state;    
     return (
       <>
         <div className="container section-inner">
@@ -285,9 +314,12 @@ export default class CreateGym extends Component {
                         onChange={this.onChangeUser}
                         validations={[required]}
                       >
-                        {users.map((user, index) => (
-                          <option value={index}>{user.userName+" ("+user.cpf+")"}</option>
+                        {isNew && users.map((u, index) => (
+                          <option value={index}>{u.userName+" ("+u.cpf+")"}</option>
                         ))}
+                        {!isNew && user && (
+                          <option value={1}>{user.userName+" ("+user.cpf+")"}</option>
+                        )}
                     </Select>    
                     )}
                   </div>

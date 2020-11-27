@@ -64,7 +64,7 @@ const BoardAdmin = ({
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/create-gym">
+                      <Link to= "/gym/new">
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 05"
@@ -90,7 +90,7 @@ const BoardAdmin = ({
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/create-personal">
+                      <Link to= "/personal/new">
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 01"
@@ -116,7 +116,7 @@ const BoardAdmin = ({
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/create-customer">
+                      <Link to= "/customer/new">
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 02"

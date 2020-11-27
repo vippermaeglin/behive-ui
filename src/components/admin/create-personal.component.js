@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faLinkedin, faWeebly } from '@fortawesome/free-brands-svg-icons'
 import { faImages } from '@fortawesome/free-solid-svg-icons'
 import Collapsible from 'react-collapsible';
+import Moment from 'moment';
 
 import AuthService from "../../services/auth.service";
 import PersonalService from "../../services/personal.service";
@@ -106,6 +107,7 @@ export default class CreateGym extends Component {
   constructor(props) {
     super(props);
     this.retrieveUsers = this.retrieveUsers.bind(this);
+    this.retrievePersonal = this.retrievePersonal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChangeCnpj = this.onChangeCnpj.bind(this);
     this.onChangeUser = this.onChangeUser.bind(this);
@@ -148,6 +150,7 @@ export default class CreateGym extends Component {
     this.image = createRef();
 
     this.state = {
+      isNew: true,
       users: [],
       loading: false,
       message: null,
@@ -213,6 +216,12 @@ export default class CreateGym extends Component {
 
   componentDidMount() {
     this.retrieveUsers();
+    if(this.props.match.params.id !== "new"){
+      this.retrievePersonal(this.props.match.params.id);
+      this.setState({
+        isNew: false
+      });
+    }
   }
 
   onChangeCnpj(e) {
@@ -600,6 +609,43 @@ export default class CreateGym extends Component {
     });
   }
 
+  retrievePersonal(id) {
+    console.log("Retrieving personal "+id)
+    PersonalService.getPersonalById(id).then(
+      response => {
+        console.log("Retrieving personal Success!")
+        console.log(response.data)
+        let g = response.data[0]
+        this.setState({
+          isNew: false,
+          users: [g.user],
+          userIndex: 1,
+          user: g.user,
+          cnpj: g.cnpj,
+          brandName: g.brandName,
+          companyName: g.companyName,
+          commercialPhone: g.commercialPhone,
+          address: g.address,
+          price: g.price,
+          highPricePct: g.highPricePct,
+          lowPricePct: g.lowPricePct,
+          workHours: g.workHours,
+          socialMedia: g.socialMedia,
+          logo: g.logo,
+          cref: g.cref,
+          crefExpiration: Moment(g.crefExpiration, "DD/MM/YYYY").format("YYYY-MM-DD"),
+          certificates: g.certificates,
+          graduation: g.graduation
+        });
+      }
+    )
+    .catch(e => {
+      console.log("Retrieving Gym Error!")
+      console.log(e);
+    });
+  }
+
+
   handleSubmit (e) {
     e.preventDefault();
     
@@ -611,10 +657,10 @@ export default class CreateGym extends Component {
     this.form.current.validateAll();
 
     if (this.checkBtn.current.context._errors.length === 0) {
-      const {user, cnpj, brandName, companyName, commercialPhone, address, 
-        price, highPricePct, lowPricePct, workHours, socialMedia, logo} = this.state;
+      const {user, cnpj, brandName, companyName, commercialPhone, address, price, highPricePct, 
+        lowPricePct, workHours, socialMedia, logo, cref, crefExpiration, certificates, graduation} = this.state;
       PersonalService.create(address, brandName, cnpj, commercialPhone, companyName, highPricePct,
-        lowPricePct, price, socialMedia, user, workHours, logo).then(
+        lowPricePct, price, socialMedia, user, workHours, logo, cref, Moment(crefExpiration).format('DD/MM/yyyy'), certificates, graduation).then(
         () => {
           this.setState({
             loading: false
@@ -643,7 +689,7 @@ export default class CreateGym extends Component {
   };
 
   render() {
-    const { users, loading, message, userIndex, cnpj, brandName, companyName, commercialPhone, address, 
+    const { isNew, users, loading, message, userIndex, user, cnpj, brandName, companyName, commercialPhone, address, 
       price, highPricePct, lowPricePct, workHours, socialMedia, logo, cref, crefExpiration, /*certificates, graduation*/ } = this.state;    
     return (
       <>
@@ -682,9 +728,12 @@ export default class CreateGym extends Component {
                       onChange={this.onChangeUser}
                       validations={[required]}
                     >
-                      {users.map((user, index) => (
-                        <option value={index}>{user.userName+" ("+user.cpf+")"}</option>
-                      ))}
+                    {isNew && users.map((u, index) => (
+                      <option value={index}>{u.userName+" ("+u.cpf+")"}</option>
+                    ))}
+                    {!isNew && user && (
+                      <option value={1}>{user.userName+" ("+user.cpf+")"}</option>
+                    )}
                   </Select>    
                   )}
                 </div>

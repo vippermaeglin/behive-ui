@@ -7,6 +7,9 @@ class PersonalService {
   getAllPersonal = () => {
     return axios.get(API_URL, { headers: authHeader() });
   };
+  getPersonalById = (id) => {
+    return axios.get(API_URL+"?id="+id, { headers: authHeader() });
+  };
   search = (name) => {
     return axios.get(API_URL+"/search", { headers: authHeader() });
   };

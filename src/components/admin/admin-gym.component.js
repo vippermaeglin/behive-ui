@@ -344,7 +344,7 @@ export default class AdminGym extends Component {
                   </div>
                   <br/>
                   <Link
-                    to={"/gyms/" + currentGym.id}
+                    to={"/gym/" + currentGym.id}
                     className="button button-primary button-wide-mobile"
                   >
                     Editar
