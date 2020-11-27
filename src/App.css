@@ -63,8 +63,11 @@ label {
 }
 
 .Collapsible__trigger {
-  color: #e1af0b;
+  color: black;
   cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  margin: 10px 10px 10px 0px;
 }
 
 .Collapsible__trigger.is-closed {

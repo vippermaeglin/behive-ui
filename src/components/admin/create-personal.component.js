@@ -6,6 +6,7 @@ import Select from "react-validation/build/select";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faLinkedin, faWeebly } from '@fortawesome/free-brands-svg-icons'
 import { faImages } from '@fortawesome/free-solid-svg-icons'
+import Collapsible from 'react-collapsible';
 
 import AuthService from "../../services/auth.service";
 import PersonalService from "../../services/personal.service";
@@ -833,315 +834,328 @@ export default class CreateGym extends Component {
                     disabled
                   />        
                 </div>
-                <div className="form-group">
-                  <label className="dark-label" htmlFor="price">Preço base da hora/aula</label>
-                  R$
-                  <Input
-                    type="number"
-                    className="form-control"
-                    name="price"
-                    value={price}
-                    onChange={this.onChangePrice}
-                    validations={[required]}
-                    placeHolder="Sugestão de mercado: R$6"
-                  />            
-                </div>
-                <div className="form-group">
-                  <label className="dark-label" htmlFor="lowPricePct">Preço com desconto</label>
-                  %
-                  <Input
-                    type="number"
-                    className="form-control"
-                    name="lowPricePct"
-                    value={lowPricePct}
-                    onChange={this.onChangeLowPricePct}
-                    validations={[required, vlowprice]}
-                    placeHolder="Sugestão de mercado: 80%"                  
-                  />            
-                </div>
-                <div className="form-group">
-                  <label className="dark-label" htmlFor="highPricePct">Preço com acréscimo</label>
-                  %
-                  <Input
-                    type="number"
-                    className="form-control"
-                    name="highPricePct"
-                    value={highPricePct}
-                    onChange={this.onChangeHighPricePct}
-                    validations={[required, vhighprice]}
-                    placeHolder="Sugestão de mercado: 120%"                  
-                  />            
-                </div>
-                <div className="form-group">
-                  <label className="dark-label" htmlFor="workHours">Atendimento</label>                   
-                  <table className="dark-label">
-                      <tr>
-                        <th>DIA</th>
-                        <th>INÍCIO</th>
-                        <th>FIM</th>
-                      </tr>
-                      <tr>
-                        <th>     
-                          {workHours.monday.day}
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="mondayOpen"
-                            value={workHours.monday.open}
-                            onChange={this.onChangeMondayOpen}
-                            validations={[required]}        
-                          />            
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="mondayClose"
-                            value={workHours.monday.close}
-                            onChange={this.onChangeMondayClose}
-                            validations={[required]}        
-                          />     
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {workHours.tuesday.day}
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="tuesdayOpen"
-                            value={workHours.tuesday.open}
-                            onChange={this.onChangeTuesdayOpen}
-                            validations={[required]}        
-                          />            
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="tuesdayClose"
-                            value={workHours.tuesday.close}
-                            onChange={this.onChangeTuesdayClose}
-                            validations={[required]}        
-                          />     
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {workHours.wednesday.day}
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="wednesdayOpen"
-                            value={workHours.wednesday.open}
-                            onChange={this.onChangeWednesdayOpen}
-                            validations={[required]}        
-                          />            
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="wednesdayClose"
-                            value={workHours.wednesday.close}
-                            onChange={this.onChangeWednesdayClose}
-                            validations={[required]}        
-                          />     
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {workHours.thursday.day}
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="thursdayOpen"
-                            value={workHours.thursday.open}
-                            onChange={this.onChangeThursdayOpen}
-                            validations={[required]}        
-                          />            
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="thursdayClose"
-                            value={workHours.thursday.close}
-                            onChange={this.onChangeThursdayClose}
-                            validations={[required]}        
-                          />     
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {workHours.friday.day}
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="fridayOpen"
-                            value={workHours.friday.open}
-                            onChange={this.onChangeFridayOpen}
-                            validations={[required]}        
-                          />            
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="fridayClose"
-                            value={workHours.friday.close}
-                            onChange={this.onChangefridayClose}
-                            validations={[required]}        
-                          />     
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {workHours.saturday.day}
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="saturdayOpen"
-                            value={workHours.saturday.open}
-                            onChange={this.onChangeSaturdayOpen}
-                            validations={[required]}        
-                          />            
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="saturdayClose"
-                            value={workHours.saturday.close}
-                            onChange={this.onChangeSaturdayClose}
-                            validations={[required]}        
-                          />     
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {workHours.sunday.day}
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="sundayOpen"
-                            value={workHours.sunday.open}
-                            onChange={this.onChangeSundayOpen}
-                            validations={[required]}        
-                          />            
-                        </th>
-                        <th>
-                          <Input
-                            type="time"
-                            className="form-control"
-                            name="sundayClose"
-                            value={workHours.sunday.close}
-                            onChange={this.onChangeSundayClose}
-                            validations={[required]}        
-                          />     
-                        </th>
-                      </tr>
-                    </table> 
-                </div>
-                  <div className="form-group">
-                    <label className="dark-label" htmlFor="socialMedia">Mídias Sociais</label>                   
-                    <table className="dark-label">
-                      <tr>
-                        <th>     
-                          <FontAwesomeIcon icon={faFacebook} />
-                          {" "} Facebook
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="facebook"
-                            value={socialMedia.facebook}
-                            onChange={this.onChangeFacebook}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>  
-                          <FontAwesomeIcon icon={faInstagram} />
-                          {" "} Instagram
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="instagram"
-                            value={socialMedia.instagram}
-                            onChange={this.onChangeInstagram}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>  
-                          <FontAwesomeIcon icon={faTwitter} />
-                          {" "} Twitter
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="twitter"
-                            value={socialMedia.twitter}
-                            onChange={this.onChangeTwitter}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>   
-                          <FontAwesomeIcon icon={faLinkedin} />
-                          {" "} Linkedin
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="linkedin"
-                            value={socialMedia.linkedin}
-                            onChange={this.onChangeLinkedin}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>   
-                          <FontAwesomeIcon icon={faWeebly} />
-                          {" "} Website
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="website"
-                            value={socialMedia.website}
-                            onChange={this.onChangeWebsite}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                    </table>
+                <br/>
+                <Collapsible trigger="Precificação">
+                  <div className="border-panel">
+                    <div className="form-group">
+                      <label className="dark-label" htmlFor="price">Preço base da hora/aula</label>
+                      R$
+                      <Input
+                        type="number"
+                        className="form-control"
+                        name="price"
+                        value={price}
+                        onChange={this.onChangePrice}
+                        validations={[required]}
+                        placeHolder="Sugestão de mercado: R$6"
+                      />            
+                    </div>
+                    <div className="form-group">
+                      <label className="dark-label" htmlFor="lowPricePct">Preço com desconto</label>
+                      %
+                      <Input
+                        type="number"
+                        className="form-control"
+                        name="lowPricePct"
+                        value={lowPricePct}
+                        onChange={this.onChangeLowPricePct}
+                        validations={[required, vlowprice]}
+                        placeHolder="Sugestão de mercado: 80%"                  
+                      />            
+                    </div>
+                    <div className="form-group">
+                      <label className="dark-label" htmlFor="highPricePct">Preço com acréscimo</label>
+                      %
+                      <Input
+                        type="number"
+                        className="form-control"
+                        name="highPricePct"
+                        value={highPricePct}
+                        onChange={this.onChangeHighPricePct}
+                        validations={[required, vhighprice]}
+                        placeHolder="Sugestão de mercado: 120%"                  
+                      />            
+                    </div>
                   </div>
+                </Collapsible>
+                <br/>
+                <Collapsible trigger="Atendimento">
+                  <div className="border-panel">
+                    <div className="form-group">                
+                      <table className="dark-label">
+                          <tr>
+                            <th>DIA</th>
+                            <th>INÍCIO</th>
+                            <th>FIM</th>
+                          </tr>
+                          <tr>
+                            <th>     
+                              {workHours.monday.day}
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="mondayOpen"
+                                value={workHours.monday.open}
+                                onChange={this.onChangeMondayOpen}
+                                validations={[required]}        
+                              />            
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="mondayClose"
+                                value={workHours.monday.close}
+                                onChange={this.onChangeMondayClose}
+                                validations={[required]}        
+                              />     
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {workHours.tuesday.day}
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="tuesdayOpen"
+                                value={workHours.tuesday.open}
+                                onChange={this.onChangeTuesdayOpen}
+                                validations={[required]}        
+                              />            
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="tuesdayClose"
+                                value={workHours.tuesday.close}
+                                onChange={this.onChangeTuesdayClose}
+                                validations={[required]}        
+                              />     
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {workHours.wednesday.day}
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="wednesdayOpen"
+                                value={workHours.wednesday.open}
+                                onChange={this.onChangeWednesdayOpen}
+                                validations={[required]}        
+                              />            
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="wednesdayClose"
+                                value={workHours.wednesday.close}
+                                onChange={this.onChangeWednesdayClose}
+                                validations={[required]}        
+                              />     
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {workHours.thursday.day}
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="thursdayOpen"
+                                value={workHours.thursday.open}
+                                onChange={this.onChangeThursdayOpen}
+                                validations={[required]}        
+                              />            
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="thursdayClose"
+                                value={workHours.thursday.close}
+                                onChange={this.onChangeThursdayClose}
+                                validations={[required]}        
+                              />     
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {workHours.friday.day}
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="fridayOpen"
+                                value={workHours.friday.open}
+                                onChange={this.onChangeFridayOpen}
+                                validations={[required]}        
+                              />            
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="fridayClose"
+                                value={workHours.friday.close}
+                                onChange={this.onChangefridayClose}
+                                validations={[required]}        
+                              />     
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {workHours.saturday.day}
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="saturdayOpen"
+                                value={workHours.saturday.open}
+                                onChange={this.onChangeSaturdayOpen}
+                                validations={[required]}        
+                              />            
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="saturdayClose"
+                                value={workHours.saturday.close}
+                                onChange={this.onChangeSaturdayClose}
+                                validations={[required]}        
+                              />     
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {workHours.sunday.day}
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="sundayOpen"
+                                value={workHours.sunday.open}
+                                onChange={this.onChangeSundayOpen}
+                                validations={[required]}        
+                              />            
+                            </th>
+                            <th>
+                              <Input
+                                type="time"
+                                className="form-control"
+                                name="sundayClose"
+                                value={workHours.sunday.close}
+                                onChange={this.onChangeSundayClose}
+                                validations={[required]}        
+                              />     
+                            </th>
+                          </tr>
+                        </table> 
+                    </div>
+                  </div>
+                </Collapsible>
+                <br/>
+                <Collapsible trigger="Mídias Sociais">
+                  <div className="border-panel">
+                    <div className="form-group">                  
+                      <table className="dark-label">
+                        <tr>
+                          <th>     
+                            <FontAwesomeIcon icon={faFacebook} />
+                            {" "} Facebook
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="facebook"
+                              value={socialMedia.facebook}
+                              onChange={this.onChangeFacebook}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>  
+                            <FontAwesomeIcon icon={faInstagram} />
+                            {" "} Instagram
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="instagram"
+                              value={socialMedia.instagram}
+                              onChange={this.onChangeInstagram}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>  
+                            <FontAwesomeIcon icon={faTwitter} />
+                            {" "} Twitter
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="twitter"
+                              value={socialMedia.twitter}
+                              onChange={this.onChangeTwitter}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>   
+                            <FontAwesomeIcon icon={faLinkedin} />
+                            {" "} Linkedin
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="linkedin"
+                              value={socialMedia.linkedin}
+                              onChange={this.onChangeLinkedin}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>   
+                            <FontAwesomeIcon icon={faWeebly} />
+                            {" "} Website
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="website"
+                              value={socialMedia.website}
+                              onChange={this.onChangeWebsite}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </Collapsible>
                 <br/>
                 <div className="form-group">
                   <button className="button button-primary button-wide-mobile button-block" disabled={loading}>

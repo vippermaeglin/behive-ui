@@ -6,6 +6,7 @@ import Select from "react-validation/build/select";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faLinkedin, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
 import { faImages } from '@fortawesome/free-solid-svg-icons'
+import Collapsible from 'react-collapsible';
 
 import AuthService from "../../services/auth.service";
 import CustomerService from "../../services/customer.service";
@@ -363,92 +364,96 @@ export default class CreateGym extends Component {
                       disabled
                     />        
                   </div>
-                  <div className="form-group">
-                    <label className="dark-label" htmlFor="socialMedia">Mídias Sociais</label>                   
-                    <table className="dark-label">
-                      <tr>
-                        <th>     
-                          <FontAwesomeIcon icon={faFacebook} />
-                          {" "} Facebook
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="facebook"
-                            value={socialMedia.facebook}
-                            onChange={this.onChangeFacebook}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>  
-                          <FontAwesomeIcon icon={faInstagram} />
-                          {" "} Instagram
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="instagram"
-                            value={socialMedia.instagram}
-                            onChange={this.onChangeInstagram}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>  
-                          <FontAwesomeIcon icon={faTwitter} />
-                          {" "} Twitter
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="twitter"
-                            value={socialMedia.twitter}
-                            onChange={this.onChangeTwitter}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>   
-                          <FontAwesomeIcon icon={faLinkedin} />
-                          {" "} Linkedin
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="linkedin"
-                            value={socialMedia.linkedin}
-                            onChange={this.onChangeLinkedin}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>   
-                          <FontAwesomeIcon icon={faWeebly} />
-                          {" "} Website
-                        </th>
-                        <th>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            name="website"
-                            value={socialMedia.website}
-                            onChange={this.onChangeWebsite}
-                            validations={[required]}        
-                          />            
-                        </th>
-                      </tr>
-                    </table>
+                <br/>
+                <Collapsible trigger="Mídias Sociais">
+                  <div className="border-panel">
+                    <div className="form-group">                  
+                      <table className="dark-label">
+                        <tr>
+                          <th>     
+                            <FontAwesomeIcon icon={faFacebook} />
+                            {" "} Facebook
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="facebook"
+                              value={socialMedia.facebook}
+                              onChange={this.onChangeFacebook}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>  
+                            <FontAwesomeIcon icon={faInstagram} />
+                            {" "} Instagram
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="instagram"
+                              value={socialMedia.instagram}
+                              onChange={this.onChangeInstagram}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>  
+                            <FontAwesomeIcon icon={faTwitter} />
+                            {" "} Twitter
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="twitter"
+                              value={socialMedia.twitter}
+                              onChange={this.onChangeTwitter}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>   
+                            <FontAwesomeIcon icon={faLinkedin} />
+                            {" "} Linkedin
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="linkedin"
+                              value={socialMedia.linkedin}
+                              onChange={this.onChangeLinkedin}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>   
+                            <FontAwesomeIcon icon={faWeebly} />
+                            {" "} Website
+                          </th>
+                          <th>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="website"
+                              value={socialMedia.website}
+                              onChange={this.onChangeWebsite}
+                              validations={[required]}        
+                            />            
+                          </th>
+                        </tr>
+                      </table>
+                    </div>
                   </div>
-                  <br/>
+                </Collapsible>
+                <br/>
                   <div className="form-group">
                     <button className="button button-primary button-wide-mobile button-block" disabled={loading}>
                       {loading && (
