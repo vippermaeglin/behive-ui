@@ -67,11 +67,18 @@ label {
   cursor: pointer;
   font-family: "Inter", sans-serif;
   font-size: 20px;
+  font-weight: bold;
   margin: 10px 10px 10px 0px;
 }
 
-.Collapsible__trigger.is-closed {
-  font-weight: bold;
+.Collapsible__trigger.is-closed::after {
+  font-family: Glyphicons Halflings;
+  content: " ▼";
+}
+
+.Collapsible__trigger.is-open::after {
+  font-family: Glyphicons Halflings;
+  content: " ▲";
 }
 
 .border-panel {

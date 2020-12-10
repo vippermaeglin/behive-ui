@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
 import Collapsible from 'react-collapsible';
 import Moment from 'moment';
+import GymCalendar from "../calendar/gym-calendar.component";
 
 export default class AdminGym extends Component {
   constructor(props) {
@@ -222,95 +223,6 @@ export default class AdminGym extends Component {
                       {" R$"+currentGym.price+" ("+currentGym.lowPricePct+"-"+currentGym.highPricePct+"%)"}
                     </label>
                   </div>
-                  <div>
-                    <label>
-                      <strong>Funcionamento:</strong>
-                    </label>  
-                    <table>
-                      <tr>
-                        <th>DIA</th>
-                        <th>ABERTURA</th>
-                        <th>ENCERRAMENTO</th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.monday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.monday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.monday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.tuesday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.tuesday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.tuesday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.wednesday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.wednesday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.wednesday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.thursday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.thursday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.thursday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.friday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.friday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.friday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.saturday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.saturday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.saturday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentGym.workHours.sunday.day}
-                        </th>
-                        <th>
-                          {currentGym.workHours.sunday.open}
-                        </th>
-                        <th>
-                          {currentGym.workHours.sunday.close}
-                        </th>
-                      </tr>
-                    </table>
-                  </div>
                   <div className="form-group-horizontal">
                     <label>
                       <strong>Endereço:</strong>
@@ -319,28 +231,119 @@ export default class AdminGym extends Component {
                       {" "+currentGym.address.street+", "+currentGym.address.number+" - "+currentGym.address.neighborhood+", "+currentGym.address.city+" - "+currentGym.address.state+", CEP "+currentGym.address.zipCode}
                     </label>
                   </div>
-                  <div>
-                    <label>
-                      <strong>Mídias Sociais:</strong>
-                    </label>
-                    <ul className="list-group">
-                      <li>
-                        <FontAwesomeIcon icon={faInstagram} />
-                        <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Instagram</a>
-                      </li>
-                      <li>
-                        <FontAwesomeIcon icon={faFacebook} />
-                        <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Faceboook</a>
-                      </li>
-                      <li>
-                        <FontAwesomeIcon icon={faTwitter} />
-                        <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Twitter</a>
-                      </li>
-                      <li>
-                        <FontAwesomeIcon icon={faWeebly} />
-                        <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Website</a>
-                      </li>
-                    </ul>
+                  <div className="form-group">
+                    <Collapsible trigger={"Funcionamento"}>
+                      <div className="border-panel">
+                        <table>
+                          <tr>
+                            <th>DIA</th>
+                            <th>ABERTURA</th>
+                            <th>ENCERRAMENTO</th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours.monday.day}
+                            </th>
+                            <th>
+                              {currentGym.workHours.monday.open}
+                            </th>
+                            <th>
+                              {currentGym.workHours.monday.close}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours.tuesday.day}
+                            </th>
+                            <th>
+                              {currentGym.workHours.tuesday.open}
+                            </th>
+                            <th>
+                              {currentGym.workHours.tuesday.close}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours.wednesday.day}
+                            </th>
+                            <th>
+                              {currentGym.workHours.wednesday.open}
+                            </th>
+                            <th>
+                              {currentGym.workHours.wednesday.close}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours.thursday.day}
+                            </th>
+                            <th>
+                              {currentGym.workHours.thursday.open}
+                            </th>
+                            <th>
+                              {currentGym.workHours.thursday.close}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours.friday.day}
+                            </th>
+                            <th>
+                              {currentGym.workHours.friday.open}
+                            </th>
+                            <th>
+                              {currentGym.workHours.friday.close}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours.saturday.day}
+                            </th>
+                            <th>
+                              {currentGym.workHours.saturday.open}
+                            </th>
+                            <th>
+                              {currentGym.workHours.saturday.close}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours.sunday.day}
+                            </th>
+                            <th>
+                              {currentGym.workHours.sunday.open}
+                            </th>
+                            <th>
+                              {currentGym.workHours.sunday.close}
+                            </th>
+                          </tr>
+                        </table>
+                      </div>
+                    </Collapsible>
+                  </div>
+                  <div className="form-group">
+                    <Collapsible trigger={"Mídias Sociais"}>
+                      <div className="border-panel">
+                        <ul>
+                          <li>
+                            <FontAwesomeIcon icon={faInstagram} />
+                            <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Instagram</a>
+                          </li>
+                          <li>
+                            <FontAwesomeIcon icon={faFacebook} />
+                            <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Faceboook</a>
+                          </li>
+                          <li>
+                            <FontAwesomeIcon icon={faTwitter} />
+                            <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Twitter</a>
+                          </li>
+                          <li>
+                            <FontAwesomeIcon icon={faWeebly} />
+                            <a href={currentGym.socialMedia.instagram} class="fa fa-facebook">{" "}Website</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </Collapsible>
                   </div>
                   <br/>
                   <Link
@@ -357,6 +360,11 @@ export default class AdminGym extends Component {
                 </div>
               )}
             </div>
+          </div>
+          <div className="form-group">
+            {currentGym ? (
+              <GymCalendar/>
+            ) : ("")}
           </div>
         </div>
 
