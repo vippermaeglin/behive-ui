@@ -5,6 +5,7 @@ import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import momentPlugin, {toMomentDuration} from '@fullcalendar/moment'
 
 let eventGuid = 0
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
@@ -36,6 +37,19 @@ export const INITIAL_EVENTS = [
     start: todayStr + 'T18:00:00'
   }
 ]
+
+export const workHours = [ // specify an array instead
+  {
+    daysOfWeek: [ 1, 2, 3, 4, 5 ], // Monday to Friday
+    startTime: '06:00',
+    endTime: '22:00'
+  },
+  {
+    daysOfWeek: [ 6 ], // Saturday
+    startTime: '09:00',
+    endTime: '18:00'
+  }
+]           
 
 export function createEventId() {
   return String(eventGuid++)
@@ -77,41 +91,35 @@ export default class GymCalendar extends Component {
             {/* {this.renderSidebar()} */}
             <div className='demo-app-main'>
             <FullCalendar
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentPlugin]}
                 headerToolbar={{
                 left: 'prev,next today',
                 /* center: 'title', */
                 right: 'timeGridDay,timeGridWeek,dayGridMonth'
                 }}
                 initialView='timeGridWeek'
-                editable={false}
-                selectable={false}
+                editable={true}
+                selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}
                 weekends={true}
                 nowIndicator={true}
                 allDaySlot={false}
                 displayEventTime={false}
-                businessHours={[ // specify an array instead
-                    {
-                      daysOfWeek: [ 1, 2, 3, 4, 5 ], // Monday to Friday
-                      startTime: '06:00',
-                      endTime: '22:00'
-                    },
-                    {
-                      daysOfWeek: [ 6 ], // Saturday
-                      startTime: '09:00',
-                      endTime: '18:00'
-                    }
-                  ]}                
+                selectConstraint={workHours}
+                eventConstraint={workHours}
+                businessHours={workHours}
+                slotDuration={"01:00:00"}
+                selectAllow={this.selectFixedAllow}
+                eventResizableFromStart={"false"}
+                eventDurationEditable={"false"}
                 firstHour={new Date().getUTCHours()}
                 initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
                 eventContent={renderEventContent} // custom render function
                 eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-                /*
                 select={this.handleDateSelect}
                 eventClick={this.handleEventClick}
-                //you can update a remote database when these fire:
+                /*you can update a remote database when these fire:
                 eventAdd={function(){}}
                 eventChange={function(){}}
                 eventRemove={function(){}}
@@ -190,6 +198,11 @@ export default class GymCalendar extends Component {
     })
   }
 
+  selectFixedAllow = (selectInfo) => {
+    var duration = toMomentDuration(selectInfo.end-selectInfo.start);
+    return duration.asHours() <= 1;
+  }
+
 }
 
 function renderEventContent(eventInfo) {
@@ -200,6 +213,7 @@ function renderEventContent(eventInfo) {
       </>
     )
   }
+
   function renderSidebarEvent(event) {
     return (
       <li key={event.id}>
