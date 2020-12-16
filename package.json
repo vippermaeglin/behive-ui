@@ -28,6 +28,7 @@
     "react-scripts": "^3.4.1",
     "react-scroll": "^1.8.1",
     "react-validation": "^3.0.7",
+    "reactstrap": "^8.7.1",
     "redux": "^4.0.5",
     "validator": "^13.1.17"
   },

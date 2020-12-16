@@ -363,7 +363,7 @@ export default class AdminGym extends Component {
           </div>
           <div className="form-group">
             {currentGym ? (
-              <GymCalendar/>
+              <GymCalendar currentGym={this.state.currentGym}/>
             ) : ("")}
           </div>
         </div>

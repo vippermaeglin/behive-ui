@@ -13,7 +13,6 @@
 	justify-content: center;
 	overflow: hidden;
 	position: fixed;
-	z-index: 40;
 
 	&.modal-video {
 
@@ -66,6 +65,7 @@
 
 .modal-content {
 	padding: $modal--inner-padding-v__mobile $modal--inner-padding-h__mobile;
+	background-color: get-color(light,1);
 }
 
 .modal-close {

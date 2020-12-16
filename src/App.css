@@ -96,3 +96,16 @@ label {
 .dark-label {
   color: #212529;
 }
+
+.modal-content {
+  background-color: get-color(dark, 1) !important;
+}
+
+.btn-primary {
+  background-color: #e1af0b;
+  border-color: #e1af0b;
+}
+
+h5, .p-dark {
+  color: #212529 !important;
+}
