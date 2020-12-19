@@ -99,6 +99,7 @@ label {
 
 .modal-content {
   background-color: get-color(dark, 1) !important;
+  width: 100%
 }
 
 .btn-primary {
@@ -108,4 +109,9 @@ label {
 
 h5, .p-dark {
   color: #212529 !important;
+}
+
+[type="checkbox"] {
+  box-sizing: border-box;
+  margin-left: 10px !important;
 }
