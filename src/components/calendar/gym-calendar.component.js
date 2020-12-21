@@ -22,43 +22,53 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
 export const INITIAL_EVENTS = [
   {
     id: createEventId(),
-    title: '{ "pt": "Magal dos Santos", "customer": "Ana Moreira" }',
+    title: "Magal - Ana",
     start: todayStr + 'T06:00:00',
     durationEditable: false,
     pt: "1",
-    customer: "1"
+    customer: "1",
+    price: 6,
+    location: "Rua Alfeneiros, 11 - Bairro Camargos"
   },
   {
     id: createEventId(),
-    title: '{ "pt": "Eduardo Vilela", "customer": "Carlos Simões" }',
+    title: "Eduardo - Carlos",
     start: todayStr + 'T11:00:00',
     durationEditable: false,
     pt: "2",
-    customer: "2"
+    customer: "2",
+    price: 6,
+    location: "Rua Alfeneiros, 11 - Bairro Camargos"
   },
   {
     id: createEventId(),
-    title: '{ "pt": "Eduardo Vilela", "customer": "João dos Santos" }',
+    title: "Eduardo - João",
     start: todayStr + 'T12:00:00',
     durationEditable: false,
     pt: "2",
-    customer: "3"
+    customer: "3",
+    price: 6,
+    location: "Rua Alfeneiros, 11 - Bairro Camargos"
   },
   {
     id: createEventId(),
-    title: '{ "pt": "Vinícius Arruda", "customer": "José da Silva" }',
+    title: "Vinícius - José",
     start: todayStr + 'T16:00:00',
     durationEditable: false,
     pt: "3",
-    customer: "4"
+    customer: "4",
+    price: 6,
+    location: "Rua Alfeneiros, 11 - Bairro Camargos"
   },
   {
     id: createEventId(),
-    title: '{ "pt": "Vinícius Arruda", "customer": "Beto Carvalho" }',
+    title: "Vinícius - Beto",
     start: todayStr + 'T18:00:00',
     durationEditable: false,
     pt: "3",
-    customer: "5"
+    customer: "5",
+    price: 6,
+    location: "Rua Alfeneiros, 11 - Bairro Camargos"
   }
 ]
 
@@ -152,7 +162,7 @@ const vEventHour = (value) => {
   }
 };
 
-const vRepeatWeeks = (value) => {
+const vRepeatEvents = (value) => {
   if (value < 1 || value > 30) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -207,10 +217,11 @@ export default class GymCalendar extends Component {
     this.onChangeRepeatThu = this.onChangeRepeatThu.bind(this);
     this.onChangeRepeatFri = this.onChangeRepeatFri.bind(this);
     this.onChangeRepeatSat = this.onChangeRepeatSat.bind(this);
-    this.onChangeRepeatWeeks = this.onChangeRepeatWeeks.bind(this);
+    this.onChangeRepeatEvents = this.onChangeRepeatEvents.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.getGymAddress = this.getGymAddress.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.saveEvent = this.saveEvent.bind(this);
+    this.getNextDate = this.getNextDate.bind(this);
 
     this.form = createRef();
     this.checkBtn = createRef();
@@ -234,7 +245,7 @@ export default class GymCalendar extends Component {
       repeatThu: null,
       repeatFri: null,
       repeatSat: null,
-      repeatWeeks: null,
+      repeatEvents: 1,
       price: null,
       location: null
     };
@@ -323,9 +334,9 @@ export default class GymCalendar extends Component {
     });
   }
 
-  onChangeRepeatWeeks(e) {
+  onChangeRepeatEvents(e) {
     this.setState({
-      repeatWeeks: e.target.value
+      repeatEvents: e.target.value
     });
   }
 
@@ -348,10 +359,9 @@ export default class GymCalendar extends Component {
     });
   }
 
-  handleSubmit (e) {
+  saveEvent (e) {
     e.preventDefault();
-    console.log("handleSubmit");
-    console.log(JSON.stringify(this.state));
+    console.log("addEvent");
     
     this.setState({
       message: "",
@@ -363,22 +373,36 @@ export default class GymCalendar extends Component {
     if (this.checkBtn.current.context._errors.length === 0) {
       let calendarApi = this.state.selectInfo.view.calendar;
 
-      calendarApi.unselect() // clear date selection
+      let title = this.state.currentPT.brandName.split(" ")[0] + " - " + this.state.currentCustomer.user.userName.split(" ")[0];
 
-      let titleObj = {
-        pt: this.state.currentPT.brandName,
-        customer: this.state.currentCustomer.user.userName
+      let repeatCount = this.state.repeatEvents;
+
+      if(!this.state.isCreate) {
+        this.state.currentEvent.remove();
+        repeatCount = 1;
+        console.log(this.state);
       }
-      let title = JSON.stringify(titleObj);
 
-      //for(let i = 0; i < this.state.repeatWeeks; i++) {
-        calendarApi.addEvent({
-          id: createEventId(),
+      let eventDate = this.state.isCreate? this.state.selectInfo.start : this.state.currentEvent.start;
+      console.log("repeat:"+repeatCount);
+
+      for(let i = 0; i < repeatCount; i++) {
+        let event = {
+          id: this.state.isCreate? createEventId():this.state.currentEvent.id,
           title: title,
-          start: this.state.selectInfo.startStr,
-          end: this.state.selectInfo.endStr,
-          allDay: this.state.selectInfo.allDay})
-        //}
+          start: eventDate,
+          end: Moment(eventDate).add(1, "h"),
+          allDay: this.state.selectInfo.allDay,
+          pt: this.state.currentPT.id,
+          customer: this.state.currentCustomer.id,
+          price: this.state.price,
+          location: this.state.location
+        }
+        calendarApi.addEvent(event);
+        eventDate = this.getNextDate(eventDate);
+      }
+
+      calendarApi.unselect() // clear date selection
 
       this.setState({
         loading: false
@@ -415,6 +439,33 @@ export default class GymCalendar extends Component {
     }
   };
 
+  getNextDate(eventDate) {
+    var offset = 1;
+    let nextWeekDay = eventDate.getDay() + offset;
+    if(nextWeekDay>6) {
+      nextWeekDay = 0;
+    }
+    for(let i = 0; i<7; i++) {
+      if((nextWeekDay === 0 && this.state.repeatSun) ||
+        (nextWeekDay === 1 && this.state.repeatMon) ||
+        (nextWeekDay === 2 && this.state.repeatTue) ||
+        (nextWeekDay === 3 && this.state.repeatWed) ||
+        (nextWeekDay === 4 && this.state.repeatThu) ||
+        (nextWeekDay === 5 && this.state.repeatFri) ||
+        (nextWeekDay === 6 && this.state.repeatSat)
+        ) {
+        return Moment(eventDate).add(offset, "d").toDate();
+      }
+      else {
+        offset++;
+        nextWeekDay++;
+        if(nextWeekDay>6) {
+          nextWeekDay = 0;
+        }
+      }
+    }
+  }
+
   render() {
     return (
         <div className="container section-inner" key={this.props.currentGym}>
@@ -434,6 +485,7 @@ export default class GymCalendar extends Component {
               selectable={true}
               selectMirror={true}
               dayMaxEvents={true}
+              eventOverlap={true}
               weekends={true}
               nowIndicator={true}
               allDaySlot={false}
@@ -452,6 +504,7 @@ export default class GymCalendar extends Component {
               eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
               select={this.handleDateSelect}
               eventClick={this.handleEventClick}
+              eventChange={this.handleEventChange}
               /*you can update a remote database when these fire:
               eventAdd={function(){}}
               eventChange={function(){}}
@@ -470,9 +523,8 @@ export default class GymCalendar extends Component {
                     { !this.state.isCreate && ("Aula "+Moment(this.state.currentEvent.start).format("HH:mm - DD/MM/YYYY"))}
                   </ModalHeader>
                   <ModalBody>
-                    { this.state.isCreate && (
                       <div>
-                        <Form onSubmit={this.handleSubmit} ref={this.form}>
+                        <Form onSubmit={this.saveEvent} ref={this.form}>
                           <div className="form-group">
                             <label className="dark-label" htmlFor="personal-trainer">Personal Trainer</label>
                             <Select name='personal-trainer'
@@ -508,84 +560,89 @@ export default class GymCalendar extends Component {
                               className="form-control"
                               name="eventHour"
                               value={this.state.eventHour}
+                              disabled={true}
                               onChange={this.onChangeEventHour}
                               validations={[required, vEventHour]}                
                             />         
                           </div>
-                          <Collapsible trigger="Repetir">
-                            <div className="border-panel">
-                              <div className="form-group-horizontal">
-                                <label className="dark-label">
-                                  Dom                              
-                                  <input
-                                    name="repeatSun"
-                                    type="checkbox"
-                                    checked={this.state.repeatSun}
-                                    onChange={this.onChangeRepeatSun} />
-                                </label>
-                                <label className="dark-label">
-                                  2ª                                
-                                  <input
-                                    name="repeatMon"
-                                    type="checkbox"
-                                    checked={this.state.repeatMon}
-                                    onChange={this.onChangeRepeatMon} />
-                                </label>
-                                <label className="dark-label">
-                                  3ª                                  
-                                  <input
-                                    name="repeatTue"
-                                    type="checkbox"
-                                    checked={this.state.repeatTue}
-                                    onChange={this.onChangeRepeatTue} />
-                                </label>
-                                <label className="dark-label">
-                                  4ª                                  
-                                  <input
-                                    name="repeatWed"
-                                    type="checkbox"
-                                    checked={this.state.repeatWed}
-                                    onChange={this.onChangeRepeatWed} />
-                                </label>
-                                <label className="dark-label">
-                                  5ª                                    
-                                  <input
-                                    name="repeatThu"
-                                    type="checkbox"
-                                    checked={this.state.repeatThu}
-                                    onChange={this.onChangeRepeatThu} />
-                                </label>
-                                <label className="dark-label">
-                                  6ª                                    
-                                  <input
-                                    name="repeatFri"
-                                    type="checkbox"
-                                    checked={this.state.repeatFri}
-                                    onChange={this.onChangeRepeatFri} />
-                                </label>
-                                <label className="dark-label">
-                                  Sáb                                
-                                  <input
-                                    name="repeatSat"
-                                    type="checkbox"
-                                    checked={this.state.repeatSat}
-                                    onChange={this.onChangeRepeatSat} />
-                                </label>
+                          {this.state.isCreate && (
+                            <>
+                            <Collapsible trigger="Repetir">
+                              <div className="border-panel">
+                                <div className="form-group-horizontal">
+                                  <label className="dark-label">
+                                    Dom                              
+                                    <input
+                                      name="repeatSun"
+                                      type="checkbox"
+                                      checked={this.state.repeatSun}
+                                      onChange={this.onChangeRepeatSun} />
+                                  </label>
+                                  <label className="dark-label">
+                                    2ª                                
+                                    <input
+                                      name="repeatMon"
+                                      type="checkbox"
+                                      checked={this.state.repeatMon}
+                                      onChange={this.onChangeRepeatMon} />
+                                  </label>
+                                  <label className="dark-label">
+                                    3ª                                  
+                                    <input
+                                      name="repeatTue"
+                                      type="checkbox"
+                                      checked={this.state.repeatTue}
+                                      onChange={this.onChangeRepeatTue} />
+                                  </label>
+                                  <label className="dark-label">
+                                    4ª                                  
+                                    <input
+                                      name="repeatWed"
+                                      type="checkbox"
+                                      checked={this.state.repeatWed}
+                                      onChange={this.onChangeRepeatWed} />
+                                  </label>
+                                  <label className="dark-label">
+                                    5ª                                    
+                                    <input
+                                      name="repeatThu"
+                                      type="checkbox"
+                                      checked={this.state.repeatThu}
+                                      onChange={this.onChangeRepeatThu} />
+                                  </label>
+                                  <label className="dark-label">
+                                    6ª                                    
+                                    <input
+                                      name="repeatFri"
+                                      type="checkbox"
+                                      checked={this.state.repeatFri}
+                                      onChange={this.onChangeRepeatFri} />
+                                  </label>
+                                  <label className="dark-label">
+                                    Sáb                                
+                                    <input
+                                      name="repeatSat"
+                                      type="checkbox"
+                                      checked={this.state.repeatSat}
+                                      onChange={this.onChangeRepeatSat} />
+                                  </label>
+                                </div>
+                                <div className="form-group-horizontal">
+                                  <label className="dark-label">Qtde de Aulas:</label>
+                                  <Input
+                                    type="number"
+                                    className="form-control"
+                                    name="repeatEvents"
+                                    value={this.state.repeatEvents}
+                                    onChange={this.onChangeRepeatEvents}
+                                    validations={[required, vRepeatEvents]}                
+                                  />         
+                                </div>
                               </div>
-                              <div className="form-group-horizontal">
-                                <label className="dark-label">Qtde de Semanas:</label>
-                                <Input
-                                  type="number"
-                                  className="form-control"
-                                  name="repeatWeeks"
-                                  value={this.state.repeatWeeks}
-                                  onChange={this.onChangeRepeatWeeks}
-                                  validations={[required, vRepeatWeeks]}                
-                                />         
-                              </div>
-                            </div>
-                          </Collapsible>
-                          <br/>
+                            </Collapsible>
+                            <br/>
+                            </>
+                          )}
                           <div className="form-group">
                             <label className="dark-label" htmlFor="price">Preço R$</label>
                             <Input
@@ -610,12 +667,29 @@ export default class GymCalendar extends Component {
                             />            
                           </div>
                           <div className="form-group">
-                            <button className="button button-primary button-wide-mobile button-block" disabled={this.state.loading}>
+                            <br/>
+                            <Button className="button button-primary button-wide-mobile button-block" disabled={this.state.loading}>
                               {this.state.loading && (
                                 <span className="spinner-border spinner-border-sm"></span>
                               )}
                               <span>Salvar</span>
-                            </button>
+                            </Button>
+                            { this.state.isCreate && (
+                              <>
+                              <br/>
+                              <Button color="danger" onClick={this.toggle}>
+                                Cancelar
+                              </Button>
+                              </>
+                            )}
+                            { !this.state.isCreate && (
+                              <>
+                              <br/>
+                              <Button color="danger" onClick={() => {this.deleteEvent(this.state.currentEvent); this.toggle()}}>
+                                Remover
+                              </Button>
+                              </>
+                            )}
                           </div>
 
                           {this.state.message && (
@@ -628,32 +702,7 @@ export default class GymCalendar extends Component {
                           <CheckButton style={{ display: "none" }} ref={this.checkBtn} />
                         </Form> 
                       </div>
-                    )}
-                    { !this.state.isCreate && (
-                      <div>
-                        <p className="p-dark">{"Academia: " + this.props.currentGym.brandName}</p>
-                        <p className="p-dark">{"Personal Trainer: " + JSON.parse(this.state.currentEvent.title).pt}</p>
-                        <p className="p-dark">{"Aluno: " + JSON.parse(this.state.currentEvent.title).customer}</p>
-                      </div>
-                    )}
                   </ModalBody>
-                  { this.state.isCreate && (
-                    <ModalFooter>
-                      <Button color="secundary" onClick={this.toggle}>
-                        Cancelar
-                      </Button>
-                    </ModalFooter>
-                  )}
-                  { !this.state.isCreate && (
-                    <ModalFooter>
-                      <Button color="primary" onClick={this.toggle}>
-                        Fechar
-                      </Button>
-                      <Button color="danger" onClick={() => {this.deleteEvent(this.state.currentEvent); this.toggle()}}>
-                        Remover
-                      </Button>
-                    </ModalFooter>
-                  )}
                 </>
               )}
             </Modal>
@@ -676,15 +725,12 @@ export default class GymCalendar extends Component {
   }
 
   handleDateSelect = (selectInfo) => {
-
-    console.log("handleDateSelect")
-    console.log(selectInfo)
     let day = selectInfo.start.getDay()
     console.log(day)
     this.setState({ isCreate: true, 
                     selectInfo: selectInfo,
                     eventHour: selectInfo.start.getHours(), 
-                    repeatWeeks: 1,
+                    repeatEvents: 1,
                     repeatSun: day === 0? true : false,
                     repeatMon: day === 1? true : false,
                     repeatTue: day === 2? true : false,
@@ -694,31 +740,37 @@ export default class GymCalendar extends Component {
                     repeatSat: day === 6? true : false,
                    });
     this.toggle(); 
-    
-    /* let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title: title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }*/
   }
 
   handleEventClick = (clickInfo) => {
-    console.log("handleEventClick")
-    console.log(clickInfo)
-    console.log("extendedProps")
-    console.log(clickInfo.event.extendedProps)
-    this.setState({ "currentEvent": clickInfo.event, "isCreate": false });
+    let ptId = clickInfo.event.extendedProps.pt;
+    let customerId = clickInfo.event.extendedProps.customer;
+    for (let i = 0; i < PERSONAL_TRAINERS.length; i++) {
+      if(PERSONAL_TRAINERS[i].id === ptId) {
+        this.setState({"ptIndex": i});
+        break;
+      }
+    }
+    for (let i = 0; i < CUSTOMERS.length; i++) {
+      if(CUSTOMERS[i].id === customerId) {
+        this.setState({"customerIndex": i});
+        break;
+      }
+    }
+    this.setState({ "currentEvent": clickInfo.event,
+                    "isCreate": false,
+                    "eventHour": clickInfo.event.start.getHours(),
+                    "price": clickInfo.event.extendedProps.price,
+                    "location": clickInfo.event.extendedProps.location});
     this.toggle();
-    console.log(JSON.parse(this.state.currentEvent.title));
+  }
+
+
+  handleEventChange = (eventArgs) => {
+    console.log("handleEventChange");
+    console.log(eventArgs);
+    console.log("extendedProps");
+    console.log(eventArgs.extendedProps);
   }
 
   handleEvents = (events) => {
@@ -732,22 +784,12 @@ export default class GymCalendar extends Component {
     return duration.asHours() <= 1;
   }
 
-  getCurrentPT = () => {
-    var obj = JSON.parse(this.state.currentEvent.title)
-    return obj.pt
-  }
-
 }
 
 function renderEventContent(eventInfo) {
-  if(eventInfo.event.title === "") {
-    return;
-  }
-  var obj = JSON.parse(eventInfo.event.title)
   return (
     <>
-      <b>{eventInfo.timeText}</b>
-      <i>{obj.pt.split(" ")[0] + " - " + obj.customer.split(" ")[0]}</i>
+      <i>{eventInfo.event.title}</i>
     </>
   )
 }
