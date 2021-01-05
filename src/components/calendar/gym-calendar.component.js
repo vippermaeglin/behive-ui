@@ -3,6 +3,7 @@
 import React, { Component, createRef } from "react";
 
 import GymService from "../../services/gym.service";
+import CalendarService from "../../services/calendar.service";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -18,59 +19,6 @@ import CheckButton from "react-validation/build/button";
 
 let eventGuid = 0
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
-
-export const INITIAL_EVENTS = [
-  {
-    id: createEventId(),
-    title: "Magal - Ana",
-    start: todayStr + 'T06:00:00',
-    durationEditable: false,
-    pt: "1",
-    customer: "1",
-    price: 6,
-    location: "Rua Alfeneiros, 11 - Bairro Camargos"
-  },
-  {
-    id: createEventId(),
-    title: "Eduardo - Carlos",
-    start: todayStr + 'T11:00:00',
-    durationEditable: false,
-    pt: "2",
-    customer: "2",
-    price: 6,
-    location: "Rua Alfeneiros, 11 - Bairro Camargos"
-  },
-  {
-    id: createEventId(),
-    title: "Eduardo - João",
-    start: todayStr + 'T12:00:00',
-    durationEditable: false,
-    pt: "2",
-    customer: "3",
-    price: 6,
-    location: "Rua Alfeneiros, 11 - Bairro Camargos"
-  },
-  {
-    id: createEventId(),
-    title: "Vinícius - José",
-    start: todayStr + 'T16:00:00',
-    durationEditable: false,
-    pt: "3",
-    customer: "4",
-    price: 6,
-    location: "Rua Alfeneiros, 11 - Bairro Camargos"
-  },
-  {
-    id: createEventId(),
-    title: "Vinícius - Beto",
-    start: todayStr + 'T18:00:00',
-    durationEditable: false,
-    pt: "3",
-    customer: "5",
-    price: 6,
-    location: "Rua Alfeneiros, 11 - Bairro Camargos"
-  }
-]
 
 export const PERSONAL_TRAINERS = [
   {
@@ -124,20 +72,7 @@ export const workHours = [ // specify an array instead
     startTime: '09:00',
     endTime: '18:00'
   }
-]           
-
-export const eventsFeed = {
-  url: "https://behive-fit.herokuapp.com/calendar/feed",
-  method: "POST",
-  extraParams: {
-    //id: this.state.gym.id,
-    type: "GYM"
-  },
-  failure: function() {
-    alert("Ops! Houve um erro ao tentar carregar o calendário, tente novamente.");
-  }
-}
-
+]  
 export function createEventId() {
   return String(eventGuid++)
 }
@@ -222,6 +157,7 @@ export default class GymCalendar extends Component {
     this.getGymAddress = this.getGymAddress.bind(this);
     this.saveEvent = this.saveEvent.bind(this);
     this.getNextDate = this.getNextDate.bind(this);
+    this.eventsFeed = this.eventsFeed.bind(this);
 
     this.form = createRef();
     this.checkBtn = createRef();
@@ -250,6 +186,94 @@ export default class GymCalendar extends Component {
       location: null
     };
   }
+
+
+  INITIAL_EVENTS = [
+    {
+      id: createEventId(),
+      customerId: "1",
+      durationEditable: false,
+      gymSlot: {
+        startSlot: todayStr + 'T06:00:00.000Z',
+        endSlot: todayStr + 'T07:00:00.000Z',
+        parentId: this.props.currentGym.id,
+        price: this.props.currentGym.price
+      },
+      location: "Rua Alfeneiros, 11 - Bairro Camargos",
+      ptSlot: {
+        startSlot: todayStr + 'T06:00:00.000Z',
+        endSlot: todayStr + 'T07:00:00.000Z',
+        parentId: "1",
+        price: 6
+      },
+      start: todayStr + 'T06:00:00.000Z',
+      end: todayStr + 'T07:00:00.000Z',
+      title: "Magal - Ana"
+    },
+    {
+      id: createEventId(),
+      customerId: "2",
+      durationEditable: false,
+      gymSlot: {
+        startSlot: todayStr + 'T11:00:00.000Z',
+        endSlot: todayStr + 'T12:00:00.000Z',
+        parentId: this.props.currentGym.id,
+        price: this.props.currentGym.price
+      },
+      location: "Rua Alfeneiros, 11 - Bairro Camargos",
+      ptSlot: {
+        startSlot: todayStr + 'T11:00:00.000Z',
+        endSlot: todayStr + 'T12:00:00.000Z',
+        parentId: "2",
+        price: 6
+      },
+      start: todayStr + 'T11:00:00.000Z',
+      end: todayStr + 'T12:00:00.000Z',
+      title: "Eduardo - Carlos"
+    },
+    {
+      id: createEventId(),
+      customerId: "3",
+      durationEditable: false,
+      gymSlot: {
+        startSlot: todayStr + 'T12:00:00.000Z',
+        endSlot: todayStr + 'T13:00:00.000Z',
+        parentId: this.props.currentGym.id,
+        price: this.props.currentGym.price
+      },
+      location: "Rua Alfeneiros, 11 - Bairro Camargos",
+      ptSlot: {
+        startSlot: todayStr + 'T12:00:00.000Z',
+        endSlot: todayStr + 'T13:00:00.000Z',
+        parentId: "2",
+        price: 6
+      },
+      start: todayStr + 'T12:00:00.000Z',
+      end: todayStr + 'T13:00:00.000Z',
+      title: "Eduardo - João"
+    },
+    {
+      id: createEventId(),
+      customerId: "3",
+      durationEditable: false,
+      gymSlot: {
+        startSlot: todayStr + 'T18:00:00.000Z',
+        endSlot: todayStr + 'T19:00:00.000Z',
+        parentId: this.props.currentGym.id,
+        price: this.props.currentGym.price
+      },
+      location: "Rua Alfeneiros, 11 - Bairro Camargos",
+      ptSlot: {
+        startSlot: todayStr + 'T18:00:00.000Z',
+        endSlot: todayStr + 'T19:00:00.000Z',
+        parentId: "2",
+        price: 6
+      },
+      start: todayStr + 'T18:00:00.000Z',
+      end: todayStr + 'T19:00:00.000Z',
+      title: "Vinícius - Beto"
+    }
+  ]
 
   componentDidMount() {
     this.retrieveGymCalendar();
@@ -398,8 +422,19 @@ export default class GymCalendar extends Component {
           price: this.state.price,
           location: this.state.location
         }
-        calendarApi.addEvent(event);
-        eventDate = this.getNextDate(eventDate);
+        CalendarService.createEvent(event).then(
+          // eslint-disable-next-line no-loop-func
+          response => {        
+            console.log(response.data);
+            calendarApi.addEvent(event);
+            eventDate = this.getNextDate(eventDate);
+          }
+        )
+        .catch(e => {
+          console.log(e);
+          alert("Ops! Houve um erro ao tentar carregar o calendário, tente novamente.");
+        });
+
       }
 
       calendarApi.unselect() // clear date selection
@@ -410,28 +445,6 @@ export default class GymCalendar extends Component {
 
       this.toggle();
 
-      /*GymService.create(address, brandName, cnpj, commercialPhone, companyName, highPricePct,
-        lowPricePct, price, socialMedia, user, workHours, logo).then(
-        () => {
-          this.setState({
-            loading: false
-          });
-          window.location.href = "/admin-gym";
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-            this.setState({
-              message: resMessage,
-              loading: false
-            });
-        }
-      );*/
     } else {
       this.setState({
         loading: false
@@ -464,6 +477,18 @@ export default class GymCalendar extends Component {
         }
       }
     }
+  }           
+
+  eventsFeed (info, successCallback, failureCallback) {
+    CalendarService.getGymFeed(this.props.currentGym.id, Moment(info.start).format("YYYY-MM-DD"), Moment(info.end).format("YYYY-MM-DD")).then(
+      response => {        
+        successCallback(response.data);
+      }
+    )
+    .catch(e => {
+      console.log(e);
+      alert("Ops! Houve um erro ao tentar carregar o calendário, tente novamente.");
+    });
   }
 
   render() {
@@ -498,8 +523,8 @@ export default class GymCalendar extends Component {
               eventResizableFromStart={"false"}
               eventDurationEditable={"false"}
               firstHour={new Date().getUTCHours()}
-              initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-              //events={eventsFeed}
+              initialEvents={this.INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+              events={this.eventsFeed}
               eventContent={renderEventContent} // custom render function
               eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
               select={this.handleDateSelect}
@@ -738,6 +763,8 @@ export default class GymCalendar extends Component {
                     repeatThu: day === 4? true : false,
                     repeatFri: day === 5? true : false,
                     repeatSat: day === 6? true : false,
+                    ptIndex: -1,
+                    customerIndex: -1,
                    });
     this.toggle(); 
   }

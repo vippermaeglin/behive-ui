@@ -284,8 +284,13 @@ export default class CreateGym extends Component {
               <Form onSubmit={this.handleSubmit} ref={this.form}>
                 {!successful && (
                   <div>
-                  <div className="form-group-horizontal">
-                    <label className="dark-label" htmlFor="user">Logo URL:</label>
+                  <div className="form-group">
+                    <label className="dark-label" htmlFor="user">
+                      Logo URL ---
+                      <a href="https://imgur.com/upload" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faImages} size="2x" color="red"/>
+                      </a>
+                    </label>
                     <Input
                       type="text"
                       className="form-control"
@@ -294,10 +299,6 @@ export default class CreateGym extends Component {
                       onChange={this.onChangeLogo}
                       validations={[required, vlogo]}
                     />  
-                    {"___"}
-                    <a href="https://imgur.com/upload" target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon icon={faImages} size="2x" color="red"/>
-                    </a>
                   </div>  
                   <br/>                
                   <img ref={this.image}
