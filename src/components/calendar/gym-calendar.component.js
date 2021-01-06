@@ -9,7 +9,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import momentPlugin, {toMomentDuration} from '@fullcalendar/moment'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 import Moment from "moment"
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
