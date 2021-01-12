@@ -13,6 +13,12 @@ class CalendarService {
       return response;
     });
   };
+  deleteEvent = (id) => {
+    return axios.delete(API_URL+"/event", id, { headers: authHeader() })
+    .then((response) => {
+      return response;
+    });
+  };
 }
 
 export default new CalendarService();

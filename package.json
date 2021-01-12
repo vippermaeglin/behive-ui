@@ -19,6 +19,7 @@
     "cpf-cnpj-validator": "^1.0.3",
     "lodash": "^4.17.15",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.32",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-collapsible": "^2.8.1",

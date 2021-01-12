@@ -3,6 +3,8 @@
 import React, { Component, createRef } from "react";
 
 import GymService from "../../services/gym.service";
+import PersonalService from "../../services/personal.service";
+import CustomerService from "../../services/customer.service";
 import CalendarService from "../../services/calendar.service";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -10,7 +12,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import momentPlugin, {toMomentDuration} from '@fullcalendar/moment'
 import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
-import Moment from "moment"
+import Moment from "moment-timezone"
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 import Form from "react-validation/build/form";
@@ -140,7 +142,11 @@ const vCustomer = (value) => {
 export default class GymCalendar extends Component {
   constructor(props) {
     super(props);
+    console.log("constructor props")
+    console.log(this.props.currentGym)
     this.retrieveGymCalendar = this.retrieveGymCalendar.bind(this);
+    this.retrievePersonalTrainers = this.retrievePersonalTrainers.bind(this);
+    this.retrieveCustomers = this.retrieveCustomers.bind(this);
     this.toggle = this.toggle.bind(this);
     this.onChangePT = this.onChangePT.bind(this);
     this.onChangeCustomer = this.onChangeCustomer.bind(this);
@@ -160,10 +166,13 @@ export default class GymCalendar extends Component {
     this.eventsFeed = this.eventsFeed.bind(this);
 
     this.form = createRef();
+    this.fullCalendar = createRef();
     this.checkBtn = createRef();
 
     this.state = {
       currentEvent: null,
+      personalTrainers: null,
+      customers: null,
       loading: false,
       message: null,
       selectInfo: null,
@@ -191,7 +200,7 @@ export default class GymCalendar extends Component {
   INITIAL_EVENTS = [
     {
       id: createEventId(),
-      customerId: "1",
+      customerId: "bfd17523-ff17-4d97-9dab-03ff388f216c",
       durationEditable: false,
       gymSlot: {
         startSlot: todayStr + 'T06:00:00.000Z',
@@ -203,7 +212,7 @@ export default class GymCalendar extends Component {
       ptSlot: {
         startSlot: todayStr + 'T06:00:00.000Z',
         endSlot: todayStr + 'T07:00:00.000Z',
-        parentId: "1",
+        parentId: "1b8ab757-de47-43e4-948c-5d86400f2151",
         price: 6
       },
       start: todayStr + 'T06:00:00.000Z',
@@ -212,7 +221,7 @@ export default class GymCalendar extends Component {
     },
     {
       id: createEventId(),
-      customerId: "2",
+      customerId: "bfd17523-ff17-4d97-9dab-03ff388f216c",
       durationEditable: false,
       gymSlot: {
         startSlot: todayStr + 'T11:00:00.000Z',
@@ -224,7 +233,7 @@ export default class GymCalendar extends Component {
       ptSlot: {
         startSlot: todayStr + 'T11:00:00.000Z',
         endSlot: todayStr + 'T12:00:00.000Z',
-        parentId: "2",
+        parentId: "1b8ab757-de47-43e4-948c-5d86400f2151",
         price: 6
       },
       start: todayStr + 'T11:00:00.000Z',
@@ -233,7 +242,7 @@ export default class GymCalendar extends Component {
     },
     {
       id: createEventId(),
-      customerId: "3",
+      customerId: "c1e87d5c-eae1-4266-9fa9-ef00e6ad359b",
       durationEditable: false,
       gymSlot: {
         startSlot: todayStr + 'T12:00:00.000Z',
@@ -245,7 +254,7 @@ export default class GymCalendar extends Component {
       ptSlot: {
         startSlot: todayStr + 'T12:00:00.000Z',
         endSlot: todayStr + 'T13:00:00.000Z',
-        parentId: "2",
+        parentId: "07fc493e-e928-4a04-a9bb-ba2ba0696626",
         price: 6
       },
       start: todayStr + 'T12:00:00.000Z',
@@ -254,7 +263,7 @@ export default class GymCalendar extends Component {
     },
     {
       id: createEventId(),
-      customerId: "3",
+      customerId: "c1e87d5c-eae1-4266-9fa9-ef00e6ad359b",
       durationEditable: false,
       gymSlot: {
         startSlot: todayStr + 'T18:00:00.000Z',
@@ -266,7 +275,7 @@ export default class GymCalendar extends Component {
       ptSlot: {
         startSlot: todayStr + 'T18:00:00.000Z',
         endSlot: todayStr + 'T19:00:00.000Z',
-        parentId: "2",
+        parentId: "07fc493e-e928-4a04-a9bb-ba2ba0696626",
         price: 6
       },
       start: todayStr + 'T18:00:00.000Z',
@@ -276,7 +285,19 @@ export default class GymCalendar extends Component {
   ]
 
   componentDidMount() {
-    this.retrieveGymCalendar();
+    this.retrievePersonalTrainers();
+    this.retrieveCustomers();
+    console.log("componentDidMount props")
+    console.log(this.props.currentGym)
+  }
+
+  componentDidUpdate(prevProps) {
+    if(this.props.currentGym !== prevProps.currentGym) {
+      let calendarApi = this.fullCalendar.current.getApi();
+      calendarApi.removeAllEvents();
+      console.log("componentDidUpdate props")
+      console.log(this.props.currentGym)
+    }
   }
 
   toggle(eventClickInfo) {
@@ -292,7 +313,7 @@ export default class GymCalendar extends Component {
 
   onChangePT(e) {
     const index = e.target.value;
-    const trainer = PERSONAL_TRAINERS[index];
+    const trainer = this.state.personalTrainers[index];
     this.setState({
       ptIndex: index,
       currentPT: trainer,
@@ -303,7 +324,7 @@ export default class GymCalendar extends Component {
 
   onChangeCustomer(e) {
     const index = e.target.value;
-    const c = CUSTOMERS[index];
+    const c = this.state.customers[index];
     this.setState({
       customerIndex: index,
       currentCustomer: c
@@ -383,6 +404,54 @@ export default class GymCalendar extends Component {
     });
   }
 
+  retrievePersonalTrainers() {
+    PersonalService.getAllPersonal().then(
+      response => {
+        this.setState({
+          personalTrainers: response.data
+        });
+        console.log("retrievePersonalTrainers");
+        console.log(this.state.personalTrainers)
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+  retrieveCustomers() {
+    CustomerService.getAllCustomers().then(
+      response => {
+        this.setState({
+          customers: response.data
+        });
+        console.log("retrieveCustomers");
+        console.log(this.state.customers)
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+  deleteEvent(event) {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm('Tem certeza que deseja remover esta aula?')) {
+      CalendarService.deleteEvent(event.id).then(
+        // eslint-disable-next-line no-loop-func
+        response => {     
+          event.remove();
+          console.log("Delete event:");
+          console.log(event);
+        }
+      )
+      .catch(e => {
+        console.log(e);
+        alert("Ops! Houve um erro ao tentar excluir a aula, tente novamente.");
+      });
+    }
+  }
+
   saveEvent (e) {
     e.preventDefault();
     console.log("addEvent");
@@ -402,37 +471,56 @@ export default class GymCalendar extends Component {
       let repeatCount = this.state.repeatEvents;
 
       if(!this.state.isCreate) {
-        this.state.currentEvent.remove();
         repeatCount = 1;
         console.log(this.state);
       }
 
       let eventDate = this.state.isCreate? this.state.selectInfo.start : this.state.currentEvent.start;
+      console.log("eventDate:"+eventDate);
       console.log("repeat:"+repeatCount);
 
       for(let i = 0; i < repeatCount; i++) {
         let event = {
-          id: this.state.isCreate? createEventId():this.state.currentEvent.id,
+          id: this.state.isCreate? null:this.state.currentEvent.id,
+          customerId: this.state.currentCustomer.id,
+          durationEditable: false,
+          gymSlot: {
+            startSlot: eventDate,
+            endSlot: Moment(eventDate).add(1, "h"),
+            parentId: this.props.currentGym.id,
+            price: this.props.currentGym.price
+          },
+          location: this.state.location,
+          ptSlot: {
+            startSlot: eventDate,
+            endSlot: Moment(eventDate).add(1, "h"),
+            parentId: this.state.currentPT.id,
+            price: this.state.price
+          },
           title: title,
           start: eventDate,
-          end: Moment(eventDate).add(1, "h"),
-          allDay: this.state.selectInfo.allDay,
-          pt: this.state.currentPT.id,
-          customer: this.state.currentCustomer.id,
-          price: this.state.price,
-          location: this.state.location
+          end: Moment(eventDate).add(1, "h")
         }
         CalendarService.createEvent(event).then(
           // eslint-disable-next-line no-loop-func
           response => {        
-            console.log(response.data);
+            if(!this.state.isCreate) {
+              this.state.currentEvent.remove();
+            }
+            console.log("Old event:");
+            console.log(event);
+            console.log("New event:");
+            console.log(response.data.object);
+            event = response.data.object;
+            event.start  = eventDate;
+            event.end = Moment(eventDate).add(1, "h");
             calendarApi.addEvent(event);
             eventDate = this.getNextDate(eventDate);
           }
         )
         .catch(e => {
           console.log(e);
-          alert("Ops! Houve um erro ao tentar carregar o calendário, tente novamente.");
+          alert("Ops! Houve um erro ao tentar salvar a aula, tente novamente.");
         });
 
       }
@@ -482,6 +570,12 @@ export default class GymCalendar extends Component {
   eventsFeed (info, successCallback, failureCallback) {
     CalendarService.getGymFeed(this.props.currentGym.id, Moment(info.start).format("YYYY-MM-DD"), Moment(info.end).format("YYYY-MM-DD")).then(
       response => {        
+        console.log("eventsFeed id="+this.props.currentGym.id)
+        console.log(response.data);
+        //Remove old events avoid duplicates :(
+        //https://github.com/fullcalendar/fullcalendar/blob/master/packages/common/src/CalendarApi.tsx
+        let calendarApi = this.fullCalendar.current.getApi();
+        calendarApi.removeAllEvents();
         successCallback(response.data);
       }
     )
@@ -496,16 +590,18 @@ export default class GymCalendar extends Component {
         <div className="container section-inner" key={this.props.currentGym}>
           <div className='demo-app-main'>
             <FullCalendar
+              ref={this.fullCalendar}
+              key={this.props.currentGym}
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentPlugin]}
               headerToolbar={{
-              left: 'prev,next today',
-              /* center: 'title', */
-              right: 'timeGridDay,timeGridWeek,dayGridMonth'
+                left: 'prev,next,today',
+                /* center: 'title', */
+                right: 'timeGridDay,timeGridWeek,dayGridMonth'
               }}
               initialView='timeGridWeek'
               //eventColor="#e1af0b"
               //eventBorderColor="#ffffff"
-              timeZone={"local"}
+              timeZone={"UTC"}
               editable={true}
               selectable={true}
               selectMirror={true}
@@ -536,6 +632,8 @@ export default class GymCalendar extends Component {
               eventRemove={function(){}}
               */
             />
+            
+          <div>{this.props.currentGym.brandName}</div>
             <Modal
               isOpen={this.state.modal}
               toggle={this.toggle}
@@ -545,7 +643,7 @@ export default class GymCalendar extends Component {
                 <>
                   <ModalHeader toggle={this.toggle}>
                     { this.state.isCreate && ("Agendar Aula - "+this.props.currentGym.brandName)}
-                    { !this.state.isCreate && ("Aula "+Moment(this.state.currentEvent.start).format("HH:mm - DD/MM/YYYY"))}
+                    { !this.state.isCreate && ("Aula "+Moment(this.state.currentEvent.start).tz("UTC").format("HH:mm - DD/MM/YYYY", "UTC"))}
                   </ModalHeader>
                   <ModalBody>
                       <div>
@@ -559,7 +657,7 @@ export default class GymCalendar extends Component {
                               validations={[required, vPT]}
                             >
                               <option value={-1} disabled>Selecione</option>
-                              {PERSONAL_TRAINERS.map((pt, index) => (
+                              {this.state.personalTrainers.map((pt, index) => (
                                 <option value={index}>{pt.brandName}</option>
                               ))}
                             </Select>
@@ -573,7 +671,7 @@ export default class GymCalendar extends Component {
                               validations={[required, vCustomer]}
                             >
                               <option value={-1} disabled>Selecione</option>
-                              {CUSTOMERS.map((customer, index) => (
+                              {this.state.customers.map((customer, index) => (
                                 <option value={index}>{customer.user.userName+" ("+customer.user.cpf+")"}</option>
                               ))}
                             </Select>
@@ -742,19 +840,12 @@ export default class GymCalendar extends Component {
     })
   }
 
-  deleteEvent(event) {
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm('Tem certeza que deseja remover esta aula?')) {
-      event.remove()
-    }
-  }
-
   handleDateSelect = (selectInfo) => {
     let day = selectInfo.start.getDay()
     console.log(day)
     this.setState({ isCreate: true, 
                     selectInfo: selectInfo,
-                    eventHour: selectInfo.start.getHours(), 
+                    eventHour: selectInfo.start.getUTCHours(), 
                     repeatEvents: 1,
                     repeatSun: day === 0? true : false,
                     repeatMon: day === 1? true : false,
@@ -770,24 +861,24 @@ export default class GymCalendar extends Component {
   }
 
   handleEventClick = (clickInfo) => {
-    let ptId = clickInfo.event.extendedProps.pt;
-    let customerId = clickInfo.event.extendedProps.customer;
-    for (let i = 0; i < PERSONAL_TRAINERS.length; i++) {
-      if(PERSONAL_TRAINERS[i].id === ptId) {
+    let ptId = clickInfo.event.extendedProps.ptSlot.parentId;
+    let customerId = clickInfo.event.extendedProps.customerId;
+    for (let i = 0; i < this.state.personalTrainers.length; i++) {
+      if(this.state.personalTrainers[i].id === ptId) {
         this.setState({"ptIndex": i});
         break;
       }
     }
-    for (let i = 0; i < CUSTOMERS.length; i++) {
-      if(CUSTOMERS[i].id === customerId) {
+    for (let i = 0; i < this.state.customers.length; i++) {
+      if(this.state.customers[i].id === customerId) {
         this.setState({"customerIndex": i});
         break;
       }
     }
     this.setState({ "currentEvent": clickInfo.event,
                     "isCreate": false,
-                    "eventHour": clickInfo.event.start.getHours(),
-                    "price": clickInfo.event.extendedProps.price,
+                    "eventHour": clickInfo.event.start.getUTCHours(),
+                    "price": clickInfo.event.extendedProps.ptSlot.price,
                     "location": clickInfo.event.extendedProps.location});
     this.toggle();
   }
