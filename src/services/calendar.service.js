@@ -14,7 +14,7 @@ class CalendarService {
     });
   };
   deleteEvent = (id) => {
-    return axios.delete(API_URL+"/event", id, { headers: authHeader() })
+    return axios.delete(API_URL+"/event?id="+id, { headers: authHeader() })
     .then((response) => {
       return response;
     });

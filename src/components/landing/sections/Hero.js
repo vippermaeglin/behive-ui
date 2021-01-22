@@ -65,7 +65,7 @@ const Hero = ({
                   <Button tag="a" color="primary" wideMobile href="#featuresTiles">
                     Saiba Mais
                     </Button>
-                  <Button tag="a" color="dark" wideMobile href="http://www.personal4all.com.br/">
+                  <Button tag="a" color="dark" wideMobile href="/login">
                     Entrar
                     </Button>
                 </ButtonGroup>

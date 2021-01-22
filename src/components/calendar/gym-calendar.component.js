@@ -293,8 +293,11 @@ export default class GymCalendar extends Component {
 
   componentDidUpdate(prevProps) {
     if(this.props.currentGym !== prevProps.currentGym) {
+      //CalendarApi reference: 
+      //https://github.com/fullcalendar/fullcalendar/blob/master/packages/common/src/CalendarApi.tsx
       let calendarApi = this.fullCalendar.current.getApi();
       calendarApi.removeAllEvents();
+      calendarApi.refetchEvents();
       console.log("componentDidUpdate props")
       console.log(this.props.currentGym)
     }
@@ -435,10 +438,15 @@ export default class GymCalendar extends Component {
   }
 
   deleteEvent(event) {
+    //evaluate if event can be canceled
+    if(event.start < Moment()) {
+      alert("Não é mais possível deletar esta aula!");
+      return;
+    }
     // eslint-disable-next-line no-restricted-globals
     if (confirm('Tem certeza que deseja remover esta aula?')) {
       CalendarService.deleteEvent(event.id).then(
-        // eslint-disable-next-line no-loop-func
+        //eslint-disable-next-line no-loop-func
         response => {     
           event.remove();
           console.log("Delete event:");
@@ -453,6 +461,7 @@ export default class GymCalendar extends Component {
   }
 
   saveEvent (e) {
+    //TODO NOW: raising error to update!
     e.preventDefault();
     console.log("addEvent");
     
@@ -649,6 +658,9 @@ export default class GymCalendar extends Component {
                       <div>
                         <Form onSubmit={this.saveEvent} ref={this.form}>
                           <div className="form-group">
+                            <label className="dark-label" htmlFor="gym-price">{this.props.currentGym.brandName+"(Aluguel por R$"+this.props.currentGym.price+")"}</label>
+                          </div>
+                          <div className="form-group">
                             <label className="dark-label" htmlFor="personal-trainer">Personal Trainer</label>
                             <Select name='personal-trainer'
                               className="form-control"
@@ -767,7 +779,7 @@ export default class GymCalendar extends Component {
                             </>
                           )}
                           <div className="form-group">
-                            <label className="dark-label" htmlFor="price">Preço R$</label>
+                            <label className="dark-label" htmlFor="price">Preço da Aula R$</label>
                             <Input
                               type="number"
                               className="form-control"
@@ -885,6 +897,7 @@ export default class GymCalendar extends Component {
 
 
   handleEventChange = (eventArgs) => {
+    //TODO NOW: send it to backend, call saveEvent()
     console.log("handleEventChange");
     console.log(eventArgs);
     console.log("extendedProps");
