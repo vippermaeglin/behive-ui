@@ -1,70 +1,71 @@
-import React from "react";
+import React, { Component } from "react";
+import SectionHeader from '../landing/sections/partials/SectionHeader';
+import BehiveCalendar from "../calendar/behive-calendar.component";
+import GymService from "../../services/gym.service";
+import { Link } from "react-router-dom";
 import Image from '../landing/elements/Image';
 import classNames from 'classnames';
-import { SectionTilesProps } from '../../utils/SectionProps';
-import SectionHeader from '../landing/sections/partials/SectionHeader';
-import { Link } from "react-router-dom";
+ 
+export default class BoardGym extends Component {
 
-const propTypes = {
-  ...SectionTilesProps.types
-}
+  constructor(props) {
+    super(props);
+    console.log("constructor props")
+    console.log(this.props.currentUser)
 
-const defaultProps = {
-  ...SectionTilesProps.defaults
-}
+    this.state = {
+      gym: null
+    }
+  }
 
-const BoardGym = ({
-  className,
-  topOuterDivider,
-  bottomOuterDivider,
-  topDivider,
-  bottomDivider,
-  hasBgColor,
-  invertColor,
-  pushLeft,
-  ...props
-}) => {
-
-  const outerClasses = classNames(
-    'features-tiles section',
-    topOuterDivider && 'has-top-divider',
-    bottomOuterDivider && 'has-bottom-divider',
-    hasBgColor && 'has-bg-color',
-    invertColor && 'invert-color',
-    className
-  );
-
-  const innerClasses = classNames(
-    'features-tiles-inner section-inner pt-0',
-    topDivider && 'has-top-divider',
-    bottomDivider && 'has-bottom-divider'
-  );
-
-  const tilesClasses = classNames(
-    'tiles-wrap center-content',
-    pushLeft && 'push-left'
-  );
-
-  const sectionHeader = {
+  componentDidMount() {
+    this.retrieveGym();
+  }
+  
+  sectionHeader = {
     title: 'Seja bem-vindo!',
-    paragraph: 'Painel em construção...'
-  };
+    paragraph: this.props.currentUser.userName
+  }
 
-  return (
-    <section
-      {...props}
-      className={outerClasses}
-      id={"featuresTiles"}
-    >
-      <div className="container">
-        <div className={innerClasses}>
-          <SectionHeader data={sectionHeader} className="center-content" />
-          <div className={tilesClasses}>
+  tilesClasses = classNames(
+    'tiles-wrap center-content',
+    'push-left'
+  );
+
+  retrieveGym() {
+    GymService.getGymByUserId(this.props.currentUser.id).then(
+      response => {
+        console.log("retrieveGym");
+        this.setState({
+          gym: response.data[0]
+        });
+        console.log(this.state.gym);
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+  render() {
+
+    return (
+      <>
+        <div className="container section-inner">
+          <div>
+            <SectionHeader data={this.sectionHeader} className="center-content" />
+            <div className="form-group">
+              {this.state.gym ? (
+                <BehiveCalendar  currentEntity={this.state.gym} role={"GYM"} editable={false}/>
+              ) : ("")}
+            </div>
+          </div>
+          <div className={this.tilesClasses}>
             <div className="tiles-item reveal-from-bottom" data-reveal-delay="200">
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/create-gym">
+                      <Link to= {"/personal-invite/gymId="+(this.state.gym!==null?this.state.gym.id:"")}>
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 05"
@@ -75,7 +76,7 @@ const BoardGym = ({
                   </div>
                   <div className="features-tiles-item-content">
                     <h4 className="mt-0 mb-8">
-                      Cadastrar Academia
+                      Cadastrar Novo Personal Trainer
                       </h4>
                       <div style={{ display: 'none'}}>
                     <p className="m-0 text-sm">
@@ -90,7 +91,7 @@ const BoardGym = ({
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/create-personal">
+                      <Link to= "/personal/new">
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 01"
@@ -101,7 +102,7 @@ const BoardGym = ({
                   </div>
                   <div className="features-tiles-item-content">
                     <h4 className="mt-0 mb-8">
-                      Cadastrar Personal Trainer
+                      Registrar Personal Trainer Existente
                       </h4>
                       <div style={{ display: 'none'}}>
                     <p className="m-0 text-sm">
@@ -116,7 +117,7 @@ const BoardGym = ({
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/create-customer">
+                      <Link to= "/customer/new">
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 02"
@@ -127,7 +128,7 @@ const BoardGym = ({
                   </div>
                   <div className="features-tiles-item-content">
                     <h4 className="mt-0 mb-8">
-                      Cadastrar Aluno
+                      Editar Academia
                       </h4>
                       <div style={{ display: 'none'}}>
                     <p className="m-0 text-sm">
@@ -138,13 +139,10 @@ const BoardGym = ({
                 </div>
               </div>
             </div>
-          </div>
         </div>
-      </section>
-  );
+      </>
+    );
+  }
 }
 
-BoardGym.propTypes = propTypes;
-BoardGym.defaultProps = defaultProps;
 
-export default BoardGym;

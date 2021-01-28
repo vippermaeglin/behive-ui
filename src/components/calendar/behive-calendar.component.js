@@ -22,7 +22,7 @@ import CheckButton from "react-validation/build/button";
 let eventGuid = 0
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 
-export const PERSONAL_TRAINERS = [
+/* export const PERSONAL_TRAINERS = [
   {
     id: "1",
     brandName: "Magal dos Santos",
@@ -61,8 +61,9 @@ export const CUSTOMERS = [
     id: "5",
     user: { userName: "Beto Carvalho", cpf: "452.665.787-22" }
   }
-]
+] */
 
+//TODO NOW: apply from entity work hours
 export const workHours = [ // specify an array instead
   {
     daysOfWeek: [ 1, 2, 3, 4, 5 ], // Monday to Friday
@@ -129,6 +130,16 @@ const vPT = (value) => {
   }
 };
 
+const vGym = (value) => {
+  if (value < 0) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Selecione uma Academia!
+      </div>
+    );
+  }
+};
+
 const vCustomer = (value) => {
   if (value < 0) {
     return (
@@ -139,15 +150,14 @@ const vCustomer = (value) => {
   }
 };
 
-export default class GymCalendar extends Component {
+export default class BehiveCalendar extends Component {
   constructor(props) {
     super(props);
     console.log("constructor props")
-    console.log(this.props.currentGym)
-    this.retrieveGymCalendar = this.retrieveGymCalendar.bind(this);
-    this.retrievePersonalTrainers = this.retrievePersonalTrainers.bind(this);
-    this.retrieveCustomers = this.retrieveCustomers.bind(this);
+    console.log(this.props.currentEntity)
+    console.log(this.props.role)
     this.toggle = this.toggle.bind(this);
+    this.onChangeGym = this.onChangeGym.bind(this);
     this.onChangePT = this.onChangePT.bind(this);
     this.onChangeCustomer = this.onChangeCustomer.bind(this);
     this.onChangeEventHour = this.onChangeEventHour.bind(this);
@@ -164,6 +174,10 @@ export default class GymCalendar extends Component {
     this.saveEvent = this.saveEvent.bind(this);
     this.getNextDate = this.getNextDate.bind(this);
     this.eventsFeed = this.eventsFeed.bind(this);
+    this.retrievePersonalTrainers = this.retrievePersonalTrainers.bind(this);
+    this.retrievePersonalTrainersByCustomer = this.retrievePersonalTrainersByCustomer.bind(this);
+    this.retrieveCustomers = this.retrieveCustomers.bind(this);
+    this.retrieveGyms = this.retrieveGyms.bind(this);
 
     this.form = createRef();
     this.fullCalendar = createRef();
@@ -171,17 +185,20 @@ export default class GymCalendar extends Component {
 
     this.state = {
       currentEvent: null,
-      personalTrainers: null,
-      customers: null,
+      gyms: (this.props.role === "GYM") ? [this.props.currentEntity] : [],
+      personalTrainers: (this.props.role === "PERSONAL") ? [this.props.currentEntity] : [],
+      customers: (this.props.role === "CUSTOMER") ? [this.props.currentEntity] : [],
       loading: false,
       message: null,
       selectInfo: null,
       modal: false,
       isCreate: false,
-      ptIndex: -1,
-      currentPT: null,
-      customerIndex: -1,
-      currentCustomer: null,
+      gymIndex: (this.props.role === "GYM") ? 0 : -1,
+      currentGym: (this.props.role === "GYM") ? this.props.currentEntity : null,
+      ptIndex: (this.props.role === "PERSONAL") ? 0 : -1,
+      currentPT: (this.props.role === "PERSONAL") ? this.props.currentEntity : null,
+      customerIndex: (this.props.role === "CUSTOMER") ? 0 : -1,
+      currentCustomer: (this.props.role === "CUSTOMER") ? this.props.currentEntity : null,
       eventHour: null,
       repeatSun: null,
       repeatMon: null,
@@ -196,8 +213,7 @@ export default class GymCalendar extends Component {
     };
   }
 
-
-  INITIAL_EVENTS = [
+  /* INITIAL_EVENTS = [
     {
       id: createEventId(),
       customerId: "bfd17523-ff17-4d97-9dab-03ff388f216c",
@@ -218,88 +234,91 @@ export default class GymCalendar extends Component {
       start: todayStr + 'T06:00:00.000Z',
       end: todayStr + 'T07:00:00.000Z',
       title: "Magal - Ana"
-    },
-    {
-      id: createEventId(),
-      customerId: "bfd17523-ff17-4d97-9dab-03ff388f216c",
-      durationEditable: false,
-      gymSlot: {
-        startSlot: todayStr + 'T11:00:00.000Z',
-        endSlot: todayStr + 'T12:00:00.000Z',
-        parentId: this.props.currentGym.id,
-        price: this.props.currentGym.price
-      },
-      location: "Rua Alfeneiros, 11 - Bairro Camargos",
-      ptSlot: {
-        startSlot: todayStr + 'T11:00:00.000Z',
-        endSlot: todayStr + 'T12:00:00.000Z',
-        parentId: "1b8ab757-de47-43e4-948c-5d86400f2151",
-        price: 6
-      },
-      start: todayStr + 'T11:00:00.000Z',
-      end: todayStr + 'T12:00:00.000Z',
-      title: "Eduardo - Carlos"
-    },
-    {
-      id: createEventId(),
-      customerId: "c1e87d5c-eae1-4266-9fa9-ef00e6ad359b",
-      durationEditable: false,
-      gymSlot: {
-        startSlot: todayStr + 'T12:00:00.000Z',
-        endSlot: todayStr + 'T13:00:00.000Z',
-        parentId: this.props.currentGym.id,
-        price: this.props.currentGym.price
-      },
-      location: "Rua Alfeneiros, 11 - Bairro Camargos",
-      ptSlot: {
-        startSlot: todayStr + 'T12:00:00.000Z',
-        endSlot: todayStr + 'T13:00:00.000Z',
-        parentId: "07fc493e-e928-4a04-a9bb-ba2ba0696626",
-        price: 6
-      },
-      start: todayStr + 'T12:00:00.000Z',
-      end: todayStr + 'T13:00:00.000Z',
-      title: "Eduardo - João"
-    },
-    {
-      id: createEventId(),
-      customerId: "c1e87d5c-eae1-4266-9fa9-ef00e6ad359b",
-      durationEditable: false,
-      gymSlot: {
-        startSlot: todayStr + 'T18:00:00.000Z',
-        endSlot: todayStr + 'T19:00:00.000Z',
-        parentId: this.props.currentGym.id,
-        price: this.props.currentGym.price
-      },
-      location: "Rua Alfeneiros, 11 - Bairro Camargos",
-      ptSlot: {
-        startSlot: todayStr + 'T18:00:00.000Z',
-        endSlot: todayStr + 'T19:00:00.000Z',
-        parentId: "07fc493e-e928-4a04-a9bb-ba2ba0696626",
-        price: 6
-      },
-      start: todayStr + 'T18:00:00.000Z',
-      end: todayStr + 'T19:00:00.000Z',
-      title: "Vinícius - Beto"
     }
-  ]
+  ] */
 
   componentDidMount() {
-    this.retrievePersonalTrainers();
-    this.retrieveCustomers();
-    console.log("componentDidMount props")
-    console.log(this.props.currentGym)
+    console.log("componentDidMount props currentEntity")
+    console.log(this.props.currentEntity)
+    console.log("componentDidMount props role")
+    console.log(this.props.role)
+    console.log("componentDidMount props editable")
+    console.log(this.props.editable)
+
+    if(this.props.role === "GYM") {
+      this.setState({
+        currentGym: this.props.currentEntity,
+        gyms: [this.props.currentEntity],
+        gymIndex: 0
+      });
+      console.log("currentGym:")
+      console.log(this.props.currentEntity);
+      this.retrievePersonalTrainers(this.props.currentEntity.id);
+    }
+    else if(this.props.role === "PERSONAL") {
+      this.setState({
+        currentPersonal: this.props.currentEntity,
+        personalTrainers: [this.props.currentEntity],
+        ptIndex: 0
+      });
+      console.log("currentPersonal:")
+      console.log(this.props.currentEntity);
+      this.retrieveGyms(this.props.currentEntity.id);
+    }
+    else if(this.props.role === "CUSTOMER") {
+      this.setState({
+        currentCustomer: this.props.currentEntity,
+        customers: [this.props.currentEntity],
+        customerIndex: 0
+      });
+      console.log("currentCustomer:")
+      console.log(this.props.currentEntity);
+      this.retrievePersonalTrainersByCustomer(this.props.currentEntity.id);
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.currentGym !== prevProps.currentGym) {
+    if(this.props.currentEntity !== prevProps.currentEntity) {
       //CalendarApi reference: 
       //https://github.com/fullcalendar/fullcalendar/blob/master/packages/common/src/CalendarApi.tsx
       let calendarApi = this.fullCalendar.current.getApi();
       calendarApi.removeAllEvents();
       calendarApi.refetchEvents();
-      console.log("componentDidUpdate props")
-      console.log(this.props.currentGym)
+      console.log("componentDidUpdate props");
+      console.log(this.props.currentEntity);
+
+      if(this.props.role === "GYM") {
+        this.setState({
+          currentGym: this.props.currentEntity,
+          gyms: [this.props.currentEntity],
+          gymIndex: 0
+        });
+        console.log("currentGym:")
+        console.log(this.props.currentEntity);
+        this.retrievePersonalTrainers(this.props.currentEntity.id);
+      }
+      else if(this.props.role === "PERSONAL") {
+        this.setState({
+          currentPersonal: this.props.currentEntity,
+          personalTrainers: [this.props.currentEntity],
+          ptIndex: 0
+        });
+        console.log("currentPersonal:")
+        console.log(this.props.currentEntity);
+        //TODO NOW: create this
+        this.retrieveGyms(this.props.currentEntity.id);
+      }
+      else if(this.props.role === "CUSTOMER") {
+        this.setState({
+          currentCustomer: this.props.currentEntity,
+          customers: [this.props.currentEntity],
+          customerIndex: 0
+        });
+        console.log("currentCustomer:")
+        console.log(this.props.currentEntity);
+        //TODO NOW: retrieve PT by CustomerId
+        this.retrievePersonalTrainers(this.props.currentEntity.id);
+      }
     }
   }
 
@@ -310,8 +329,17 @@ export default class GymCalendar extends Component {
   }
 
   getGymAddress() {
-    let address = this.props.currentGym.address
+    let address = this.state.currentGym.address
     return address.street+", "+address.number+" - "+address.neighborhood
+  }
+
+  onChangeGym(e) {
+    const index = e.target.value;
+    const c = this.state.gyms[index];
+    this.setState({
+      gymIndex: index,
+      currentGym: c
+    });
   }
 
   onChangePT(e) {
@@ -323,6 +351,7 @@ export default class GymCalendar extends Component {
       price: trainer.price,
       location: this.getGymAddress()
     });
+    this.retrieveCustomers(trainer.id);
   }
 
   onChangeCustomer(e) {
@@ -394,49 +423,6 @@ export default class GymCalendar extends Component {
     });
   }
 
-  retrieveGymCalendar() {
-    GymService.getAllGyms().then(
-      response => {
-        this.setState({
-          //todo
-        });
-      }
-    )
-    .catch(e => {
-      console.log(e);
-    });
-  }
-
-  retrievePersonalTrainers() {
-    PersonalService.getAllPersonal().then(
-      response => {
-        this.setState({
-          personalTrainers: response.data
-        });
-        console.log("retrievePersonalTrainers");
-        console.log(this.state.personalTrainers)
-      }
-    )
-    .catch(e => {
-      console.log(e);
-    });
-  }
-
-  retrieveCustomers() {
-    CustomerService.getAllCustomers().then(
-      response => {
-        this.setState({
-          customers: response.data
-        });
-        console.log("retrieveCustomers");
-        console.log(this.state.customers)
-      }
-    )
-    .catch(e => {
-      console.log(e);
-    });
-  }
-
   deleteEvent(event) {
     //evaluate if event can be canceled
     if(event.start < Moment()) {
@@ -493,12 +479,13 @@ export default class GymCalendar extends Component {
           id: this.state.isCreate? null:this.state.currentEvent.id,
           customerId: this.state.currentCustomer.id,
           durationEditable: false,
-          gymSlot: {
+          //Gym slots are optional
+          gymSlot: this.state.currentGym ? {
             startSlot: eventDate,
             endSlot: Moment(eventDate).add(1, "h"),
-            parentId: this.props.currentGym.id,
-            price: this.props.currentGym.price
-          },
+            parentId: this.state.currentGym.id,
+            price: this.state.currentGym.price
+          } : null,
           location: this.state.location,
           ptSlot: {
             startSlot: eventDate,
@@ -510,7 +497,7 @@ export default class GymCalendar extends Component {
           start: eventDate,
           end: Moment(eventDate).add(1, "h")
         }
-        CalendarService.createEvent(event).then(
+        CalendarService.saveEvent(event).then(
           // eslint-disable-next-line no-loop-func
           response => {        
             if(!this.state.isCreate) {
@@ -577,9 +564,9 @@ export default class GymCalendar extends Component {
   }           
 
   eventsFeed (info, successCallback, failureCallback) {
-    CalendarService.getGymFeed(this.props.currentGym.id, Moment(info.start).format("YYYY-MM-DD"), Moment(info.end).format("YYYY-MM-DD")).then(
+    CalendarService.getCalendarFeed(this.props.currentEntity.id, Moment(info.start).format("YYYY-MM-DD"), Moment(info.end).format("YYYY-MM-DD"), this.props.role).then(
       response => {        
-        console.log("eventsFeed id="+this.props.currentGym.id)
+        console.log("eventsFeed id="+this.props.currentEntity.id)
         console.log(response.data);
         //Remove old events avoid duplicates :(
         //https://github.com/fullcalendar/fullcalendar/blob/master/packages/common/src/CalendarApi.tsx
@@ -594,13 +581,116 @@ export default class GymCalendar extends Component {
     });
   }
 
+  retrieveGyms(ptId) {
+    PersonalService.getGyms(ptId).then(
+      response => {
+        console.log("retrieveGyms");
+        const gyms = response.data.map(result =>
+          ({
+             id: result.gym.id,
+             brandName: result.gym.brandName,
+             price: result.gym.price
+          })
+        );
+        this.setState({
+          gyms: gyms
+        });
+        if(!this.state.isCreate && this.state.currentEvent != null) {
+          for (let i = 0; i < gyms.length; i++) {
+            if(gyms[i].id === this.state.currentEvent.extendedProps.gymSlot.parentId) {
+              this.setState({"gymIndex": i, "currentGym": gyms[i]});
+              break;
+            }
+          }
+        }
+        console.log(gyms);
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+  retrievePersonalTrainers(gymId) {
+    GymService.getPersonalTrainers(gymId).then(
+      response => {
+        console.log("retrievePersonalTrainers");
+        const personalTrainers = response.data.map(result =>
+          ({
+             id: result.personalTrainer.id,
+             brandName: result.personalTrainer.brandName,
+             price: result.personalTrainer.price
+          })
+        );
+        this.setState({
+          personalTrainers: personalTrainers
+        });
+        console.log(personalTrainers);
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+  retrievePersonalTrainersByCustomer(customerId) {
+    CustomerService.getPersonalTrainers(customerId).then(
+      response => {
+        console.log("retrievePersonalTrainersByCustomer");
+        const personalTrainers = response.data.map(result =>
+          ({
+             id: result.personalTrainer.id,
+             brandName: result.personalTrainer.brandName,
+             price: result.personalTrainer.price
+          })
+        );
+        this.setState({
+          personalTrainers: personalTrainers
+        });
+        console.log(personalTrainers);
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+  retrieveCustomers(ptId) {
+    PersonalService.getCustomers(ptId).then(
+      response => {
+        console.log("retrieveCustomers");
+        const customers = response.data.map(result =>
+          ({
+             id: result.customer.id,
+             user: result.customer.user
+          })
+        );
+        this.setState({
+          customers: customers
+        });
+        if(!this.state.isCreate) {
+          for (let i = 0; i < customers.length; i++) {
+            if(customers[i].id === this.state.currentEvent.extendedProps.customerId) {
+              this.setState({"customerIndex": i, "currentCustomer": customers[i]});
+              break;
+            }
+          }
+        }
+        console.log(customers);
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
   render() {
     return (
-        <div className="container section-inner" key={this.props.currentGym}>
+        <div className="container section-inner" key={this.props.currentEntity}>
           <div className='demo-app-main'>
             <FullCalendar
               ref={this.fullCalendar}
-              key={this.props.currentGym}
+              key={this.props.currentEntity}
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentPlugin]}
               headerToolbar={{
                 left: 'prev,next,today',
@@ -611,8 +701,8 @@ export default class GymCalendar extends Component {
               //eventColor="#e1af0b"
               //eventBorderColor="#ffffff"
               timeZone={"UTC"}
-              editable={true}
-              selectable={true}
+              editable={this.props.editable}
+              selectable={this.props.editable}
               selectMirror={true}
               dayMaxEvents={true}
               eventOverlap={true}
@@ -640,9 +730,10 @@ export default class GymCalendar extends Component {
               eventChange={function(){}}
               eventRemove={function(){}}
               */
-            />
-            
-          <div>{this.props.currentGym.brandName}</div>
+            />           
+            {this.props.role === "GYM" && ( <div>{this.state.currentGym.brandName}</div> )}  
+            {this.props.role === "PERSONAL" && ( <div>{this.state.currentPT.brandName}</div> )}   
+            {this.props.role === "CUSTOMER" && ( <div>{this.state.currentCustomer.user.userName}</div> )}           
             <Modal
               isOpen={this.state.modal}
               toggle={this.toggle}
@@ -651,15 +742,27 @@ export default class GymCalendar extends Component {
               {this.state.modal && (
                 <>
                   <ModalHeader toggle={this.toggle}>
-                    { this.state.isCreate && ("Agendar Aula - "+this.props.currentGym.brandName)}
+                    { this.state.isCreate && ("Agendar Aula")}
                     { !this.state.isCreate && ("Aula "+Moment(this.state.currentEvent.start).tz("UTC").format("HH:mm - DD/MM/YYYY", "UTC"))}
                   </ModalHeader>
                   <ModalBody>
                       <div>
                         <Form onSubmit={this.saveEvent} ref={this.form}>
                           <div className="form-group">
-                            <label className="dark-label" htmlFor="gym-price">{this.props.currentGym.brandName+"(Aluguel por R$"+this.props.currentGym.price+")"}</label>
-                          </div>
+                            <label className="dark-label" htmlFor="gym">Academia</label>
+                            <Select name='gym'
+                              className="form-control"
+                              value={this.state.gymIndex}
+                              onChange={this.onChangeGym}
+                              validations={[required, vGym]}
+                              disabled={!this.props.editable}
+                            >
+                              <option value={-1} disabled>Selecione</option>
+                              {this.state.gyms.map((gym, index) => (
+                                <option value={index}>{gym.brandName+" (Aluguel R$"+gym.price+")"}</option>
+                              ))}
+                            </Select>
+                          </div>       
                           <div className="form-group">
                             <label className="dark-label" htmlFor="personal-trainer">Personal Trainer</label>
                             <Select name='personal-trainer'
@@ -667,13 +770,14 @@ export default class GymCalendar extends Component {
                               value={this.state.ptIndex}
                               onChange={this.onChangePT}
                               validations={[required, vPT]}
+                              disabled={!this.props.editable}
                             >
                               <option value={-1} disabled>Selecione</option>
                               {this.state.personalTrainers.map((pt, index) => (
                                 <option value={index}>{pt.brandName}</option>
                               ))}
                             </Select>
-                          </div>
+                          </div>                          
                           <div className="form-group">
                             <label className="dark-label" htmlFor="customer">Aluno</label>
                             <Select name='customer'
@@ -681,13 +785,14 @@ export default class GymCalendar extends Component {
                               value={this.state.customerIndex}
                               onChange={this.onChangeCustomer}
                               validations={[required, vCustomer]}
+                              disabled={!this.props.editable}
                             >
                               <option value={-1} disabled>Selecione</option>
                               {this.state.customers.map((customer, index) => (
                                 <option value={index}>{customer.user.userName+" ("+customer.user.cpf+")"}</option>
                               ))}
                             </Select>
-                          </div>
+                          </div>                          
                           <div className="form-group">
                             <label className="dark-label" htmlFor="eventHour">Horário</label>
                             <Input
@@ -695,9 +800,10 @@ export default class GymCalendar extends Component {
                               className="form-control"
                               name="eventHour"
                               value={this.state.eventHour}
-                              disabled={true}
+                              disabled={this.state.isCreate}
                               onChange={this.onChangeEventHour}
-                              validations={[required, vEventHour]}                
+                              validations={[required, vEventHour]} 
+                              disabled={!this.props.editable}     
                             />         
                           </div>
                           {this.state.isCreate && (
@@ -788,6 +894,7 @@ export default class GymCalendar extends Component {
                               onChange={this.onChangePrice}
                               validations={[required, vPrice]}
                               placeHolder="Sugestão de mercado: R$6"
+                              disabled={!this.props.editable}
                             />            
                           </div>
                           <div className="form-group">
@@ -799,16 +906,19 @@ export default class GymCalendar extends Component {
                               value={this.state.location}
                               onChange={this.onChangeLocation}
                               validations={[required]}
+                              disabled={!this.props.editable}
                             />            
                           </div>
                           <div className="form-group">
                             <br/>
-                            <Button className="button button-primary button-wide-mobile button-block" disabled={this.state.loading}>
-                              {this.state.loading && (
-                                <span className="spinner-border spinner-border-sm"></span>
-                              )}
-                              <span>Salvar</span>
-                            </Button>
+                            {this.props.editable && (
+                              <Button className="button button-primary button-wide-mobile button-block" disabled={this.state.loading}>
+                                {this.state.loading && (
+                                  <span className="spinner-border spinner-border-sm"></span>
+                                )}
+                                <span>Salvar</span>
+                              </Button>
+                            )}
                             { this.state.isCreate && (
                               <>
                               <br/>
@@ -820,9 +930,16 @@ export default class GymCalendar extends Component {
                             { !this.state.isCreate && (
                               <>
                               <br/>
-                              <Button color="danger" onClick={() => {this.deleteEvent(this.state.currentEvent); this.toggle()}}>
-                                Remover
-                              </Button>
+                              {this.props.editable && (
+                                <Button color="danger" onClick={() => {this.deleteEvent(this.state.currentEvent); this.toggle()}}>
+                                  Remover
+                                </Button>
+                              )}
+                              {!this.props.editable && (
+                                <Button color="primary" onClick={this.toggle}>
+                                  Fechar
+                                </Button>
+                              )}
                               </>
                             )}
                           </div>
@@ -866,26 +983,45 @@ export default class GymCalendar extends Component {
                     repeatThu: day === 4? true : false,
                     repeatFri: day === 5? true : false,
                     repeatSat: day === 6? true : false,
-                    ptIndex: -1,
-                    customerIndex: -1,
+                    gymIndex: -1,
+                    customerIndex: -1
                    });
     this.toggle(); 
   }
 
   handleEventClick = (clickInfo) => {
-    let ptId = clickInfo.event.extendedProps.ptSlot.parentId;
-    let customerId = clickInfo.event.extendedProps.customerId;
-    for (let i = 0; i < this.state.personalTrainers.length; i++) {
-      if(this.state.personalTrainers[i].id === ptId) {
-        this.setState({"ptIndex": i});
-        break;
+    if(this.props.role === "GYM") {
+      let ptId = clickInfo.event.extendedProps.ptSlot.parentId;
+      let customerId = clickInfo.event.extendedProps.customerId;
+      for (let i = 0; i < this.state.personalTrainers.length; i++) {
+        if(this.state.personalTrainers[i].id === ptId) {
+          this.setState({"ptIndex": i, "currentPT": this.state.personalTrainers[i]});
+          this.retrieveCustomers(ptId);
+          break;
+        }
       }
     }
-    for (let i = 0; i < this.state.customers.length; i++) {
-      if(this.state.customers[i].id === customerId) {
-        this.setState({"customerIndex": i});
-        break;
+    else if(this.props.role === "PERSONAL") {
+      let gymId = clickInfo.event.extendedProps.gymSlot.parentId;
+      let ptId = clickInfo.event.extendedProps.ptSlot.parentId;
+      for (let i = 0; i < this.state.gyms.length; i++) {
+        if(this.state.gyms[i].id === gymId) {
+          this.setState({"gymIndex": i, "currentGym": this.state.gyms[i]});
+          break;
+        }
       }
+      this.retrieveCustomers(ptId);
+    }
+    else if(this.props.role === "CUSTOMER") {
+      let ptId = clickInfo.event.extendedProps.ptSlot.parentId;
+      for (let i = 0; i < this.state.personalTrainers.length; i++) {
+        if(this.state.personalTrainers[i].id === ptId) {
+          this.setState({"ptIndex": i, "currentPT": this.state.personalTrainers[i]});
+          this.retrieveGyms(ptId);
+          break;
+        }
+      }
+      this.retrieveGyms(ptId);
     }
     this.setState({ "currentEvent": clickInfo.event,
                     "isCreate": false,

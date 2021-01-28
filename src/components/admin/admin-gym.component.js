@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
 import Collapsible from 'react-collapsible';
 import Moment from 'moment';
-import GymCalendar from "../calendar/gym-calendar.component";
+import BehiveCalendar from "../calendar/behive-calendar.component";
 
 export default class AdminGym extends Component {
   constructor(props) {
@@ -21,6 +21,8 @@ export default class AdminGym extends Component {
     this.state = {
       gyms: [],
       currentGym: null,
+      personalTrainers: [],
+      customers: [],
       currentIndex: -1,
       searchGym: ""
     };
@@ -185,7 +187,7 @@ export default class AdminGym extends Component {
                             <strong>Aniversário:</strong>
                           </label>
                           <label>
-                            {" "+Moment(currentGym.user.bithday).format('DD/MM/YYYY')}
+                            {" "+Moment(currentGym.user.birthday).format('DD/MM/YYYY')}
                           </label>
                         </div>
                         <div className="form-group-horizontal">
@@ -363,7 +365,7 @@ export default class AdminGym extends Component {
           </div>
           <div className="form-group">
             {currentGym ? (
-              <GymCalendar currentGym={this.state.currentGym}/>
+              <BehiveCalendar currentEntity={this.state.currentGym} role={"GYM"} editable={false}/>
             ) : ("")}
           </div>
         </div>

@@ -20,6 +20,7 @@ import AdminPersonal from "./components/admin/admin-personal.component";
 import AdminCustomer from "./components/admin/admin-customer.component";
 import CreateGym from "./components/admin/create-gym.component";
 import CreatePersonal from "./components/admin/create-personal.component";
+import InvitePersonal from "./components/admin/create-invite-personal.component";
 import CreateCustomer from "./components/admin/create-customer.component";
 
 // Services
@@ -80,6 +81,7 @@ const App = () => {
             <AppRoute path="/gym/:id" component={CreateGym} layout={LayoutDefault}/>
             <AppRoute path="/personal/:id" component={CreatePersonal} layout={LayoutDefault}/>
             <AppRoute path="/customer/:id" component={CreateCustomer} layout={LayoutDefault}/>
+            <AppRoute path="/personal-invite/:gymId" component={InvitePersonal} layout={LayoutDefault}/>
           </Switch>
       )} />
   );

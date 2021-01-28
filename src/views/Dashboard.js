@@ -10,12 +10,12 @@ import BoardCustomer from "../components/admin/board-customer.component";
 const Dashboard = () => {
   return (
     <>
-      {AuthService.getCurrentRole() === "B_ADMIN" && (<BoardAdmin/>)}
-      {AuthService.getCurrentRole() === "SYS_ADMIN" && (<BoardAdmin/>)}
-      {AuthService.getCurrentRole() === "OPERATIONAL" && (<BoardOp/>)}
-      {AuthService.getCurrentRole() === "GYM" && (<BoardGym/>)}
-      {AuthService.getCurrentRole() === "PERSONAL" && (<BoardPersonal/>)}
-      {AuthService.getCurrentRole() === "CUSTOMER" && (<BoardCustomer/>)}
+      {AuthService.getCurrentRole() === "B_ADMIN" && (<BoardAdmin currentUser={AuthService.getCurrentUser()}/>)}
+      {AuthService.getCurrentRole() === "SYS_ADMIN" && (<BoardAdmin currentUser={AuthService.getCurrentUser()}/>)}
+      {AuthService.getCurrentRole() === "OPERATIONAL" && (<BoardOp currentUser={AuthService.getCurrentUser()}/>)}
+      {AuthService.getCurrentRole() === "GYM" && (<BoardGym currentUser={AuthService.getCurrentUser()}/>)}
+      {AuthService.getCurrentRole() === "PERSONAL" && (<BoardPersonal currentUser={AuthService.getCurrentUser()}/>)}
+      {AuthService.getCurrentRole() === "CUSTOMER" && (<BoardCustomer currentUser={AuthService.getCurrentUser()}/>)}
       
     </>
   );

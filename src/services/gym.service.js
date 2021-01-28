@@ -10,6 +10,9 @@ class GymService {
   getGymById = (id) => {
     return axios.get(API_URL+"?id="+id, { headers: authHeader() });
   };
+  getGymByUserId = (id) => {
+    return axios.get(API_URL+"?userId="+id, { headers: authHeader() });
+  };
   search = (name) => {
     return axios.get(API_URL+"/search", { headers: authHeader() });
   };
@@ -20,6 +23,9 @@ class GymService {
     .then((response) => {
       return response;
     });
+  };
+  getPersonalTrainers = (gymId) => {
+    return axios.get(API_URL+"/personal-trainer?gymId="+gymId, { headers: authHeader() });
   };
 }
 

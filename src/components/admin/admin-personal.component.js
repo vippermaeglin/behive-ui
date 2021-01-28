@@ -6,6 +6,7 @@ import Collapsible from 'react-collapsible';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
 import Moment from 'moment';
+import BehiveCalendar from "../calendar/behive-calendar.component";
 
 export default class AdminPersonal extends Component {
   constructor(props) {
@@ -216,7 +217,7 @@ export default class AdminPersonal extends Component {
                             <strong>Aniversário:</strong>
                           </label>
                           <label>
-                            {" "+Moment(currentPersonal.user.bithday).format('DD/MM/YYYY')}
+                            {" "+currentPersonal.user.birthday}
                           </label>
                         </div>
                         <div className="form-group-horizontal">
@@ -390,8 +391,12 @@ export default class AdminPersonal extends Component {
               )}
             </div>
           </div>
+          <div className="form-group">
+            {currentPersonal ? (
+              <BehiveCalendar currentEntity={this.state.currentPersonal} role={"PERSONAL"} editable={true}/>
+            ) : ("")}
+          </div>
         </div>
-
       </>
     );
   }

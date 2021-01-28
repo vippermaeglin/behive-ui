@@ -169,6 +169,13 @@ const Header = ({
                       </li>
                       </>
                     )}
+                    {!showAdminBoard && !isVisitor && (
+                      <>
+                      <li>                      
+                        <Link to="/dashboard" onClick={closeMenu}>Início</Link>
+                      </li>
+                      </>
+                    )}
                   </ul>
                   {!hideSignin &&
                     <ul

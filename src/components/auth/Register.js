@@ -4,6 +4,7 @@ import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
+import Moment from 'moment';
 
 import AuthService from "../../services/auth.service";
 import {cpfMask} from "./CpfMask"
@@ -125,7 +126,7 @@ const Register = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(cpf, email, password, profile, phone, userName, birthday, gender).then(
+      AuthService.register(cpf, email, password, profile, phone, userName, Moment(birthday).format('DD/MM/YYYY'), gender).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);

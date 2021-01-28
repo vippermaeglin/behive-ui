@@ -3,7 +3,7 @@ import authHeader from "./auth-header";
 
 const API_URL = "https://behive-fit.herokuapp.com/api/customer" || "http://localhost:8080/api/customer";
 
-class PersonalService {
+class CustomerService {
   getAllCustomers = () => {
     return axios.get(API_URL, { headers: authHeader() });
   };
@@ -19,6 +19,9 @@ class PersonalService {
       return response;
     });
   };
+  getPersonalTrainers = (customerId) => {
+    return axios.get(API_URL+"/personal-trainer?customerId="+customerId, { headers: authHeader() });
+  };
 }
 
-export default new PersonalService();
+export default new CustomerService();

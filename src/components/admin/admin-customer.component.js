@@ -4,6 +4,7 @@ import CustomerService from "../../services/customer.service";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
+import BehiveCalendar from "../calendar/behive-calendar.component";
 
 export default class AdminCustomer extends Component {
   constructor(props) {
@@ -226,8 +227,12 @@ export default class AdminCustomer extends Component {
               )}
             </div>
           </div>
+          <div className="form-group">
+            {currentCustomer ? (
+              <BehiveCalendar currentEntity={this.state.currentCustomer} role={"CUSTOMER"} editable={false}/>
+            ) : ("")}
+          </div>
         </div>
-
       </>
     );
   }

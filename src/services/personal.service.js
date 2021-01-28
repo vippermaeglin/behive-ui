@@ -21,6 +21,12 @@ class PersonalService {
       return response;
     });
   };
+  getCustomers = (ptId) => {
+    return axios.get(API_URL+"/customer?personalTrainerId="+ptId, { headers: authHeader() });
+  };
+  getGyms = (ptId) => {
+    return axios.get(API_URL+"/gym?personalTrainerId="+ptId, { headers: authHeader() });
+  };
 }
 
 export default new PersonalService();
