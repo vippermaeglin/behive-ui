@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Collapsible from 'react-collapsible';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
-import Moment from 'moment';
 import BehiveCalendar from "../calendar/behive-calendar.component";
 
 export default class AdminPersonal extends Component {

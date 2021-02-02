@@ -21,10 +21,9 @@ import AdminCustomer from "./components/admin/admin-customer.component";
 import CreateGym from "./components/admin/create-gym.component";
 import CreatePersonal from "./components/admin/create-personal.component";
 import InvitePersonal from "./components/admin/create-invite-personal.component";
+import RegisterPersonal from "./components/admin/register-personal.component";
 import CreateCustomer from "./components/admin/create-customer.component";
-
-// Services
-//import AuthService from "./services/auth.service";
+import InviteCustomer from "./components/admin/create-invite-customer.component";
 
 // Initialize Google Analytics
 ReactGA.initialize(process.env.REACT_APP_GA_CODE);
@@ -46,24 +45,6 @@ const App = () => {
     trackPage(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
-
-  /**
-  const PrivateRoute = ({ component: Component, ...rest }) => (
-    <AppRoute
-      {...rest}
-      render={props =>
-        AuthService.getCurrentUser ? (
-        <Component {...props} />
-        ) : (
-        <Redirect
-        to={{
-        pathname: "/"
-        }}
-        />
-        )
-      }
-      />
-    )**/
     
   return (
     <ScrollReveal
@@ -80,8 +61,10 @@ const App = () => {
             <AppRoute path="/admin-customer" component={AdminCustomer} layout={LayoutDefault}/>
             <AppRoute path="/gym/:id" component={CreateGym} layout={LayoutDefault}/>
             <AppRoute path="/personal/:id" component={CreatePersonal} layout={LayoutDefault}/>
-            <AppRoute path="/customer/:id" component={CreateCustomer} layout={LayoutDefault}/>
             <AppRoute path="/personal-invite/:gymId" component={InvitePersonal} layout={LayoutDefault}/>
+            <AppRoute path="/personal-signup/:gymId/:contract" component={RegisterPersonal} layout={LayoutDefault}/>
+            <AppRoute path="/customer/:id" component={CreateCustomer} layout={LayoutDefault}/>
+            <AppRoute path="/customer-invite/:personalId" component={InviteCustomer} layout={LayoutDefault}/>
           </Switch>
       )} />
   );

@@ -36,10 +36,12 @@ export default class BoardGym extends Component {
     GymService.getGymByUserId(this.props.currentUser.id).then(
       response => {
         console.log("retrieveGym");
-        this.setState({
-          gym: response.data[0]
-        });
-        console.log(this.state.gym);
+        if(response.data.length>0) {
+          this.setState({
+            gym: response.data[0]
+          });
+          console.log(this.state.gym);
+        }
       }
     )
     .catch(e => {
@@ -65,7 +67,7 @@ export default class BoardGym extends Component {
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= {"/personal-invite/gymId="+(this.state.gym!==null?this.state.gym.id:"")}>
+                      <Link to= {"/personal-invite/"+(this.state.gym!==null?this.state.gym.id:"")}>
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 05"

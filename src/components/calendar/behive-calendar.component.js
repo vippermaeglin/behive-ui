@@ -20,7 +20,6 @@ import Collapsible from 'react-collapsible';
 import CheckButton from "react-validation/build/button";
 
 let eventGuid = 0
-let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 
 /* export const PERSONAL_TRAINERS = [
   {
@@ -800,10 +799,9 @@ export default class BehiveCalendar extends Component {
                               className="form-control"
                               name="eventHour"
                               value={this.state.eventHour}
-                              disabled={this.state.isCreate}
+                              disabled={this.state.isCreate && !this.props.editable}
                               onChange={this.onChangeEventHour}
                               validations={[required, vEventHour]} 
-                              disabled={!this.props.editable}     
                             />         
                           </div>
                           {this.state.isCreate && (
@@ -992,7 +990,6 @@ export default class BehiveCalendar extends Component {
   handleEventClick = (clickInfo) => {
     if(this.props.role === "GYM") {
       let ptId = clickInfo.event.extendedProps.ptSlot.parentId;
-      let customerId = clickInfo.event.extendedProps.customerId;
       for (let i = 0; i < this.state.personalTrainers.length; i++) {
         if(this.state.personalTrainers[i].id === ptId) {
           this.setState({"ptIndex": i, "currentPT": this.state.personalTrainers[i]});

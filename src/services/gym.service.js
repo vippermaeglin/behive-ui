@@ -27,6 +27,12 @@ class GymService {
   getPersonalTrainers = (gymId) => {
     return axios.get(API_URL+"/personal-trainer?gymId="+gymId, { headers: authHeader() });
   };
+  createPersonalContract(contractType, gymId, personalTrainerId,) {
+    return axios.post(API_URL+"/personal-trainer", {contractType, gymId, personalTrainerId}, { headers: authHeader() })
+    .then((response) => {
+      return response;
+    });
+  };
 }
 
 export default new GymService();
