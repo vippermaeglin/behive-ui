@@ -7,10 +7,9 @@ import { isEmail } from "validator";
 import Moment from 'moment';
 
 import AuthService from "../../services/auth.service";
+import CustomerService from "../../services/customer.service";
 import PersonalService from "../../services/personal.service";
-import GymService from "../../services/gym.service";
 import {cpfMask} from "../auth/CpfMask";
-import {crefMask} from "../auth/CrefMask"
 import {phoneMask} from "../auth/PhoneMask";
 import { cpf } from 'cpf-cnpj-validator'; 
 
@@ -65,18 +64,7 @@ const vpassword = (value) => {
   }
 };
 
-const vcref = (value) => {
-  value = crefMask(value)
-  if (value.length < 11) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        CREF inválido!
-      </div>
-    );
-  }
-};
-
-const RegisterPersonal = (props) => {
+const RegisterCustomer = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
@@ -89,8 +77,6 @@ const RegisterPersonal = (props) => {
   const [gender, setGender] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
-  const [cref, setCref] = useState();
-  const [crefExpiration, setCrefExpiration] = useState();
 
   const onChangeCpf = (e) => {
     const cpf = cpfMask(e.target.value);
@@ -129,16 +115,6 @@ const RegisterPersonal = (props) => {
     setGender(gender);
   };
 
-  const onChangeCref = (e) => {
-    const cref = crefMask(e.target.value);
-    setCref(cref);
-  };
-
-  const onChangeCrefExpiration = (e) => {
-    const crefExpiration = e.target.value;
-    setCrefExpiration(crefExpiration);
-  };
-
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -148,14 +124,13 @@ const RegisterPersonal = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(cpf, email, password, "PERSONAL", phone, userName, Moment(birthday).format('DD/MM/YYYY'), gender).then(
+      AuthService.register(cpf, email, password, "CUSTOMER", phone, userName, Moment(birthday).format('DD/MM/YYYY'), gender).then(
         (responseUser) => {
           let brandName = userName;
           let commercialPhone = phone;
-          PersonalService.create(null, brandName, "", commercialPhone, "", 120,
-            80, 45, null, responseUser.data.object, null, null, cref, Moment(crefExpiration).format('DD/MM/yyyy'), null, null).then(
-            (responsePersonal) => {
-              GymService.createPersonalContract(props.match.params.contract, props.match.params.gymId, responsePersonal.data.object.id).then(
+          CustomerService.create(responseUser.data.object, null, null, null).then(
+            (responseCustomer) => {
+              PersonalService.createCustomerContract(responseCustomer.data.object.id, props.match.params.personalId).then(
                 (responseContract) => {
                   setMessage(responseContract.data.message);
                   setSuccessful(true);
@@ -178,7 +153,7 @@ const RegisterPersonal = (props) => {
                   error.response.data &&
                   error.response.data.message) ||
                 error.message ||
-                error.toString();   
+                error.toString();
                 setMessage(resMessage);
                 setSuccessful(false);
             }
@@ -301,30 +276,6 @@ const RegisterPersonal = (props) => {
                 </Select>
               </div>
               <div className="form-group">
-                <label className="dark-label" htmlFor="cnpj">CREF</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="cref"
-                  value={cref}
-                  onChange={onChangeCref}
-                  validations={[required, vcref]}
-                  maxLength="11"
-                  placeHolder="123456-G/UF"
-                />            
-              </div>
-              <div className="form-group">
-                <label className="dark-label" htmlFor="cnpj">Validade CREF</label>
-                <Input
-                  type="date"
-                  className="form-control"
-                  name="crefExpiration"
-                  value={crefExpiration}
-                  onChange={onChangeCrefExpiration}
-                  validations={[required]}
-                />            
-              </div>
-              <div className="form-group">
                 <button className="button button-primary button-wide-mobile button-block">Cadastrar</button>
               </div>
             </div>
@@ -347,4 +298,4 @@ const RegisterPersonal = (props) => {
   );
 };
 
-export default RegisterPersonal;
+export default RegisterCustomer;

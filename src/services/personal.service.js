@@ -30,6 +30,12 @@ class PersonalService {
   getGyms = (ptId) => {
     return axios.get(API_URL+"/gym?personalTrainerId="+ptId, { headers: authHeader() });
   };
+  createCustomerContract(customerId, personalTrainerId,) {
+    return axios.post(API_URL+"/customer", { customerId, personalTrainerId}, { headers: authHeader() })
+    .then((response) => {
+      return response;
+    });
+  };
 }
 
 export default new PersonalService();
