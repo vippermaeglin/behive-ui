@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import GymService from "../../services/gym.service";
+import AuthService from "../../services/auth.service";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faTwitter, faWeebly } from '@fortawesome/free-brands-svg-icons'
@@ -348,12 +349,14 @@ export default class AdminGym extends Component {
                     </Collapsible>
                   </div>
                   <br/>
-                  <Link
-                    to={"/gym/" + currentGym.id}
-                    className="button button-primary button-wide-mobile"
-                  >
-                    Editar
-                  </Link>
+                  {(AuthService.getCurrentRole() === 'SYS_ADMIN' || AuthService.getCurrentRole() === 'B_ADMIN') && (
+                    <Link
+                      to={"/gym/" + currentGym.id}
+                      className="button button-primary button-wide-mobile"
+                    >
+                      Editar
+                    </Link>
+                  )}
                 </div>
               ) : (
                 <div>
@@ -365,7 +368,7 @@ export default class AdminGym extends Component {
           </div>
           <div className="form-group">
             {currentGym ? (
-              <BehiveCalendar currentEntity={this.state.currentGym} role={"GYM"} editable={false}/>
+              <BehiveCalendar currentEntity={this.state.currentGym} role={"GYM"} editable={AuthService.getCurrentRole()==="SYS_ADMIN"||AuthService.getCurrentRole()==="B_ADMIN"}/>
             ) : ("")}
           </div>
         </div>

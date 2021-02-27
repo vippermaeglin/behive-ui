@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import SectionHeader from '../landing/sections/partials/SectionHeader';
 import BehiveCalendar from "../calendar/behive-calendar.component";
 import PersonalService from "../../services/personal.service";
+import AuthService from "../../services/auth.service";
 import { Link } from "react-router-dom";
 import Image from '../landing/elements/Image';
 import classNames from 'classnames';
+import authService from "../../services/auth.service";
  
 export default class BoardGym extends Component {
 
@@ -37,6 +39,7 @@ export default class BoardGym extends Component {
       response => {
         console.log("retrievePersonalTrainer");
         if(response.data.length>0) {
+          AuthService.setProfile(response.data[0]);
           this.setState({
             personalTrainer: response.data[0]
           });
@@ -93,7 +96,7 @@ export default class BoardGym extends Component {
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/personal/new">
+                      <Link to= "/admin-gym">
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 01"
@@ -119,7 +122,7 @@ export default class BoardGym extends Component {
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/customer/new">
+                      <Link to= {"/personal/"+(this.state.personalTrainer!==null?this.state.personalTrainer.id:"")}>
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 02"
@@ -130,7 +133,7 @@ export default class BoardGym extends Component {
                   </div>
                   <div className="features-tiles-item-content">
                     <h4 className="mt-0 mb-8">
-                      Editar Personal Trainer
+                      Editar Perfil
                       </h4>
                       <div style={{ display: 'none'}}>
                     <p className="m-0 text-sm">

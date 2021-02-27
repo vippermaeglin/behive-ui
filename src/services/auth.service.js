@@ -53,6 +53,14 @@ class AuthService {
     return role;
   }
 
+  setProfile = (profile) => {
+    localStorage.setItem("profile", JSON.stringify(profile));
+  }
+
+  getProfile = () => {
+    return JSON.parse(localStorage.getItem("profile"));
+  }
+
 }
 
 export default new AuthService();

@@ -67,7 +67,8 @@ export default class InvitePersonal extends Component {
 
   handleSubmit (e) {
     e.preventDefault();    
-    window.location.href = "/dashboard";
+    this.props.history.push("/dashboard");
+    window.location.reload();
   };
 
   render() {

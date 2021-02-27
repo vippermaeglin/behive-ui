@@ -238,126 +238,132 @@ export default class AdminPersonal extends Component {
                       {" R$"+currentPersonal.price+" ("+currentPersonal.lowPricePct+"-"+currentPersonal.highPricePct+"%)"}
                     </label>
                   </div>
-                  <div>
-                    <label>
-                      <strong>Atendimento:</strong>
-                    </label>  
-                    <table>
-                      <tr>
-                        <th>DIA</th>
-                        <th>INÍCIO</th>
-                        <th>FIM</th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentPersonal.workHours.monday.day}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.monday.open}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.monday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentPersonal.workHours.tuesday.day}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.tuesday.open}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.tuesday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentPersonal.workHours.wednesday.day}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.wednesday.open}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.wednesday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentPersonal.workHours.thursday.day}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.thursday.open}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.thursday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentPersonal.workHours.friday.day}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.friday.open}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.friday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentPersonal.workHours.saturday.day}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.saturday.open}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.saturday.close}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          {currentPersonal.workHours.sunday.day}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.sunday.open}
-                        </th>
-                        <th>
-                          {currentPersonal.workHours.sunday.close}
-                        </th>
-                      </tr>
-                    </table>
-                  </div>
-                  <div className="form-group-horizontal">
-                    <label>
-                      <strong>Endereço:</strong>
-                    </label>
-                    <label>
-                      {" "+currentPersonal.address.street+", "+currentPersonal.address.number+" - "+currentPersonal.address.neighborhood+", "+currentPersonal.address.city+" - "+currentPersonal.address.state+", CEP "+currentPersonal.address.zipCode}
-                    </label>
-                  </div>
-                  <div>
-                    <label>
-                      <strong>Mídias Sociais:</strong>
-                    </label>
-                    <ul className="list-group">
-                      <li>
-                        <FontAwesomeIcon icon={faInstagram} />
-                        <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Instagram</a>
-                      </li>
-                      <li>
-                        <FontAwesomeIcon icon={faFacebook} />
-                        <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Faceboook</a>
-                      </li>
-                      <li>
-                        <FontAwesomeIcon icon={faTwitter} />
-                        <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Twitter</a>
-                      </li>
-                      <li>
-                        <FontAwesomeIcon icon={faWeebly} />
-                        <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Website</a>
-                      </li>
-                    </ul>
-                  </div>
+                  {currentPersonal.workHours && (
+                    <div>
+                      <label>
+                        <strong>Atendimento:</strong>
+                      </label>  
+                      <table>
+                        <tr>
+                          <th>DIA</th>
+                          <th>INÍCIO</th>
+                          <th>FIM</th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours.monday.day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.monday.open}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.monday.close}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours.tuesday.day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.tuesday.open}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.tuesday.close}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours.wednesday.day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.wednesday.open}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.wednesday.close}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours.thursday.day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.thursday.open}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.thursday.close}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours.friday.day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.friday.open}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.friday.close}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours.saturday.day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.saturday.open}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.saturday.close}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours.sunday.day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.sunday.open}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours.sunday.close}
+                          </th>
+                        </tr>
+                      </table>
+                    </div>
+                  )}
+                  {currentPersonal.address && (
+                    <div className="form-group-horizontal">
+                      <label>
+                        <strong>Endereço:</strong>
+                      </label>
+                      <label>
+                        {" "+currentPersonal.address.street+", "+currentPersonal.address.number+" - "+currentPersonal.address.neighborhood+", "+currentPersonal.address.city+" - "+currentPersonal.address.state+", CEP "+currentPersonal.address.zipCode}
+                      </label>
+                    </div>
+                  )}
+                  {currentPersonal.socialMedia && (
+                    <div>
+                      <label>
+                        <strong>Mídias Sociais:</strong>
+                      </label>
+                      <ul className="list-group">
+                        <li>
+                          <FontAwesomeIcon icon={faInstagram} />
+                          <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Instagram</a>
+                        </li>
+                        <li>
+                          <FontAwesomeIcon icon={faFacebook} />
+                          <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Faceboook</a>
+                        </li>
+                        <li>
+                          <FontAwesomeIcon icon={faTwitter} />
+                          <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Twitter</a>
+                        </li>
+                        <li>
+                          <FontAwesomeIcon icon={faWeebly} />
+                          <a href={currentPersonal.socialMedia.instagram} class="fa fa-facebook">{" "}Website</a>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                   <div className="form-group-horizontal">
                     <label>
                       <strong>Certificates:</strong>

@@ -17,6 +17,7 @@ import {crefMask} from "../auth/CrefMask"
 import {zipMask} from "../auth/ZipMask"
 import { cnpj } from 'cpf-cnpj-validator'; 
 import { consultarCep } from 'correios-brasil'; 
+import { Button } from "reactstrap";
 
 const required = (value) => {
   if (!value) {
@@ -29,6 +30,7 @@ const required = (value) => {
 };
 
 const vcnpj = (value) => {
+  if(value === null || value === "") return;
   value = cnpjMask(value)
   if (!cnpj.isValid(value)) {
     return (
@@ -51,6 +53,7 @@ const vphone = (value) => {
 };
 
 const vzipcode = (value) => {
+  if(value === null || value === "") return;
   value = zipMask(value)
   if (value.length !== 9) {
     return (
@@ -62,6 +65,7 @@ const vzipcode = (value) => {
 };
 
 const vhighprice = (value) => {
+  if(value === null || value === "") return;
   if (value < 100) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -72,6 +76,7 @@ const vhighprice = (value) => {
 };
 
 const vlowprice = (value) => {
+  if(value === null || value === "") return;
   if (value > 100) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -82,6 +87,7 @@ const vlowprice = (value) => {
 };
 
 const vlogo = (value) => {
+  if(value === null || value === "") return;
   const fileType = value.split('.').pop();
   if (fileType !== "jpg" && fileType !== "jpeg" && fileType !== "png" && fileType !== "gif") {
     return (
@@ -665,7 +671,8 @@ export default class CreateGym extends Component {
           this.setState({
             loading: false
           });
-          window.location.href = "/admin-personal";
+          this.props.history.push("/dashboard");
+          window.location.reload();
         },
         (error) => {
           const resMessage =
@@ -711,7 +718,7 @@ export default class CreateGym extends Component {
                     name="logo"
                     value={logo}
                     onChange={this.onChangeLogo}
-                    validations={[required, vlogo]}
+                    validations={[vlogo]}
                   />  
                 </div>  
                 <br/>                
@@ -770,7 +777,7 @@ export default class CreateGym extends Component {
                     name="cnpj"
                     value={cnpj}
                     onChange={this.onChangeCnpj}
-                    validations={[required, vcnpj]}
+                    validations={[vcnpj]}
                     maxLength="18"
                   />            
                 </div>
@@ -794,7 +801,6 @@ export default class CreateGym extends Component {
                     name="companyName"
                     value={companyName}
                     onChange={this.onChangeCompanyName}
-                    validations={[required]}
                     maxLength="255"
                   />            
                 </div>
@@ -817,9 +823,9 @@ export default class CreateGym extends Component {
                     type="text"
                     className="form-control"
                     name="zipCode"
-                    value={address.zipCode}
+                    value={address?.zipCode}
                     onChange={this.onChangeZipCode}
-                    validations={[required, vzipcode]}
+                    validations={[vzipcode]}
                     maxLength="9"
                   />        
                 </div>
@@ -829,8 +835,7 @@ export default class CreateGym extends Component {
                     type="text"
                     className="form-control"
                     name="street"
-                    value={address.street}
-                    validations={[required]}
+                    value={address?.street}
                     maxLength="255"
                     disabled
                   />        
@@ -842,9 +847,8 @@ export default class CreateGym extends Component {
                     type="text"
                     className="form-control"
                     name="number"
-                    value={address.number}
+                    value={address?.number}
                     onChange={this.onChangeNumber}
-                    validations={[required]}
                     maxLength="255"
                   />            
                 </div>
@@ -854,8 +858,7 @@ export default class CreateGym extends Component {
                     type="text"
                     className="form-control"
                     name="neighborhood"
-                    value={address.neighborhood}
-                    validations={[required]}
+                    value={address?.neighborhood}
                     maxLength="255"
                     disabled
                   />        
@@ -866,8 +869,7 @@ export default class CreateGym extends Component {
                     type="text"
                     className="form-control"
                     name="city"
-                    value={address.city}
-                    validations={[required]}
+                    value={address?.city}
                     maxLength="255"
                     disabled
                   />        
@@ -878,8 +880,7 @@ export default class CreateGym extends Component {
                     type="text"
                     className="form-control"
                     name="state"
-                    value={address.state}
-                    validations={[required]}
+                    value={address?.state}
                     maxLength="255"
                     disabled
                   />        
@@ -909,7 +910,7 @@ export default class CreateGym extends Component {
                         name="lowPricePct"
                         value={lowPricePct}
                         onChange={this.onChangeLowPricePct}
-                        validations={[required, vlowprice]}
+                        validations={[vlowprice]}
                         placeHolder="Sugestão de mercado: 80%"                  
                       />            
                     </div>
@@ -922,7 +923,7 @@ export default class CreateGym extends Component {
                         name="highPricePct"
                         value={highPricePct}
                         onChange={this.onChangeHighPricePct}
-                        validations={[required, vhighprice]}
+                        validations={[vhighprice]}
                         placeHolder="Sugestão de mercado: 120%"                  
                       />            
                     </div>
@@ -940,16 +941,15 @@ export default class CreateGym extends Component {
                           </tr>
                           <tr>
                             <th>     
-                              {workHours.monday.day}
+                              {workHours?.monday.day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="mondayOpen"
-                                value={workHours.monday.open}
+                                value={workHours?.monday.open}
                                 onChange={this.onChangeMondayOpen}
-                                validations={[required]}        
                               />            
                             </th>
                             <th>
@@ -957,24 +957,22 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="mondayClose"
-                                value={workHours.monday.close}
+                                value={workHours?.monday.close}
                                 onChange={this.onChangeMondayClose}
-                                validations={[required]}        
                               />     
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {workHours.tuesday.day}
+                              {workHours?.tuesday.day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="tuesdayOpen"
-                                value={workHours.tuesday.open}
+                                value={workHours?.tuesday.open}
                                 onChange={this.onChangeTuesdayOpen}
-                                validations={[required]}        
                               />            
                             </th>
                             <th>
@@ -982,24 +980,22 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="tuesdayClose"
-                                value={workHours.tuesday.close}
+                                value={workHours?.tuesday.close}
                                 onChange={this.onChangeTuesdayClose}
-                                validations={[required]}        
                               />     
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {workHours.wednesday.day}
+                              {workHours?.wednesday.day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="wednesdayOpen"
-                                value={workHours.wednesday.open}
+                                value={workHours?.wednesday.open}
                                 onChange={this.onChangeWednesdayOpen}
-                                validations={[required]}        
                               />            
                             </th>
                             <th>
@@ -1007,24 +1003,22 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="wednesdayClose"
-                                value={workHours.wednesday.close}
+                                value={workHours?.wednesday.close}
                                 onChange={this.onChangeWednesdayClose}
-                                validations={[required]}        
                               />     
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {workHours.thursday.day}
+                              {workHours?.thursday.day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="thursdayOpen"
-                                value={workHours.thursday.open}
+                                value={workHours?.thursday.open}
                                 onChange={this.onChangeThursdayOpen}
-                                validations={[required]}        
                               />            
                             </th>
                             <th>
@@ -1032,24 +1026,22 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="thursdayClose"
-                                value={workHours.thursday.close}
+                                value={workHours?.thursday.close}
                                 onChange={this.onChangeThursdayClose}
-                                validations={[required]}        
                               />     
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {workHours.friday.day}
+                              {workHours?.friday.day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="fridayOpen"
-                                value={workHours.friday.open}
+                                value={workHours?.friday.open}
                                 onChange={this.onChangeFridayOpen}
-                                validations={[required]}        
                               />            
                             </th>
                             <th>
@@ -1057,24 +1049,22 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="fridayClose"
-                                value={workHours.friday.close}
+                                value={workHours?.friday.close}
                                 onChange={this.onChangefridayClose}
-                                validations={[required]}        
                               />     
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {workHours.saturday.day}
+                              {workHours?.saturday.day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="saturdayOpen"
-                                value={workHours.saturday.open}
+                                value={workHours?.saturday.open}
                                 onChange={this.onChangeSaturdayOpen}
-                                validations={[required]}        
                               />            
                             </th>
                             <th>
@@ -1082,24 +1072,22 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="saturdayClose"
-                                value={workHours.saturday.close}
+                                value={workHours?.saturday.close}
                                 onChange={this.onChangeSaturdayClose}
-                                validations={[required]}        
                               />     
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {workHours.sunday.day}
+                              {workHours?.sunday.day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="sundayOpen"
-                                value={workHours.sunday.open}
+                                value={workHours?.sunday.open}
                                 onChange={this.onChangeSundayOpen}
-                                validations={[required]}        
                               />            
                             </th>
                             <th>
@@ -1107,9 +1095,8 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="sundayClose"
-                                value={workHours.sunday.close}
+                                value={workHours?.sunday.close}
                                 onChange={this.onChangeSundayClose}
-                                validations={[required]}        
                               />     
                             </th>
                           </tr>
@@ -1132,9 +1119,8 @@ export default class CreateGym extends Component {
                               type="text"
                               className="form-control"
                               name="facebook"
-                              value={socialMedia.facebook}
+                              value={socialMedia?.facebook}
                               onChange={this.onChangeFacebook}
-                              validations={[required]}        
                             />            
                           </th>
                         </tr>
@@ -1148,9 +1134,8 @@ export default class CreateGym extends Component {
                               type="text"
                               className="form-control"
                               name="instagram"
-                              value={socialMedia.instagram}
+                              value={socialMedia?.instagram}
                               onChange={this.onChangeInstagram}
-                              validations={[required]}        
                             />            
                           </th>
                         </tr>
@@ -1164,9 +1149,8 @@ export default class CreateGym extends Component {
                               type="text"
                               className="form-control"
                               name="twitter"
-                              value={socialMedia.twitter}
+                              value={socialMedia?.twitter}
                               onChange={this.onChangeTwitter}
-                              validations={[required]}        
                             />            
                           </th>
                         </tr>
@@ -1180,9 +1164,8 @@ export default class CreateGym extends Component {
                               type="text"
                               className="form-control"
                               name="linkedin"
-                              value={socialMedia.linkedin}
+                              value={socialMedia?.linkedin}
                               onChange={this.onChangeLinkedin}
-                              validations={[required]}        
                             />            
                           </th>
                         </tr>
@@ -1196,9 +1179,8 @@ export default class CreateGym extends Component {
                               type="text"
                               className="form-control"
                               name="website"
-                              value={socialMedia.website}
+                              value={socialMedia?.website}
                               onChange={this.onChangeWebsite}
-                              validations={[required]}        
                             />            
                           </th>
                         </tr>
@@ -1212,8 +1194,12 @@ export default class CreateGym extends Component {
                     {loading && (
                       <span className="spinner-border spinner-border-sm"></span>
                     )}
-                    <span>Cadastrar</span>
+                    <span>Salvar</span>
                   </button>
+                  <br/>
+                  <Button color="danger" onClick={() => window.location.href = "/dashboard"}>
+                    Cancelar
+                  </Button>
                 </div>
 
                 {message && (

@@ -6,6 +6,7 @@ import GymService from "../../services/gym.service";
 import PersonalService from "../../services/personal.service";
 import CustomerService from "../../services/customer.service";
 import CalendarService from "../../services/calendar.service";
+import AuthService from "../../services/auth.service";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -18,6 +19,7 @@ import Select from "react-validation/build/select";
 import Form from "react-validation/build/form";
 import Collapsible from 'react-collapsible';
 import CheckButton from "react-validation/build/button";
+import authService from "../../services/auth.service";
 
 let eventGuid = 0
 
@@ -177,6 +179,7 @@ export default class BehiveCalendar extends Component {
     this.retrievePersonalTrainersByCustomer = this.retrievePersonalTrainersByCustomer.bind(this);
     this.retrieveCustomers = this.retrieveCustomers.bind(this);
     this.retrieveGyms = this.retrieveGyms.bind(this);
+    this.renderEventContent = this.renderEventContent.bind(this);
 
     this.form = createRef();
     this.fullCalendar = createRef();
@@ -719,7 +722,7 @@ export default class BehiveCalendar extends Component {
               firstHour={new Date().getUTCHours()}
               initialEvents={this.INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
               events={this.eventsFeed}
-              eventContent={renderEventContent} // custom render function
+              eventContent={this.renderEventContent} // custom render function
               eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
               select={this.handleDateSelect}
               eventClick={this.handleEventClick}
@@ -799,7 +802,7 @@ export default class BehiveCalendar extends Component {
                               className="form-control"
                               name="eventHour"
                               value={this.state.eventHour}
-                              disabled={this.state.isCreate && !this.props.editable}
+                              disabled={this.state.isCreate || !this.props.editable}
                               onChange={this.onChangeEventHour}
                               validations={[required, vEventHour]} 
                             />         
@@ -1048,12 +1051,15 @@ export default class BehiveCalendar extends Component {
     return duration.asHours() <= 1;
   }
 
-}
-
-function renderEventContent(eventInfo) {
-  return (
-    <>
-      <i>{eventInfo.event.title}</i>
-    </>
-  )
+  renderEventContent(eventInfo) {
+    console.log("renderEventContent(eventInfo)")
+    console.log(eventInfo.event.extendedProps.ptSlot)
+    console.log(this.props.currentEntity.id)
+    return (
+      <>
+        {AuthService.getCurrentRole()==="PERSONAL" && AuthService.getProfile().id !== eventInfo.event.extendedProps.ptSlot.parentId ?
+        (<i>RESERVADO </i>) : (<i>{eventInfo.event.title}</i>)}
+      </>
+    )
+  }
 }

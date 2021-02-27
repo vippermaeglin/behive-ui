@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SectionHeader from '../landing/sections/partials/SectionHeader';
 import BehiveCalendar from "../calendar/behive-calendar.component";
 import GymService from "../../services/gym.service";
+import AuthService from "../../services/auth.service";
 import { Link } from "react-router-dom";
 import Image from '../landing/elements/Image';
 import classNames from 'classnames';
@@ -37,6 +38,7 @@ export default class BoardGym extends Component {
       response => {
         console.log("retrieveGym");
         if(response.data.length>0) {
+          AuthService.setProfile(response.data[0]);
           this.setState({
             gym: response.data[0]
           });

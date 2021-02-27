@@ -609,7 +609,8 @@ export default class CreateGym extends Component {
           this.setState({
             loading: false
           });
-          window.location.href = "/admin-gym";
+          this.props.history.push("/");
+          window.location.reload();
         },
         (error) => {
           const resMessage =
