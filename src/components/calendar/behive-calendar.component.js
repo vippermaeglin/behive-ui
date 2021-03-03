@@ -19,7 +19,6 @@ import Select from "react-validation/build/select";
 import Form from "react-validation/build/form";
 import Collapsible from 'react-collapsible';
 import CheckButton from "react-validation/build/button";
-import authService from "../../services/auth.service";
 
 let eventGuid = 0
 
@@ -65,7 +64,7 @@ export const CUSTOMERS = [
 ] */
 
 //TODO NOW: apply from entity work hours
-export const workHours = [ // specify an array instead
+/* export const workHours = [ // specify an array instead
   {
     daysOfWeek: [ 1, 2, 3, 4, 5 ], // Monday to Friday
     startTime: '06:00',
@@ -76,10 +75,11 @@ export const workHours = [ // specify an array instead
     startTime: '09:00',
     endTime: '18:00'
   }
-]  
+]   
+
 export function createEventId() {
   return String(eventGuid++)
-}
+} */
 
 const required = (value) => {
   if (!value) {
@@ -172,6 +172,7 @@ export default class BehiveCalendar extends Component {
     this.onChangeRepeatEvents = this.onChangeRepeatEvents.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.getGymAddress = this.getGymAddress.bind(this);
+    this.handleFormEvent = this.handleFormEvent.bind(this);
     this.saveEvent = this.saveEvent.bind(this);
     this.getNextDate = this.getNextDate.bind(this);
     this.eventsFeed = this.eventsFeed.bind(this);
@@ -336,8 +337,10 @@ export default class BehiveCalendar extends Component {
   }
 
   onChangeGym(e) {
+    console.log("onChangeGym c");
     const index = e.target.value;
     const c = this.state.gyms[index];
+    console.log(c);
     this.setState({
       gymIndex: index,
       currentGym: c
@@ -347,6 +350,8 @@ export default class BehiveCalendar extends Component {
   onChangePT(e) {
     const index = e.target.value;
     const trainer = this.state.personalTrainers[index];
+    if(trainer === undefined)
+      return;
     this.setState({
       ptIndex: index,
       currentPT: trainer,
@@ -448,94 +453,97 @@ export default class BehiveCalendar extends Component {
     }
   }
 
-  saveEvent (e) {
-    //TODO NOW: raising error to update!
+  handleFormEvent(e) {
     e.preventDefault();
-    console.log("addEvent");
+    this.form.current.validateAll();
+    if (this.checkBtn.current.context._errors.length === 0) {
+        let eventDate = this.state.isCreate? this.state.start : this.state.currentEvent.start;
+        let title = this.state.currentPT.brandName.split(" ")[0] + " - " + this.state.currentCustomer.user.userName.split(" ")[0];
+        //Gym slots are optional
+        let gymSlot = this.state.currentGym ? {
+          startSlot: eventDate,
+          endSlot: Moment(eventDate).add(1, "h"),
+          parentId: this.state.currentGym.id,
+          price: this.state.currentGym.price
+        } : null;
+        let ptSlot = {
+          startSlot: eventDate,
+          endSlot: Moment(eventDate).add(1, "h"),
+          parentId: this.state.currentPT.id,
+          price: this.state.price
+        };
+        let customerId = this.state.currentCustomer.id
+      this.saveEvent(eventDate, gymSlot, ptSlot, customerId, title);
+      this.toggle();
+    } else {
+      this.setState({
+        loading: false
+      });
+    }
+  }
+
+  saveEvent (eventDate, gymSlot, ptSlot, customerId, title) {
+    
+    console.log("saveEvent");
     
     this.setState({
       message: "",
       loading: true
     });
 
-    this.form.current.validateAll();
+    let calendarApi = this.state.view.calendar;
 
-    if (this.checkBtn.current.context._errors.length === 0) {
-      let calendarApi = this.state.selectInfo.view.calendar;
+    let repeatCount = this.state.repeatEvents;
 
-      let title = this.state.currentPT.brandName.split(" ")[0] + " - " + this.state.currentCustomer.user.userName.split(" ")[0];
+    if(!this.state.isCreate) {
+      repeatCount = 1;
+      console.log(this.state);
+    }
 
-      let repeatCount = this.state.repeatEvents;
+    console.log("eventDate:"+eventDate);
+    console.log("repeat:"+repeatCount);
 
-      if(!this.state.isCreate) {
-        repeatCount = 1;
-        console.log(this.state);
+    for(let i = 0; i < repeatCount; i++) {
+      let event = {
+        id: this.state.isCreate? null:this.state.currentEvent.id,
+        customerId: customerId,
+        durationEditable: false,
+        gymSlot: gymSlot,
+        ptSlot: ptSlot,
+        location: this.state.location,
+        title: title,
+        start: eventDate,
+        end: Moment(eventDate).add(1, "h")
       }
-
-      let eventDate = this.state.isCreate? this.state.selectInfo.start : this.state.currentEvent.start;
-      console.log("eventDate:"+eventDate);
-      console.log("repeat:"+repeatCount);
-
-      for(let i = 0; i < repeatCount; i++) {
-        let event = {
-          id: this.state.isCreate? null:this.state.currentEvent.id,
-          customerId: this.state.currentCustomer.id,
-          durationEditable: false,
-          //Gym slots are optional
-          gymSlot: this.state.currentGym ? {
-            startSlot: eventDate,
-            endSlot: Moment(eventDate).add(1, "h"),
-            parentId: this.state.currentGym.id,
-            price: this.state.currentGym.price
-          } : null,
-          location: this.state.location,
-          ptSlot: {
-            startSlot: eventDate,
-            endSlot: Moment(eventDate).add(1, "h"),
-            parentId: this.state.currentPT.id,
-            price: this.state.price
-          },
-          title: title,
-          start: eventDate,
-          end: Moment(eventDate).add(1, "h")
-        }
-        CalendarService.saveEvent(event).then(
-          // eslint-disable-next-line no-loop-func
-          response => {        
-            if(!this.state.isCreate) {
-              this.state.currentEvent.remove();
-            }
-            console.log("Old event:");
-            console.log(event);
-            console.log("New event:");
-            console.log(response.data.object);
-            event = response.data.object;
-            event.start  = eventDate;
-            event.end = Moment(eventDate).add(1, "h");
-            calendarApi.addEvent(event);
-            eventDate = this.getNextDate(eventDate);
+      CalendarService.saveEvent(event).then(
+        // eslint-disable-next-line no-loop-func
+        response => {        
+          if(!this.state.isCreate) {
+            this.state.currentEvent.remove();
           }
-        )
-        .catch(e => {
-          console.log(e);
-          alert("Ops! Houve um erro ao tentar salvar a aula, tente novamente.");
-        });
-
-      }
-
-      calendarApi.unselect() // clear date selection
-
-      this.setState({
-        loading: false
+          console.log("Old event:");
+          console.log(event);
+          console.log("New event:");
+          console.log(response.data.object);
+          event = response.data.object;
+          event.start  = eventDate;
+          event.end = Moment(eventDate).add(1, "h");
+          calendarApi.addEvent(event);
+          eventDate = this.getNextDate(eventDate);
+        }
+      )
+      .catch(e => {
+        console.log(e);
+        alert("Ops! Houve um erro ao tentar salvar a aula, tente novamente.");
       });
 
-      this.toggle();
-
-    } else {
-      this.setState({
-        loading: false
-    });
     }
+
+    calendarApi.unselect() // clear date selection
+
+    this.setState({
+      loading: false
+    });
   };
 
   getNextDate(eventDate) {
@@ -591,7 +599,8 @@ export default class BehiveCalendar extends Component {
           ({
              id: result.gym.id,
              brandName: result.gym.brandName,
-             price: result.gym.price
+             price: result.gym.price,
+             address: result.gym.address
           })
         );
         this.setState({
@@ -712,9 +721,9 @@ export default class BehiveCalendar extends Component {
               nowIndicator={true}
               allDaySlot={false}
               displayEventTime={false}
-              selectConstraint={workHours}
-              eventConstraint={workHours}
-              businessHours={workHours}
+              selectConstraint={this.props.currentEntity.workHours}
+              eventConstraint={this.props.currentEntity.workHours}
+              businessHours={this.props.currentEntity.workHours}
               slotDuration={"01:00:00"}
               selectAllow={this.selectFixedAllow}
               eventResizableFromStart={"false"}
@@ -749,7 +758,7 @@ export default class BehiveCalendar extends Component {
                   </ModalHeader>
                   <ModalBody>
                       <div>
-                        <Form onSubmit={this.saveEvent} ref={this.form}>
+                        <Form onSubmit={this.handleFormEvent} ref={this.form}>
                           <div className="form-group">
                             <label className="dark-label" htmlFor="gym">Academia</label>
                             <Select name='gym'
@@ -759,7 +768,7 @@ export default class BehiveCalendar extends Component {
                               validations={[required, vGym]}
                               disabled={!this.props.editable}
                             >
-                              <option value={-1} disabled>Selecione</option>
+                              <option value="">Selecione...</option>
                               {this.state.gyms.map((gym, index) => (
                                 <option value={index}>{gym.brandName+" (Aluguel R$"+gym.price+")"}</option>
                               ))}
@@ -774,7 +783,7 @@ export default class BehiveCalendar extends Component {
                               validations={[required, vPT]}
                               disabled={!this.props.editable}
                             >
-                              <option value={-1} disabled>Selecione</option>
+                              <option value="">Selecione...</option>
                               {this.state.personalTrainers.map((pt, index) => (
                                 <option value={index}>{pt.brandName}</option>
                               ))}
@@ -789,7 +798,7 @@ export default class BehiveCalendar extends Component {
                               validations={[required, vCustomer]}
                               disabled={!this.props.editable}
                             >
-                              <option value={-1} disabled>Selecione</option>
+                              <option value="">Selecione...</option>
                               {this.state.customers.map((customer, index) => (
                                 <option value={index}>{customer.user.userName+" ("+customer.user.cpf+")"}</option>
                               ))}
@@ -971,11 +980,14 @@ export default class BehiveCalendar extends Component {
   }
 
   handleDateSelect = (selectInfo) => {
+    console.log("handleDateSelect selectInfo");
+    console.log(selectInfo);
     let day = selectInfo.start.getDay()
     console.log(day)
     this.setState({ isCreate: true, 
-                    selectInfo: selectInfo,
-                    eventHour: selectInfo.start.getUTCHours(), 
+                    view: selectInfo.view,
+                    start: selectInfo.start, 
+                    eventHour: selectInfo.start.getUTCHours(),
                     repeatEvents: 1,
                     repeatSun: day === 0? true : false,
                     repeatMon: day === 1? true : false,
@@ -1025,6 +1037,8 @@ export default class BehiveCalendar extends Component {
     }
     this.setState({ "currentEvent": clickInfo.event,
                     "isCreate": false,
+                    "view": clickInfo.view,
+                    "start": clickInfo.event.start, 
                     "eventHour": clickInfo.event.start.getUTCHours(),
                     "price": clickInfo.event.extendedProps.ptSlot.price,
                     "location": clickInfo.event.extendedProps.location});
@@ -1033,11 +1047,42 @@ export default class BehiveCalendar extends Component {
 
 
   handleEventChange = (eventArgs) => {
-    //TODO NOW: send it to backend, call saveEvent()
-    console.log("handleEventChange");
+    console.log("handleEventChange eventArgs");
     console.log(eventArgs);
-    console.log("extendedProps");
-    console.log(eventArgs.extendedProps);
+    let day = eventArgs.event.start.getDay()
+    this.setState({
+      isCreate: false, 
+      start: eventArgs.event.start,
+      view: eventArgs.event._context.viewApi,
+      eventHour: eventArgs.event.start.getUTCHours(), 
+      currentEvent: eventArgs.event,
+      repeatEvents: 1,
+      repeatSun: day === 0? true : false,
+      repeatMon: day === 1? true : false,
+      repeatTue: day === 2? true : false,
+      repeatWed: day === 3? true : false,
+      repeatThu: day === 4? true : false,
+      repeatFri: day === 5? true : false,
+      repeatSat: day === 6? true : false, 
+      price: eventArgs.event.extendedProps.ptSlot.price
+    });
+    let eventDate = eventArgs.event.start;
+    let title = eventArgs.event.title;
+    //Gym slots are optional
+    let gymSlot = eventArgs.event.extendedProps.gymSlot ? {
+      startSlot: eventDate,
+      endSlot: Moment(eventDate).add(1, "h"),
+      parentId: eventArgs.event.extendedProps.gymSlot.parentId,
+      price: eventArgs.event.extendedProps.gymSlot.price
+    } : null;
+    let ptSlot = {
+      startSlot: eventDate,
+      endSlot: Moment(eventDate).add(1, "h"),
+      parentId: eventArgs.event.extendedProps.ptSlot.parentId,
+      price: eventArgs.event.extendedProps.ptSlot.price
+    };
+    let customerId = eventArgs.event.customerId
+    this.saveEvent(eventDate, gymSlot, ptSlot, customerId, title);
   }
 
   handleEvents = (events) => {
@@ -1057,8 +1102,8 @@ export default class BehiveCalendar extends Component {
     console.log(this.props.currentEntity.id)
     return (
       <>
-        {AuthService.getCurrentRole()==="PERSONAL" && AuthService.getProfile().id !== eventInfo.event.extendedProps.ptSlot.parentId ?
-        (<i>RESERVADO </i>) : (<i>{eventInfo.event.title}</i>)}
+        {AuthService.getCurrentRole()==="PERSONAL" && AuthService.getProfile().id !== eventInfo.event.extendedProps.ptSlot?.parentId ?
+        (<i>PRIVADO</i>) : (<i>{eventInfo.event.title}</i>)}
       </>
     )
   }

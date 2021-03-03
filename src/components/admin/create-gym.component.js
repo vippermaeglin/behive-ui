@@ -137,7 +137,7 @@ export default class CreateGym extends Component {
       users: [],
       loading: false,
       message: null,
-      userIndex: null,
+      userIndex: "",
       user: null,
       cnpj: null,
       companyName: null,
@@ -147,43 +147,64 @@ export default class CreateGym extends Component {
       price: 6,
       highPricePct: 120,
       lowPricePct: 80,
-      workHours: {
-        monday: {
-          day: "Segunda",
-          open: "06:00",
-          close: "22:00"
-        },
-        tuesday: {
-          day: "Terça",
-          open: "06:00",
-          close: "22:00"
-        },
-        wednesday: {
-          day: "Quarta",
-          open: "06:00",
-          close: "22:00"
-        },
-        thursday: {
-          day: "Quinta",
-          open: "06:00",
-          close: "22:00"
-        },
-        friday: {
-          day: "Sexta",
-          open: "06:00",
-          close: "22:00"
-        },
-        saturday: {
-          day: "Sábado",
-          open: "06:00",
-          close: "22:00"
-        },
-        sunday: {
+      workHours: [
+        {
+          daysOfWeek: [
+            0
+          ],
           day: "Domingo",
-          open: "06:00",
-          close: "22:00"
+          startTime: "06:00",
+          endTime: "22:00"
+        },
+        {
+          daysOfWeek: [
+            1
+          ],
+          day: "Segunda",
+          startTime: "06:00",
+          endTime: "22:00"
+        },
+        {
+          daysOfWeek: [
+            2
+          ],
+          day: "Terça",
+          startTime: "06:00",
+          endTime: "22:00"
+        },
+        {
+          daysOfWeek: [
+            3
+          ],
+          day: "Quarta",
+          startTime: "06:00",
+          endTime: "22:00"
+        },
+        {
+          daysOfWeek: [
+            4
+          ],
+          day: "Quinta",
+          startTime: "06:00",
+          endTime: "22:00"
+        },
+        {
+          daysOfWeek: [
+            5
+          ],
+          day: "Sexta",
+          startTime: "06:00",
+          endTime: "22:00"
+        },
+        {
+          daysOfWeek: [
+            6
+          ],
+          day: "Sábado",
+          startTime: "06:00",
+          endTime: "22:00"
         }
-      },
+      ],
       socialMedia: {
         facebook: "https://www.facebook.com/",
         instagram: "https://www.instagram.com/",
@@ -215,6 +236,8 @@ export default class CreateGym extends Component {
   onChangeUser(e) {
     const index = e.target.value;
     const user = this.state.users[index];
+    console.log("onChangeUser");
+    console.log(user);
     this.setState({
       userIndex: index,
       user: user
@@ -293,198 +316,197 @@ export default class CreateGym extends Component {
 
   onChangeMondayOpen(e) {
     const open = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        monday: {
-          ...this.state.workHours.monday,
-          open: open  
-        }      
-      }
-    });
-    console.log("Open:"+this.state.workHours)
+    console.log("Monday open: "+open);
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,1),
+          {
+              ...workHours[1],
+              startTime: open
+          },
+          ...workHours.slice(2,7)
+      ]
+    }));
+    console.log(this.state.workHours)
   };
 
   onChangeMondayClose(e) {
     const close = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        monday: {
-          ...this.state.workHours.monday,
-          close: close  
-        }      
-      }
-    });
-    console.log("Close:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,1),
+          {
+              ...workHours[1],
+              endTime: close
+          },
+          ...workHours.slice(2,7)
+      ]
+    }));
+    console.log(this.state.workHours)
   };
 
   onChangeTuesdayOpen(e) {
     const open = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        tuesday: {
-          ...this.state.workHours.tuesday,
-          open: open  
-        }      
-      }
-    });
-    console.log("Open:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,2),
+          {
+              ...workHours[2],
+              startTime: open
+          },
+          ...workHours.slice(3,7)
+      ]
+    }));
   };
 
   onChangeTuesdayClose(e) {
     const close = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        tuesday: {
-          ...this.state.workHours.tuesday,
-          close: close  
-        }      
-      }
-    });
-    console.log("Close:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,2),
+          {
+              ...workHours[2],
+              endTime: close
+          },
+          ...workHours.slice(3,7)
+      ]
+    }));
   };
 
   onChangeWednesdayOpen(e) {
     const open = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        wednesday: {
-          ...this.state.workHours.wednesday,
-          open: open  
-        }      
-      }
-    });
-    console.log("Open:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,3),
+          {
+              ...workHours[3],
+              startTime: open
+          },
+          ...workHours.slice(4,7)
+      ]
+    }));
   };
 
   onChangeWednesdayClose(e) {
     const close = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        wednesday: {
-          ...this.state.workHours.wednesday,
-          close: close  
-        }      
-      }
-    });
-    console.log("Close:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,3),
+          {
+              ...workHours[3],
+              endTime: close
+          },
+          ...workHours.slice(4,7)
+      ]
+    }));
   };
 
   onChangeThursdayOpen(e) {
     const open = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        thursday: {
-          ...this.state.workHours.thursday,
-          open: open  
-        }      
-      }
-    });
-    console.log("Open:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,4),
+          {
+              ...workHours[4],
+              startTime: open
+          },
+          ...workHours.slice(5,7)
+      ]
+    }));
   };
 
   onChangeThursdayClose(e) {
     const close = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        thursday: {
-          ...this.state.workHours.thursday,
-          close: close  
-        }      
-      }
-    });
-    console.log("Close:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,4),
+          {
+              ...workHours[4],
+              endTime: close
+          },
+          ...workHours.slice(5,7)
+      ]
+    }));
   };
 
   onChangeFridayOpen(e) {
     const open = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        friday: {
-          ...this.state.workHours.friday,
-          open: open  
-        }      
-      }
-    });
-    console.log("Open:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,5),
+          {
+              ...workHours[5],
+              startTime: open
+          },
+          ...workHours.slice(6,7)
+      ]
+    }));
   };
 
   onChangeFridayClose(e) {
     const close = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        friday: {
-          ...this.state.workHours.friday,
-          close: close  
-        }      
-      }
-    });
-    console.log("Close:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,5),
+          {
+              ...workHours[5],
+              endTime: close
+          },
+          ...workHours.slice(6,7)
+      ]
+    }));
   };
 
   onChangeSaturdayOpen(e) {
     const open = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        saturday: {
-          ...this.state.workHours.saturday,
-          open: open  
-        }      
-      }
-    });
-    console.log("Open:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,6),
+          {
+              ...workHours[6],
+              startTime: open
+          }
+      ]
+    }));
   };
 
   onChangeSaturdayClose(e) {
     const close = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        saturday: {
-          ...this.state.workHours.saturday,
-          close: close  
-        }      
-      }
-    });
-    console.log("Close:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          ...workHours.slice(0,6),
+          {
+              ...workHours[6],
+              endTime: close
+          }
+      ]
+    }));
   };
 
   onChangeSundayOpen(e) {
     const open = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        sunday: {
-          ...this.state.workHours.sunday,
-          open: open  
-        }      
-      }
-    });
-    console.log("Open:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          {
+              ...workHours[0],
+              startTime: open
+          },
+          ...workHours.slice(1,7)
+      ]
+    }));
   };
 
   onChangeSundayClose(e) {
     const close = e.target.value;
-    this.setState({
-      workHours: {
-        ...this.state.workHours, 
-        sunday: {
-          ...this.state.workHours.sunday,
-          close: close  
-        }      
-      }
-    });
-    console.log("Close:"+this.state.workHours)
+    this.setState(({workHours}) => ({
+      workHours: [
+          {
+              ...workHours[0],
+              endTime: close
+          },
+          ...workHours.slice(1,7)
+      ]
+    }));
   };
 
   onChangeFacebook(e) {
@@ -673,10 +695,10 @@ export default class CreateGym extends Component {
                       value={userIndex}
                       onChange={this.onChangeUser}
                       validations={[required]}
-                      enabled="false"
                     >
+                      <option value="">Selecione...</option>
                       {isNew && users.map((u, index) => (
-                        <option value={index}>{u.userName+" ("+u.cpf+")"}</option>
+                        <option value={index} key={index}>{u.userName+" ("+u.cpf+")"}</option>
                       ))}
                       {!isNew && user && (
                         <option value={1}>{user.userName+" ("+user.cpf+")"}</option>
@@ -862,14 +884,14 @@ export default class CreateGym extends Component {
                           </tr>
                           <tr>
                             <th>     
-                              {workHours.monday.day}
+                              {workHours[1].day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="mondayOpen"
-                                value={workHours.monday.open}
+                                value={workHours[1].startTime}
                                 onChange={this.onChangeMondayOpen}
                                 validations={[required]}        
                               />            
@@ -879,7 +901,7 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="mondayClose"
-                                value={workHours.monday.close}
+                                value={workHours[1].endTime}
                                 onChange={this.onChangeMondayClose}
                                 validations={[required]}        
                               />     
@@ -887,14 +909,14 @@ export default class CreateGym extends Component {
                           </tr>
                           <tr>
                             <th>
-                              {workHours.tuesday.day}
+                              {workHours[2].day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="tuesdayOpen"
-                                value={workHours.tuesday.open}
+                                value={workHours[2].startTime}
                                 onChange={this.onChangeTuesdayOpen}
                                 validations={[required]}        
                               />            
@@ -904,7 +926,7 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="tuesdayClose"
-                                value={workHours.tuesday.close}
+                                value={workHours[2].endTime}
                                 onChange={this.onChangeTuesdayClose}
                                 validations={[required]}        
                               />     
@@ -912,14 +934,14 @@ export default class CreateGym extends Component {
                           </tr>
                           <tr>
                             <th>
-                              {workHours.wednesday.day}
+                              {workHours[3].day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="wednesdayOpen"
-                                value={workHours.wednesday.open}
+                                value={workHours[3].startTime}
                                 onChange={this.onChangeWednesdayOpen}
                                 validations={[required]}        
                               />            
@@ -929,7 +951,7 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="wednesdayClose"
-                                value={workHours.wednesday.close}
+                                value={workHours[3].endTime}
                                 onChange={this.onChangeWednesdayClose}
                                 validations={[required]}        
                               />     
@@ -937,14 +959,14 @@ export default class CreateGym extends Component {
                           </tr>
                           <tr>
                             <th>
-                              {workHours.thursday.day}
+                              {workHours[4].day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="thursdayOpen"
-                                value={workHours.thursday.open}
+                                value={workHours[4].startTime}
                                 onChange={this.onChangeThursdayOpen}
                                 validations={[required]}        
                               />            
@@ -954,7 +976,7 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="thursdayClose"
-                                value={workHours.thursday.close}
+                                value={workHours[4].endTime}
                                 onChange={this.onChangeThursdayClose}
                                 validations={[required]}        
                               />     
@@ -962,14 +984,14 @@ export default class CreateGym extends Component {
                           </tr>
                           <tr>
                             <th>
-                              {workHours.friday.day}
+                              {workHours[5].day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="fridayOpen"
-                                value={workHours.friday.open}
+                                value={workHours[5].startTime}
                                 onChange={this.onChangeFridayOpen}
                                 validations={[required]}        
                               />            
@@ -979,22 +1001,22 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="fridayClose"
-                                value={workHours.friday.close}
-                                onChange={this.onChangefridayClose}
+                                value={workHours[5].endTime}
+                                onChange={this.onChangeFridayClose}
                                 validations={[required]}        
                               />     
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {workHours.saturday.day}
+                              {workHours[6].day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="saturdayOpen"
-                                value={workHours.saturday.open}
+                                value={workHours[6].startTime}
                                 onChange={this.onChangeSaturdayOpen}
                                 validations={[required]}        
                               />            
@@ -1004,7 +1026,7 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="saturdayClose"
-                                value={workHours.saturday.close}
+                                value={workHours[6].endTime}
                                 onChange={this.onChangeSaturdayClose}
                                 validations={[required]}        
                               />     
@@ -1012,14 +1034,14 @@ export default class CreateGym extends Component {
                           </tr>
                           <tr>
                             <th>
-                              {workHours.sunday.day}
+                              {workHours[0].day}
                             </th>
                             <th>
                               <Input
                                 type="time"
                                 className="form-control"
                                 name="sundayOpen"
-                                value={workHours.sunday.open}
+                                value={workHours[0].startTime}
                                 onChange={this.onChangeSundayOpen}
                                 validations={[required]}        
                               />            
@@ -1029,7 +1051,7 @@ export default class CreateGym extends Component {
                                 type="time"
                                 className="form-control"
                                 name="sundayClose"
-                                value={workHours.sunday.close}
+                                value={workHours[0].endTime}
                                 onChange={this.onChangeSundayClose}
                                 validations={[required]}        
                               />     

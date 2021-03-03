@@ -91,7 +91,7 @@ export default class AdminGym extends Component {
               <h4>Academias</h4>
           <div className="list row">
             <div className="col-md-8">
-              <div className="input-group mb-3">
+              <div className="hidden" /* "input-group mb-3" */ >
                 <input
                   type="text"
                   className="form-control"
@@ -245,79 +245,79 @@ export default class AdminGym extends Component {
                           </tr>
                           <tr>
                             <th>
-                              {currentGym.workHours.monday.day}
+                              {currentGym.workHours[1].day}
                             </th>
                             <th>
-                              {currentGym.workHours.monday.open}
+                              {currentGym.workHours[1].startTime}
                             </th>
                             <th>
-                              {currentGym.workHours.monday.close}
-                            </th>
-                          </tr>
-                          <tr>
-                            <th>
-                              {currentGym.workHours.tuesday.day}
-                            </th>
-                            <th>
-                              {currentGym.workHours.tuesday.open}
-                            </th>
-                            <th>
-                              {currentGym.workHours.tuesday.close}
+                              {currentGym.workHours[1].endTime}
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {currentGym.workHours.wednesday.day}
+                              {currentGym.workHours[2].day}
                             </th>
                             <th>
-                              {currentGym.workHours.wednesday.open}
+                              {currentGym.workHours[2].startTime}
                             </th>
                             <th>
-                              {currentGym.workHours.wednesday.close}
-                            </th>
-                          </tr>
-                          <tr>
-                            <th>
-                              {currentGym.workHours.thursday.day}
-                            </th>
-                            <th>
-                              {currentGym.workHours.thursday.open}
-                            </th>
-                            <th>
-                              {currentGym.workHours.thursday.close}
+                              {currentGym.workHours[2].endTime}
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {currentGym.workHours.friday.day}
+                              {currentGym.workHours[3].day}
                             </th>
                             <th>
-                              {currentGym.workHours.friday.open}
+                              {currentGym.workHours[3].startTime}
                             </th>
                             <th>
-                              {currentGym.workHours.friday.close}
-                            </th>
-                          </tr>
-                          <tr>
-                            <th>
-                              {currentGym.workHours.saturday.day}
-                            </th>
-                            <th>
-                              {currentGym.workHours.saturday.open}
-                            </th>
-                            <th>
-                              {currentGym.workHours.saturday.close}
+                              {currentGym.workHours[3].endTime}
                             </th>
                           </tr>
                           <tr>
                             <th>
-                              {currentGym.workHours.sunday.day}
+                              {currentGym.workHours[4].day}
                             </th>
                             <th>
-                              {currentGym.workHours.sunday.open}
+                              {currentGym.workHours[4].startTime}
                             </th>
                             <th>
-                              {currentGym.workHours.sunday.close}
+                              {currentGym.workHours[4].endTime}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours[5].day}
+                            </th>
+                            <th>
+                              {currentGym.workHours[5].startTime}
+                            </th>
+                            <th>
+                              {currentGym.workHours[5].endTime}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours[6].day}
+                            </th>
+                            <th>
+                              {currentGym.workHours[6].startTime}
+                            </th>
+                            <th>
+                              {currentGym.workHours[6].endTime}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>
+                              {currentGym.workHours[0].day}
+                            </th>
+                            <th>
+                              {currentGym.workHours[0].startTime}
+                            </th>
+                            <th>
+                              {currentGym.workHours[0].endTime}
                             </th>
                           </tr>
                         </table>

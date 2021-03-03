@@ -87,7 +87,7 @@ export default class AdminPersonal extends Component {
               <h4>Personal Trainers</h4>
           <div className="list row">
             <div className="col-md-8">
-              <div className="input-group mb-3">
+              <div className="hidden" /* "input-group mb-3" */ >
                 <input
                   type="text"
                   className="form-control"
@@ -246,84 +246,84 @@ export default class AdminPersonal extends Component {
                       <table>
                         <tr>
                           <th>DIA</th>
-                          <th>INÍCIO</th>
-                          <th>FIM</th>
+                          <th>ABERTURA</th>
+                          <th>ENCERRAMENTO</th>
                         </tr>
                         <tr>
                           <th>
-                            {currentPersonal.workHours.monday.day}
+                            {currentPersonal.workHours[1].day}
                           </th>
                           <th>
-                            {currentPersonal.workHours.monday.open}
+                            {currentPersonal.workHours[1].startTime}
                           </th>
                           <th>
-                            {currentPersonal.workHours.monday.close}
-                          </th>
-                        </tr>
-                        <tr>
-                          <th>
-                            {currentPersonal.workHours.tuesday.day}
-                          </th>
-                          <th>
-                            {currentPersonal.workHours.tuesday.open}
-                          </th>
-                          <th>
-                            {currentPersonal.workHours.tuesday.close}
+                            {currentPersonal.workHours[1].endTime}
                           </th>
                         </tr>
                         <tr>
                           <th>
-                            {currentPersonal.workHours.wednesday.day}
+                            {currentPersonal.workHours[2].day}
                           </th>
                           <th>
-                            {currentPersonal.workHours.wednesday.open}
+                            {currentPersonal.workHours[2].startTime}
                           </th>
                           <th>
-                            {currentPersonal.workHours.wednesday.close}
-                          </th>
-                        </tr>
-                        <tr>
-                          <th>
-                            {currentPersonal.workHours.thursday.day}
-                          </th>
-                          <th>
-                            {currentPersonal.workHours.thursday.open}
-                          </th>
-                          <th>
-                            {currentPersonal.workHours.thursday.close}
+                            {currentPersonal.workHours[2].endTime}
                           </th>
                         </tr>
                         <tr>
                           <th>
-                            {currentPersonal.workHours.friday.day}
+                            {currentPersonal.workHours[3].day}
                           </th>
                           <th>
-                            {currentPersonal.workHours.friday.open}
+                            {currentPersonal.workHours[3].startTime}
                           </th>
                           <th>
-                            {currentPersonal.workHours.friday.close}
-                          </th>
-                        </tr>
-                        <tr>
-                          <th>
-                            {currentPersonal.workHours.saturday.day}
-                          </th>
-                          <th>
-                            {currentPersonal.workHours.saturday.open}
-                          </th>
-                          <th>
-                            {currentPersonal.workHours.saturday.close}
+                            {currentPersonal.workHours[3].endTime}
                           </th>
                         </tr>
                         <tr>
                           <th>
-                            {currentPersonal.workHours.sunday.day}
+                            {currentPersonal.workHours[4].day}
                           </th>
                           <th>
-                            {currentPersonal.workHours.sunday.open}
+                            {currentPersonal.workHours[4].startTime}
                           </th>
                           <th>
-                            {currentPersonal.workHours.sunday.close}
+                            {currentPersonal.workHours[4].endTime}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours[5].day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours[5].startTime}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours[5].endTime}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours[6].day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours[6].startTime}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours[6].endTime}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            {currentPersonal.workHours[0].day}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours[0].startTime}
+                          </th>
+                          <th>
+                            {currentPersonal.workHours[0].endTime}
                           </th>
                         </tr>
                       </table>

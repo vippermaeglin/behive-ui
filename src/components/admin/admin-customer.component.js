@@ -86,7 +86,7 @@ export default class AdminCustomer extends Component {
               <h4>Alunos</h4>
           <div className="list row">
             <div className="col-md-8">
-              <div className="input-group mb-3">
+              <div className="hidden" /* "input-group mb-3" */ >
                 <input
                   type="text"
                   className="form-control"

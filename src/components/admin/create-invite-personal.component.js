@@ -87,8 +87,8 @@ export default class InvitePersonal extends Component {
                     value={contractIndex}
                     onChange={this.onChangeContract}
                     validations={[required]}
-                  >
-                  <option value={-1} disabled>Selecione</option>
+                  >                  
+                  <option value="">Selecione...</option>
                   {contractTypes.map((contract, index) => (
                     <option value={index}>{contract}</option>
                   ))}

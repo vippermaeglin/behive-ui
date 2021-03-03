@@ -315,6 +315,7 @@ export default class CreateGym extends Component {
                         onChange={this.onChangeUser}
                         validations={[required]}
                       >
+                        <option value="">Selecione...</option>
                         {isNew && users.map((u, index) => (
                           <option value={index}>{u.userName+" ("+u.cpf+")"}</option>
                         ))}

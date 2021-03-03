@@ -123,3 +123,5 @@ h5, .p-dark {
   box-sizing: border-box;
   margin-left: 10px !important;
 }
+
+.hidden { display:none; }
