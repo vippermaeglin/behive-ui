@@ -301,7 +301,7 @@ const RegisterPersonal = (props) => {
                 </Select>
               </div>
               <div className="form-group">
-                <label className="dark-label" htmlFor="cnpj">CREF</label>
+                <label className="dark-label" htmlFor="cref">CREF</label>
                 <Input
                   type="text"
                   className="form-control"
@@ -314,7 +314,7 @@ const RegisterPersonal = (props) => {
                 />            
               </div>
               <div className="form-group">
-                <label className="dark-label" htmlFor="cnpj">Validade CREF</label>
+                <label className="dark-label" htmlFor="crefExpiration">Validade CREF</label>
                 <Input
                   type="date"
                   className="form-control"

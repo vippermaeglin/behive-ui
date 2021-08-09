@@ -1,0 +1,857 @@
+// MARKETPLACE ADD - Marketplace/Add
+
+// request
+{
+    "Name": "EMPRESA BEHIVE TESTE",
+    "Identity": "099.624.116-70",
+    "ResponsibleName": "Responsável",
+    "ResponsibleIdentity": "04270435062",
+    "Email": "vippermaeglin@hgmail.com",
+    "IsTransferCheckingAccountDisabled": true,
+    "Address": {
+        "ZipCode": "90670090",
+        "Street": "Logradouro",
+        "Number": "123",
+        "Complement": "Complemento",
+        "District": "Higienopolis",
+        "CityName": "Porto Alegre",
+        "StateInitials": "RS",
+        "CountryName": "Brasil"
+    },
+    "MerchantSplit": [
+        {
+            "PaymentMethodCode": "6",
+            "IsSubaccountTaxPayer": true,
+            "Taxes": [
+                {
+                    "TaxTypeName": "1",
+                    "Tax": "0.00"
+                }
+            ]
+        },
+        {
+            "PaymentMethodCode": "2",
+            "IsSubaccountTaxPayer": true,
+            "Taxes": [
+                {
+                    "TaxTypeName": "1",
+                    "Tax": "0.00"
+                }
+            ]
+        }
+    ]
+}
+
+// response
+{
+    "ResponseDetail": {
+        "Id": 86254,
+        "Name": "EMPRESA BEHIVE TESTE",
+        "Identity": "09962411670",
+        "Token": "C0228A9395314A49BEFCA915D6551381",
+        "SecretKey": "B88A10F8B9EC407BAEEA71F1AE27D0F5C8964944F084495DAC2C356BD3A77334",
+        "TokenSandbox": "973D965E257B4090A1E1291A108DDC17",
+        "SecretKeySandbox": "0B516362D9E948BDBF019C40ABEE5279120EAD7B5FF5497594B6E4561CB15C17"
+    },
+    "HasError": false
+}
+
+// MARKETPLACE GET - Marketplace/Get?id=86165
+
+// reponse
+{
+    "ResponseDetail": {
+        "Id": 86254,
+        "Name": "EMPRESA BEHIVE TESTE",
+        "CommercialName": "",
+        "ResponsibleName": "Responsável",
+        "ResponsibleIdentity": "04270435062",
+        "Email": "vippermaeglin@hgmail.com",
+        "Identity": "09962411670",
+        "IsTransferCheckingAccountDisabled": true,
+        "Integration": {
+            "Token": "C0228A9395314A49BEFCA915D6551381",
+            "TokenSandbox": "973D965E257B4090A1E1291A108DDC17",
+            "SecretKey": "B88A10F8B9EC407BAEEA71F1AE27D0F5C8964944F084495DAC2C356BD3A77334",
+            "SecretKeySandbox": "0B516362D9E948BDBF019C40ABEE5279120EAD7B5FF5497594B6E4561CB15C17"
+        },
+        "Address": {
+            "ZipCode": "90670090",
+            "Street": "Logradouro",
+            "Number": "123",
+            "District": "Higienopolis",
+            "Complement": "Complemento",
+            "State": "RS",
+            "City": "Porto Alegre",
+            "Country": "BRASIL"
+        },
+        "PaymentMethods": [
+            {
+                "PaymentMethod": "2",
+                "IsPayTax": true,
+                "Taxes": [
+                    {
+                        "TaxType": "Percentual",
+                        "Tax": 0.00
+                    }
+                ]
+            },
+            {
+                "PaymentMethod": "6",
+                "IsPayTax": true,
+                "Taxes": [
+                    {
+                        "TaxType": "Percentual",
+                        "Tax": 0.00
+                    }
+                ]
+            }
+        ]
+    },
+    "HasError": false
+}
+
+// MARKETPLACE UPDATE - Marketplace/Update?id=86254
+
+// request
+{    
+    "BankData": {
+        "Bank": {
+            "Code": "237"
+        },
+        "BankAgency": "2729",
+        "BankAccount": "11426",
+        "BankAccountDigit": "0"
+    }
+}
+
+// response
+{
+    "ResponseDetail": {
+        "Id": 86254,
+        "Name": "EMPRESA BEHIVE TESTE UPD2",
+        "Identity": "09962411670",
+        "Token": "C0228A9395314A49BEFCA915D6551381",
+        "SecretKey": "B88A10F8B9EC407BAEEA71F1AE27D0F5C8964944F084495DAC2C356BD3A77334",
+        "TokenSandbox": "973D965E257B4090A1E1291A108DDC17",
+        "SecretKeySandbox": "0B516362D9E948BDBF019C40ABEE5279120EAD7B5FF5497594B6E4561CB15C17"
+    },
+    "HasError": false
+}
+
+// ACCOUNT GETBANK - MerchantBankData/Get
+// TOKEN: {sub-account}
+
+//response
+{
+    "ResponseDetail": {
+        "Bank": "",
+        "Agency": "",
+        "AgencyDigit": "",
+        "Account": "",
+        "AccountDigit": "",
+        "Operation": null,
+        "AccountType": "CC"
+    },
+    "HasError": false
+}
+
+// ACCOUNT GETLISTDEPOSITDETAIL - CheckingAccount/GetListDetailsDeposits?day=17&month=9&year=2019&page=1&rowsPerPage=1000
+// TOKEN: {sub-account}
+
+//response
+{
+    "ResponseDetail": {
+        "DepositDate": "17/09/2021",
+        "Amount": 1933.74,
+        "IsTransferred": true,
+        "Message": "Pagamento Efetivado.",
+        "Tax": 96.26,
+        "Extracts": [
+            {
+                "PaymentMethod": {
+                    "Code": "4",
+                    "Name": "Cartão de Débito"
+                },
+                "Amount": 9.76,
+                "Tax": 0.24,
+                "Description": "Cliente de Teste (73945658000140)",
+                "Reference": "Teste Automatizado",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 1049304
+            },
+            {
+                "PaymentMethod": {
+                    "Code": "2",
+                    "Name": "Cartão de Crédito"
+                },
+                "Amount": 972.00,
+                "Tax": 28.00,
+                "Description": "Cliente de Teste (56524359000112)",
+                "Reference": "Teste Automatizado",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 1049319
+            },
+            {
+                "PaymentMethod": {
+                    "Code": "2",
+                    "Name": "Cartão de Crédito"
+                },
+                "Amount": 972.00,
+                "Tax": 28.00,
+                "Description": "Cliente de Teste (77940227000141)",
+                "Reference": "Teste Automatizado",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 1049318
+            },
+            {
+                "PaymentMethod": {
+                    "Code": "2",
+                    "Name": "Cartão de Crédito"
+                },
+                "Amount": 9.72,
+                "Tax": 0.28,
+                "Description": "Cliente de Teste (18876333000144)",
+                "Reference": "Teste Automatizado",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 1049323
+            },
+            {
+                "PaymentMethod": {
+                    "Code": "2",
+                    "Name": "Cartão de Crédito"
+                },
+                "Amount": 9.72,
+                "Tax": 0.28,
+                "Description": "Cliente de Teste (03719217000144)",
+                "Reference": "Teste Automatizado",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 1049320
+            },
+            {
+                "PaymentMethod": {
+                    "Code": "",
+                    "Name": ""
+                },
+                "Amount": -39.46,
+                "Tax": 39.46,
+                "Description": "Taxa de Antecipação",
+                "Reference": "",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 0
+            }
+        ],
+        "TotalItems": 6
+    },
+    "HasError": false
+}
+
+// PAYMENT CREATE PIX - Payment (DEU ERRADO EM 13/04)
+
+// request
+{
+    "IsSandbox": false,
+    "Application": "Aplicação de teste",
+    "Vendor": "João da Silva",
+    "CallbackUrl": "https://webhook.site/81f21670-b12e-42e4-947f-01534e09ef2e",
+    "PaymentMethod": "6",
+    "Reference": "TESTE",
+    "Customer": {
+        "Name": "Vinicius Arruda",
+        "Identity": "09962411670",
+        "Phone": "51999999999",
+        "Email": "safe2pay@safe2pay.com.br",
+        "Address": {
+            "ZipCode": "90670090",
+            "Street": "Logradouro",
+            "Number": "123",
+            "Complement": "Complemento",
+            "District": "Higienopolis",
+            "CityName": "Porto Alegre",
+            "StateInitials": "RS",
+            "CountryName": "Brasil"
+        }
+    },
+    "Products": [
+        {
+            "Code": "001",
+            "Description": "Compra de Créditos",
+            "UnitPrice": 1.00,
+            "Quantity": 5
+        }
+    ]
+}
+
+
+// response
+
+{
+    "ResponseDetail": {
+        "IdTransaction": 13263339,
+        "Status": "1",
+        "Message": "Pagamento Pendente",
+        "Description": "Estamos aguardando a transferência do valor. Após a transferência, o pagamento pode levar até 5 minutos para ser compensado.",
+        "QrCode": "https://images.s2pay.me/pix/ba9049a238cd4ab88c21dbdb350074d5.png",
+        "Key": "00020101021226850014br.gov.bcb.pix2563qrcodepix.bb.com.br/pix/v2/2dffee6f-c49c-4d08-8138-1eb43b5f28d452040000530398654045.005802BR5940SAFETOPAY INTERMEDIACAO DE NEGOCIOS LTDA6012PORTO ALEGRE62300526000000000000000000132633396304CE41"
+    },
+    "HasError": false
+}
+
+// pending callback
+{
+  "IdTransaction": 13263339,
+  "TransactionStatus": {
+    "Id": 1,
+    "Code": "1",
+    "Name": "Pendente"
+  },
+  "PaymentMethod": {
+    "Id": 6,
+    "Code": "6",
+    "Name": "Pix",
+    "Show": false
+  },
+  "Application": "Aplicação de teste",
+  "Vendor": "João da Silva",
+  "Amount": 5,
+  "IncluedDate": "2021-04-13T16:56:08.167",
+  "InstallmentQuantity": 0,
+  "SecretKey": "FA2E196C981242E4AB34E5394220F9638C3178CE86F347E98947677B65A03910",
+  "Reference": "TESTE"
+}
+
+// confirmation callback
+{
+  "IdTransaction": 13263339,
+  "TransactionStatus": {
+    "Id": 3,
+    "Code": "3",
+    "Name": "Autorizado"
+  },
+  "CheckingAccounts": [
+    {
+      "Description": "Vinicius Arruda (09962411670)",
+      "Amount": 4.95,
+      "Tax": 0.05,
+      "IsTransferred": false,
+      "ReleaseDate": "2021-04-14T00:00:00"
+    }
+  ],
+  "PaymentMethod": {
+    "Id": 6,
+    "Code": "6",
+    "Name": "Pix",
+    "Show": false
+  },
+  "Application": "Aplicação de teste",
+  "Vendor": "João da Silva",
+  "Amount": 5,
+  "PaymentDate": "2021-04-13T16:59:38",
+  "IncluedDate": "2021-04-13T16:56:08.167",
+  "InstallmentQuantity": 0,
+  "SecretKey": "FA2E196C981242E4AB34E5394220F9638C3178CE86F347E98947677B65A03910",
+  "TaxValue": 0.05,
+  "NetValue": 4.95,
+  "Reference": "TESTE",
+  "Splits": [
+    {
+      "IdTransactionSplitter": 13263553,
+      "IdReceiver": 66911,
+      "CodeTaxType": 2,
+      "Identity": "38731383000140",
+      "Name": "BEHIVE FIT TECNOLOGIA LTDA",
+      "IsPayTax": true,
+      "Amount": 0,
+      "CheckingAccounts": [
+        {
+          "Description": "Vinicius Arruda (09962411670)",
+          "Amount": 0,
+          "Tax": 0,
+          "IsTransferred": false,
+          "ReleaseDate": "2021-04-14T00:00:00"
+        }
+      ]
+    }
+  ]
+}
+
+// SUBACCOUNT TRANSFER - TransferSubaccount
+// TOKEN:  {sub-account-origin}
+
+// request
+{
+ "Identity":"01234567890",
+ "IdentificationDebit":"Aula 14/04/2021 11:00 - Aluno X - Personal Trainer Y - Academia Z",
+ "IdentificationCredit":"Aula 14/04/2021 11:00 - Aluno X - Personal Trainer Y - Academia Z",
+ "Amount":1.00
+}
+
+// response error
+{
+    "HasError": true,
+    "ErrorCode": "258",
+    "Error": "Você não possui valor disponível para efetuar a transferência."
+}
+
+// response ok
+
+// PAYMENT CREATE PIX - Payment R$5 
+
+// request
+{
+    "IsSandbox": false,
+    "Application": "Aplicação de teste",
+    "Vendor": "João da Silva",
+    "CallbackUrl": "https://webhook.site/81f21670-b12e-42e4-947f-01534e09ef2e",
+    "PaymentMethod": "6",
+    "Reference": "TESTE",
+    "Customer": {
+        "Name": "Vinicius Arruda",
+        "Identity": "09962411670",
+        "Phone": "51999999999",
+        "Email": "safe2pay@safe2pay.com.br",
+        "Address": {
+            "ZipCode": "90670090",
+            "Street": "Logradouro",
+            "Number": "123",
+            "Complement": "Complemento",
+            "District": "Higienopolis",
+            "CityName": "Porto Alegre",
+            "StateInitials": "RS",
+            "CountryName": "Brasil"
+        }
+    },
+    "Products": [
+        {
+            "Code": "001",
+            "Description": "Compra de Créditos",
+            "UnitPrice": 1.00,
+            "Quantity": 5
+        }
+    ]
+}
+
+
+// response
+
+{
+    "ResponseDetail": {
+        "IdTransaction": 13822569,
+        "Status": "1",
+        "Message": "Pagamento Pendente",
+        "Description": "Estamos aguardando a transferência do valor. Após a transferência, o pagamento pode levar até 5 minutos para ser compensado.",
+        "QrCode": "https://images.s2pay.me/pix/51cdf0d2c4db4a038b0f495d55654ead.png",
+        "Key": "00020101021226850014br.gov.bcb.pix2563qrcodepix.bb.com.br/pix/v2/69f6a6ec-5a77-4250-90b0-2128bfc1315852040000530398654045.005802BR5908SAFE2PAY6012PORTO ALEGRE62070503***6304033E"
+    },
+    "HasError": false
+}
+
+
+// PAYMENT CREATE STATIC PIX R$2
+
+// request
+{
+    "description": "Compra de Créditos",
+    "callbackUrl": "https://webhook.site/f327babd-4200-48bc-94b2-a852cfa38bed",
+    "reference": "TESTE"
+}
+
+// response
+{
+    "ResponseDetail": {
+        "Id": 25,
+        "Identifier": "bd7d884dbcc24a76a8cee2afeeab8ba7",
+        "Reference": "TESTE",
+        "Key": "00020126580014br.gov.bcb.pix01363664aa79-9c58-4e45-907f-e7ab6bcf44fa5204000053039865802BR5908SAFE2PAY6012PORTO ALEGRE62070503***63048EBC",
+        "QrCode": "https://images.s2pay.me/pix/6abee5ecdc5e4f11b0e1220b8bf592f0.png"
+    },
+    "HasError": false
+}
+
+// pending callback
+
+// confirmation callback
+
+PAYMENT CREATE $5 NO Tax
+{
+    "ResponseDetail": {
+        "IdTransaction": 13865133,
+        "Status": "1",
+        "Message": "Pagamento Pendente",
+        "Description": "Estamos aguardando a transferência do valor. Após a transferência, o pagamento pode levar até 5 minutos para ser compensado.",
+        "QrCode": "https://images.s2pay.me/pix/d293ee5a1f4f4d9abd50751c987d1bc3.png",
+        "Key": "00020101021226850014br.gov.bcb.pix2563qrcodepix.bb.com.br/pix/v2/7611b659-f7db-4fcb-9b88-4bf5a4995fda52040000530398654045.005802BR5908SAFE2PAY6012PORTO ALEGRE62070503***6304516E"
+    },
+    "HasError": false
+}
+
+// TESTES 13/05
+
+// PAYMENT CREATE PIX - Payment R$1
+// response
+{
+    "ResponseDetail": {
+        "IdTransaction": 14138974,
+        "Status": "1",
+        "Message": "Pagamento Pendente",
+        "Description": "Estamos aguardando a transferência do valor. Após a transferência, o pagamento pode levar até 5 minutos para ser compensado.",
+        "QrCode": "https://images.s2pay.me/pix/e91f4ac9695e4922b0d228bba04a74a7.png",
+        "Key": "00020101021226850014br.gov.bcb.pix2563qrcodepix.bb.com.br/pix/v2/91b833c3-2b0e-405d-9f7b-9c4b1133aa5352040000530398654041.005802BR5908SAFE2PAY6012PORTO ALEGRE62070503***6304529B"
+    },
+    "HasError": false
+}
+
+// CREATE STATIC PIX R$1
+// response
+{
+    "ResponseDetail": {
+        "Id": 49,
+        "Identifier": "81e7fb5a492445a2b784a657693952bf",
+        "Reference": "TESTE 11/05/2021 09:20",
+        "Key": "00020126580014br.gov.bcb.pix01363664aa79-9c58-4e45-907f-e7ab6bcf44fa5204000053039865802BR5908SAFE2PAY6012PORTO ALEGRE62070503***63048EBC",
+        "QrCode": "https://images.s2pay.me/pix/80dc033d69904884b34b748fad422cbb.png"
+    },
+    "HasError": false
+}
+
+// SUBACCOUNT TRANSFER - InternalTransfer
+// response
+{
+    "ResponseDetail": {
+        "Message": "Transferência solicitada com sucesso."
+    },
+    "HasError": false
+}
+
+//TESTS 18/06
+// CREATE STATIC PIX R$0.50 FOR "TESTE BEHIVE PIX"
+
+// request
+{
+    "description": "Compra de Créditos",
+    "callbackUrl": "https://webhook.site/322a47a1-14a6-4233-baf4-6f74e5e69d34",
+    "reference": "TESTE BEHIVE PIX 18/06"
+}
+
+// response
+{
+    "ResponseDetail": {
+        "Id": 84,
+        "Identifier": "5075e114503a4c8691ab82456",
+        "Reference": "TESTE BEHIVE PIX 18/06",
+        "Pix": {
+            "Key": "00020126580014br.gov.bcb.pix01361f3f30f3-db8a-4f8f-83a5-24568e6107bd5204000053039865802BR5908SAFE2PAY6012PORTO ALEGRE622905255075e114503a4c8691ab8245663041DCD",
+            "QrCode": "https://images.s2pay.me/pix/b526d3c4160544f49a35d2f0a091aa60.png"
+        }
+    },
+    "HasError": false
+}
+
+//INTERNAL TRANSFER R$1 FROM "VINICIUS ARRUDA" (R$16,83) TO "TESTE BEHIVE TRANSFER" (R$1,00)
+// request
+{
+ "Identity":"77695644000176",
+ "IdentificationDebit":"Aula 18/06/2021 09:00 - Aluno X - Personal Trainer Y - Academia Z",
+ "IdentificationCredit":"Aula 18/06/2021 09:00 - Aluno X - Personal Trainer Y - Academia Z",
+ "Amount":1.00
+}
+
+// response
+{
+    "ResponseDetail": {
+        "Message": "Transferência solicitada com sucesso."
+    },
+    "HasError": false
+}
+
+
+// EXTRATO PIX - VINICIUS ARRUDA
+
+13/04
+R$ 5,00 - 16:59:37
+
+02/05
+R$ 5,00 - 12:44:40
+
+03/05
+R$ 2,00 - 00:12:50
+R$ 5,00 - 17:00:20
+R$ 1,00 - 17:04:17
+
+10/05
+R$ 2,00 - 09:07:36 [DEVOLVIDO]
+
+11/05
+R$ 1,00 - 08:48:59
+R$ 1,00 - 09:22:57
+
+13/05
+R$ 1,00 - 15:13:58
+R$ 1,00 - 15:15:30
+
+// EXTRATO PIX - TESTE BEHIVE PIX
+17/05
+R$ 1,00 - //BRADESCO STATIC PIX
+R$ 1,00 - //BRADESCO DYN PIX
+R$ 1,00 - //BB STATIC PIX
+
+18/06
+R$ 0,50 - //BRADESCO STATIC PIX
+
+
+// EXTRATO PIX - TESTE SAFE2PAY PIX
+22/06
+R$ 0,50 - //TESTE SAFE2PAY 11:15
+
+
+PROBLEMAS MEETING 22/06
+- Remover necessidade de colocar a taxa "isSubaccountTaxPayer": true
+- Valor do pix apareceu no extrato mas callback não veio
+
+// Create Account
+// request
+{
+    "name": "TESTE SAFE2PAY PIX",
+    "identity": "23685772031",
+    "responsibleName": "Responsável",
+    "responsibleIdentity": "04270435062",
+    "email": "vippermaeglin3@gmail.com",
+    "IsPanelRestricted": true,
+    "isTransferCheckingAccountDisabled": true,
+    "address": {
+        "zipCode": "90670090",
+        "street": "Logradouro",
+        "number": "123",
+        "complement": "Complemento",
+        "district": "Higienopolis",
+        "cityName": "Porto Alegre",
+        "stateInitials": "RS",
+        "countryName": "Brasil"
+    },
+    "merchantSplit": [
+        {
+            "paymentMethodCode": "6",
+            "isSubaccountTaxPayer": true
+        }
+    ]
+}
+
+//response
+
+{
+    "ResponseDetail": {
+        "Id": 95118,
+        "Name": "TESTE SAFE2PAY PIX",
+        "Identity": "23685772031",
+        "Token": "677ABBCBFFC743A0A0595119B2CF2A22",
+        "SecretKey": "EA9DD9EF85E4437990C4FC238E87C4C81EC5DE49D75046B282B88D7466334762",
+        "TokenSandbox": "1F2F36FB3F9D4C318D56290C75D20595",
+        "SecretKeySandbox": "3D3CA8940CC24E16A9DA83943F19ADD755B903C8DD704976A87293B3E2F0C530"
+    },
+    "HasError": false
+}
+
+
+// STATIC PIX - TESTE SAFE2PAY PIX
+// request TOKEN 677ABBCBFFC743A0A0595119B2CF2A22
+
+{
+    "description": "Compra de Créditos",
+    "callbackUrl": "https://webhook.site/b86a0840-73d0-4305-a669-842c4f147e4d",
+    "reference": "TESTE BEHIVE PIX"
+}
+
+// response
+
+{
+    "ResponseDetail": {
+        "Id": 176,
+        "Identifier": "cb14f19e2bcd4fe5805f7f891",
+        "Reference": "TESTE BEHIVE PIX",
+        "Pix": {
+            "Key": "00020126580014br.gov.bcb.pix01363664aa79-9c58-4e45-907f-e7ab6bcf44fa5204000053039865802BR5908SAFE2PAY6012PORTO ALEGRE62290525cb14f19e2bcd4fe5805f7f89163045602",
+            "QrCode": "https://images.s2pay.me/pix/0f925a2a1ef946d7a88434eb53eb0cfb.png"
+        }
+    },
+    "HasError": false
+}
+
+// callback
+{
+  "IdTransaction": 15360177,
+  "TransactionStatus": {
+    "Id": 3,
+    "Code": "3",
+    "Name": "Autorizado"
+  },
+  "CheckingAccounts": [
+    {
+      "Description": "VINICIUS SILVA ARRUDA (09962411670)",
+      "Amount": 0.5,
+      "Tax": 0,
+      "IsTransferred": false,
+      "ReleaseDate": "2021-06-23T00:00:00"
+    }
+  ],
+  "PaymentMethod": {
+    "Id": 6,
+    "Code": "6",
+    "Name": "Pix",
+    "Show": false
+  },
+  "Application": "QRCode Estático",
+  "Vendor": "Não informado",
+  "Amount": 0.5,
+  "PaymentDate": "2021-06-22T11:22:48.24",
+  "IncluedDate": "2021-06-22T11:22:47.627",
+  "InstallmentQuantity": 0,
+  "SecretKey": "EA9DD9EF85E4437990C4FC238E87C4C81EC5DE49D75046B282B88D7466334762",
+  "TaxValue": 0.01,
+  "NetValue": 0.5,
+  "Reference": "TESTE BEHIVE PIX",
+  "Splits": [
+    {
+      "IdTransactionSplitter": 15360179,
+      "IdReceiver": 66911,
+      "CodeTaxType": 2,
+      "Identity": "38731383000140",
+      "Name": "BEHIVE FIT TECNOLOGIA LTDA",
+      "IsPayTax": true,
+      "Amount": 0,
+      "CheckingAccounts": [
+        {
+          "Description": "VINICIUS SILVA ARRUDA (09962411670)",
+          "Amount": 0,
+          "Tax": 0,
+          "IsTransferred": false,
+          "ReleaseDate": "2021-06-23T00:00:00"
+        }
+      ]
+    }
+  ]
+}
+
+// GET BALANCE
+{{HOST}}{{VERSION}}CheckingAccount/GetBalance
+
+// response
+{
+    "ResponseDetail": {
+        "AmountReceived": 0.50,
+        "AmountPreview": 0.50,
+        "AmountCanceled": 0.00,
+        "AmountContestation": 0.00,
+        "AmountTaxes": 0.00,
+        "AmountAvailableToday": 0.00,
+        "AmountPreviewTotal": 0.50
+    },
+    "HasError": false
+}
+
+
+// INTERNAL TRANSFER PJ
+
+// request
+{
+ "Identity":"77695644000176",
+ "IdentificationDebit":"Aula 22/06/2021 11:30 - Aluno X - Personal Trainer Y - Academia Z",
+ "IdentificationCredit":"Aula 22/06/2021 11:30 - Aluno X - Personal Trainer Y - Academia Z",
+ "Amount":0.25
+}
+
+// response
+{
+    "ResponseDetail": {
+        "Message": "Transferência solicitada com sucesso."
+    },
+    "HasError": false
+}
+
+// INTERNAL TRANSFER PF
+{
+ "Identity":"078.243.556-40",
+ "IdentificationDebit":"Aula 22/06/2021 11:30 - Aluno X - Personal Trainer Y - Academia Z",
+ "IdentificationCredit":"Aula 22/06/2021 11:30 - Aluno X - Personal Trainer Y - Academia Z",
+ "Amount":0.25
+}
+
+{
+    "ResponseDetail": {
+        "Message": "Transferência solicitada com sucesso."
+    },
+    "HasError": false
+}
+
+// STATMENT
+{{HOST}}{{VERSION}}CheckingAccount/GetListDetailsDeposits?day=23&month=6&year=2021&page=1&rowsPerPage=1000
+
+// response
+{
+    "ResponseDetail": {
+        "DepositDate": "23/06/2021",
+        "Amount": 0.00,
+        "IsTransferred": false,
+        "Message": "Previsto",
+        "Tax": 0.00,
+        "Extracts": [
+            {
+                "PaymentMethod": {
+                    "Id": 0,
+                    "Code": "6",
+                    "Name": "Pix",
+                    "Description": null,
+                    "Show": false
+                },
+                "Amount": 0.50,
+                "Tax": 0.00,
+                "Description": "VINICIUS SILVA ARRUDA (09962411670)",
+                "Reference": "TESTE BEHIVE PIX",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 15360177
+            },
+            {
+                "PaymentMethod": {
+                    "Id": 0,
+                    "Code": "",
+                    "Name": "",
+                    "Description": null,
+                    "Show": false
+                },
+                "Amount": -0.25,
+                "Tax": 0.00,
+                "Description": "Aula 22/06/2021 11:30 - Aluno X - Personal Trainer Y - Academia Z",
+                "Reference": "",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 0
+            },
+            {
+                "PaymentMethod": {
+                    "Id": 0,
+                    "Code": "",
+                    "Name": "",
+                    "Description": null,
+                    "Show": false
+                },
+                "Amount": -0.25,
+                "Tax": 0.00,
+                "Description": "Aula 22/06/2021 11:30 - Aluno X - Personal Trainer Y - Academia Z",
+                "Reference": "",
+                "InstallmentCurrent": 1,
+                "InstallmentQuantity": 1,
+                "IdTransaction": 0
+            }
+        ],
+        "TotalItems": 3,
+        "PaymentNumber": null,
+        "HashConfirmation": null
+    },
+    "HasError": false
+}
