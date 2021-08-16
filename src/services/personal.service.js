@@ -17,9 +17,10 @@ class PersonalService {
     return axios.get(API_URL+"/search", { headers: authHeader() });
   };
   create(address, brandName, cnpj, commercialPhone, companyName, highPricePct,
-    lowPricePct, price, socialMedia, user, workHours, logo, cref, crefExpiration, certificates, graduation) {
-    return axios.post(API_URL, {address, brandName, cnpj, commercialPhone, companyName, highPricePct,
-      lowPricePct, price, socialMedia, user, workHours, logo, cref, crefExpiration, certificates, graduation}, { headers: authHeader() })
+    lowPricePct, price, socialMedia, user, workHours, logo, cref, crefExpiration, certificates, graduation, bankData) {
+    let payload = {address, brandName, cnpj, commercialPhone, companyName, highPricePct,
+                  lowPricePct, price, socialMedia, user, workHours, logo, cref, crefExpiration, certificates, graduation, bankData};
+    return axios.post(API_URL, payload, { headers: authHeader() })
     .then((response) => {
       return response;
     });
