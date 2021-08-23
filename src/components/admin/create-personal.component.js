@@ -715,7 +715,13 @@ export default class CreateGym extends Component {
           cref: g.cref,
           crefExpiration: Moment(g.crefExpiration, "DD/MM/YYYY").format("YYYY-MM-DD"),
           certificates: g.certificates,
-          graduation: g.graduation
+          graduation: g.graduation,
+          bankCode: g.bankData.bank.code,
+          bankAgency: g.bankData.bankAgency,
+          bankAgencyDigit: g.bankData.bankAgencyDigit,
+          bankAccount: g.bankData.bankAccount,
+          bankAccountDigit: g.bankData.bankAccountDigit,
+          bankAccountType: g.bankData.accountType.code
         });
       }
     )
@@ -738,9 +744,18 @@ export default class CreateGym extends Component {
 
     if (this.checkBtn.current.context._errors.length === 0) {
       const {user, cnpj, brandName, companyName, commercialPhone, address, price, highPricePct, 
-        lowPricePct, workHours, socialMedia, logo, cref, crefExpiration, certificates, graduation} = this.state;
+        lowPricePct, workHours, socialMedia, logo, cref, crefExpiration, certificates, graduation,
+        bankCode, bankAgency, bankAgencyDigit, bankAccount, bankAccountDigit, bankAccountType} = this.state;
+      let bankData = {
+        accountType: { code: bankAccountType },
+        bank: { code: bankCode },
+        bankAccount: bankAccount,
+        bankAccountDigit: bankAccountDigit,
+        bankAgency: bankAgency,
+        bankAgencyDigit: bankAgencyDigit
+      }
       PersonalService.create(address, brandName, cnpj, commercialPhone, companyName, highPricePct,
-        lowPricePct, price, socialMedia, user, workHours, logo, cref, Moment(crefExpiration).format('DD/MM/yyyy'), certificates, graduation).then(
+        lowPricePct, price, socialMedia, user, workHours, logo, cref, Moment(crefExpiration).format('DD/MM/yyyy'), certificates, graduation, bankData).then(
         () => {
           this.setState({
             loading: false
@@ -900,6 +915,7 @@ export default class CreateGym extends Component {
                     value={bankCode}
                     onChange={this.onChangeBankCode}
                     validations={[required]}
+                    disabled = {!isNew}
                   >
                     <option value=''>Escolha um banco para receber</option>
                     <option value="001">Banco do Brasil</option>
@@ -1041,6 +1057,7 @@ export default class CreateGym extends Component {
                     value={bankAgency}
                     onChange={this.onChangeBankAgency}
                     validations={[required]}
+                    disabled = {!isNew}
                   />            
                 </div>
                 <div className="form-group">
@@ -1051,6 +1068,7 @@ export default class CreateGym extends Component {
                     name="bankAgencyDigit"
                     value={bankAgencyDigit}
                     onChange={this.onChangeBankAgencyDigit}
+                    disabled = {!isNew}
                   />            
                 </div>
                 <div className="form-group">
@@ -1062,6 +1080,7 @@ export default class CreateGym extends Component {
                     value={bankAccount}
                     onChange={this.onChangeBankAccount}
                     validations={[required]}
+                    disabled = {!isNew}
                   />            
                 </div>
                 <div className="form-group">
@@ -1073,6 +1092,7 @@ export default class CreateGym extends Component {
                     value={bankAccountDigit}
                     onChange={this.onChangeBankAccountDigit}
                     validations={[required]}
+                    disabled = {!isNew}
                   />            
                 </div>
                 <div className="form-group">
@@ -1082,6 +1102,7 @@ export default class CreateGym extends Component {
                     value={bankAccountType}
                     onChange={this.onChangeBankAccountType}
                     validations={[required]}
+                    disabled = {!isNew}
                   >
                     <option value=''>Escolha o tipo da conta</option>
                     <option value="cc">Conta Corrente</option>
