@@ -149,6 +149,12 @@ export default class CreateGym extends Component {
     this.onChangeCrefExpiration = this.onChangeCrefExpiration.bind(this);
     this.onChangeCertificates = this.onChangeCertificates.bind(this);
     this.onChangeGraduation = this.onChangeGraduation.bind(this);
+    this.onChangeBankCode = this.onChangeBankCode.bind(this);
+    this.onChangeBankAgency = this.onChangeBankAgency.bind(this);
+    this.onChangeBankAgencyDigit = this.onChangeBankAgencyDigit.bind(this);
+    this.onChangeBankAccount = this.onChangeBankAccount.bind(this);
+    this.onChangeBankAccountDigit = this.onChangeBankAccountDigit.bind(this);
+    this.onChangeBankAccountType = this.onChangeBankAccountType.bind(this);
 
     this.form = createRef();
     this.checkBtn = createRef();
@@ -237,7 +243,13 @@ export default class CreateGym extends Component {
       cref: null,
       crefExpiration: null,
       certificates: [],
-      graduation: []
+      graduation: [],
+      bankCode: null,
+      bankAgency: null,
+      bankAgencyDigit: null,
+      bankAccount: null,
+      bankAccountDigit: null,
+      bankAccountType: null
     };
   }
 
@@ -622,6 +634,48 @@ export default class CreateGym extends Component {
     });
   };
 
+  onChangeBankCode(e) {
+    const code = e.target.value;
+    this.setState({
+      bankCode: code
+    });
+  };
+
+  onChangeBankAgency(e) {
+    const value = e.target.value;
+    this.setState({
+      bankAgency: value
+    });
+  };
+
+  onChangeBankAgencyDigit(e) {
+    const value = e.target.value;
+    this.setState({
+      bankAgencyDigit: value
+    });
+  };
+
+  onChangeBankAccount(e) {
+    const value = e.target.value;
+    this.setState({
+      bankAccount: value
+    });
+  };
+
+  onChangeBankAccountDigit(e) {
+    const value = e.target.value;
+    this.setState({
+      bankAccountDigit: value
+    });
+  };
+
+  onChangeBankAccountType(e) {
+    const value = e.target.value;
+    this.setState({
+      bankAccountType: value
+    });
+  };
+
   retrieveUsers(e) {
     AuthService.getAll().then(
       response => {
@@ -717,7 +771,8 @@ export default class CreateGym extends Component {
 
   render() {
     const { isNew, users, loading, message, userIndex, user, cnpj, brandName, companyName, commercialPhone, address, 
-      price, highPricePct, lowPricePct, workHours, socialMedia, logo, cref, crefExpiration, /*certificates, graduation*/ } = this.state;    
+      price, highPricePct, lowPricePct, workHours, socialMedia, logo, cref, crefExpiration, /*certificates, graduation*/
+      bankCode, bankAgency, bankAgencyDigit, bankAccount, bankAccountDigit, bankAccountType } = this.state;    
     return (
       <>
         <div className="container section-inner">
@@ -837,6 +892,201 @@ export default class CreateGym extends Component {
                     maxLength="15"
                     placeHolder="(XX) XXXX-XXXX"
                   />            
+                </div>
+                <div className="form-group">
+                  <label htmlFor="bankCode">Banco</label>
+                  <Select name='bankCode'
+                    className="form-control"
+                    value={bankCode}
+                    onChange={this.onChangeBankCode}
+                    validations={[required]}
+                  >
+                    <option value=''>Escolha um banco para receber</option>
+                    <option value="001">Banco do Brasil</option>
+                    <option value="104">Caixa Econômica Federal</option>
+                    <option value="341">Banco Itaú Unibanco</option>
+                    <option value="184">Banco Itaú BBA</option>
+                    <option value="237">Bradesco</option>
+                    <option value="33">Banco Santander Brasil</option>
+                    <option value="077">Banco Inter</option>
+                    <option value="260">NuBank Pagamentos</option>
+                    <option value="399">HSBC</option>
+                    <option value="389">Banco Mercantil do Brasil</option>
+                    <option value="394">Banco Mercantil de Crédito</option>
+                    <option value="007">BNDES</option>
+                    <option value="422">Banco Safra S.A.</option>
+                    <option value="074">Banco J. Safra</option>
+                    <option value="409">Unibanco</option>
+                    <option value="318">Banco BMG</option>
+                    <option value="477">Citibank</option>
+                    <option value="479">Itaubank (antigo Bank Boston)</option>
+                    <option value="151">Nossa Caixa</option>
+                    <option value="204">American Express Bank</option>
+                    <option value="208">Banco Pactual</option>
+                    <option value="073">Banco Popular</option>
+                    <option value="003">Banco da Amazônia</option>
+                    <option value="004">Banco do Nordeste</option>
+                    <option value="021">Banestes</option>
+                    <option value="025">Banco Alfa</option>
+                    <option value="027">Besc</option>
+                    <option value="029">Banerj</option>
+                    <option value="031">Banco Beg</option>
+                    <option value="033">Banco Santander Banespa</option>
+                    <option value="036">Banco Bem</option>
+                    <option value="037">Banpará</option>
+                    <option value="038">Banestado</option>
+                    <option value="039">BEP</option>
+                    <option value="040">Banco Cargill</option>
+                    <option value="041">Banrisul</option>
+                    <option value="044">BVA</option>
+                    <option value="045">Banco Opportunity</option>
+                    <option value="047">Banese</option>
+                    <option value="062">Hipercard</option>
+                    <option value="063">Ibibank</option>
+                    <option value="065">Lemon Bank</option>
+                    <option value="066">Banco Morgan Stanley Dean Witter</option>
+                    <option value="069">BPN Brasil</option>
+                    <option value="070">Banco de Brasília – BRB</option>
+                    <option value="075">Banco CR2</option>
+                    <option value="076">Banco KDB</option>
+                    <option value="096">Banco BMF</option>
+                    <option value="107">Banco BBM</option>
+                    <option value="116">Banco Único</option>
+                    <option value="175">Banco Finasa</option>
+                    <option value="212">Banco Matone</option>
+                    <option value="213">Banco Arbi</option>
+                    <option value="214">Banco Dibens</option>
+                    <option value="217">Banco Joh Deere</option>
+                    <option value="218">Banco Bonsucesso</option>
+                    <option value="222">Banco Calyon Brasil</option>
+                    <option value="224">Banco Fibra</option>
+                    <option value="225">Banco Brascan</option>
+                    <option value="229">Banco Cruzeiro</option>
+                    <option value="230">Unicard</option>
+                    <option value="233">Banco GE Capital</option>
+                    <option value="241">Banco Clássico</option>
+                    <option value="243">Banco Stock Máxima</option>
+                    <option value="246">Banco ABC Brasil</option>
+                    <option value="248">Banco Boavista Interatlântico</option>
+                    <option value="249">Investcred Unibanco</option>
+                    <option value="250">Banco Schahin</option>
+                    <option value="252">Fininvest</option>
+                    <option value="254">Paraná Banco</option>
+                    <option value="263">Banco Cacique</option>
+                    <option value="265">Banco Fator</option>
+                    <option value="266">Banco Cédula</option>
+                    <option value="300">Banco de la Nación Argentina</option>
+                    <option value="320">Banco Industrial e Comercial</option>
+                    <option value="356">ABN Amro Real</option>
+                    <option value="347">Sudameris</option>
+                    <option value="366">Banco Societe Generale Brasil</option>
+                    <option value="370">Banco WestLB</option>
+                    <option value="376">JP Morgan</option>
+                    <option value="412">Banco Capital</option>
+                    <option value="456">Banco Tokyo Mitsubishi UFJ</option>
+                    <option value="464">Banco Sumitomo Mitsui Brasileiro</option>
+                    <option value="487">Deutsche Bank</option>
+                    <option value="488">Banco Morgan Guaranty</option>
+                    <option value="492">Banco NMB Postbank</option>
+                    <option value="494">Banco la República Oriental del Uruguay</option>
+                    <option value="495">Banco La Provincia de Buenos Aires</option>
+                    <option value="505">Banco Credit Suisse</option>
+                    <option value="600">Banco Luso Brasileiro</option>
+                    <option value="604">Banco Industrial</option>
+                    <option value="610">Banco VR</option>
+                    <option value="611">Banco Paulista</option>
+                    <option value="612">Banco Guanabara</option>
+                    <option value="613">Banco Pecunia</option>
+                    <option value="623">Banco Panamericano</option>
+                    <option value="626">Banco Ficsa</option>
+                    <option value="630">Banco Intercap</option>
+                    <option value="633">Banco Rendimento</option>
+                    <option value="634">Banco Triângulo</option>
+                    <option value="637">Banco Sofisa</option>
+                    <option value="638">Banco Prosper</option>
+                    <option value="643">Banco Pine</option>
+                    <option value="652">Itaú Holding Financeira</option>
+                    <option value="653">Banco Indusval</option>
+                    <option value="654">Banco A.J. Renner</option>
+                    <option value="655">Banco Votorantim</option>
+                    <option value="707">Banco Daycoval</option>
+                    <option value="719">Banif</option>
+                    <option value="721">Banco Credibel</option>
+                    <option value="734">Banco Gerdau</option>
+                    <option value="735">Banco Pottencial</option>
+                    <option value="738">Banco Morada</option>
+                    <option value="739">Banco Galvão de Negócios</option>
+                    <option value="740">Banco Barclays</option>
+                    <option value="741">BRP</option>
+                    <option value="743">Banco Semear</option>
+                    <option value="745">Banco Citibank</option>
+                    <option value="746">Banco Modal</option>
+                    <option value="747">Banco Rabobank International</option>
+                    <option value="748">Banco Cooperativo Sicredi</option>
+                    <option value="749">Banco Simples</option>
+                    <option value="751">Dresdner Bank</option>
+                    <option value="752">BNP Paribas</option>
+                    <option value="753">Banco Comercial Uruguai</option>
+                    <option value="755">Banco Merrill Lynch</option>
+                    <option value="756">Banco Cooperativo do Brasil</option>
+                    <option value="757">KEB</option>
+                  </Select>
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="bankAgency">Agência</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="bankAgency"
+                    value={bankAgency}
+                    onChange={this.onChangeBankAgency}
+                    validations={[required]}
+                  />            
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="bankAgencyDigit">Dígito Agência</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="bankAgencyDigit"
+                    value={bankAgencyDigit}
+                    onChange={this.onChangeBankAgencyDigit}
+                  />            
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="bankAccount">Conta</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="bankAccount"
+                    value={bankAccount}
+                    onChange={this.onChangeBankAccount}
+                    validations={[required]}
+                  />            
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="bankAccountDigit">Dígito Conta</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="bankAccountDigit"
+                    value={bankAccountDigit}
+                    onChange={this.onChangeBankAccountDigit}
+                    validations={[required]}
+                  />            
+                </div>
+                <div className="form-group">
+                  <label htmlFor="bankAccountType">Tipo de Conta</label>
+                  <Select name='bankAccountType'
+                    className="form-control"
+                    value={bankAccountType}
+                    onChange={this.onChangeBankAccountType}
+                    validations={[required]}
+                  >
+                    <option value=''>Escolha o tipo da conta</option>
+                    <option value="cc">Conta Corrente</option>
+                    <option value="pp">Poupança</option>
+                  </Select>
                 </div>
                 <div className="form-group">
                   <label className="dark-label" htmlFor="zipCode">CEP</label>
