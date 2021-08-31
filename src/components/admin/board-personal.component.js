@@ -6,7 +6,6 @@ import AuthService from "../../services/auth.service";
 import { Link } from "react-router-dom";
 import Image from '../landing/elements/Image';
 import classNames from 'classnames';
-import authService from "../../services/auth.service";
  
 export default class BoardGym extends Component {
 

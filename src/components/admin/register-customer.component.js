@@ -126,8 +126,6 @@ const RegisterCustomer = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.register(cpf, email, password, "CUSTOMER", phone, userName, Moment(birthday).format('DD/MM/YYYY'), gender).then(
         (responseUser) => {
-          let brandName = userName;
-          let commercialPhone = phone;
           CustomerService.create(responseUser.data.object, null, null, null).then(
             (responseCustomer) => {
               PersonalService.createCustomerContract(responseCustomer.data.object.id, props.match.params.personalId).then(

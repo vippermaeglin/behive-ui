@@ -20,8 +20,6 @@ import Form from "react-validation/build/form";
 import Collapsible from 'react-collapsible';
 import CheckButton from "react-validation/build/button";
 
-let eventGuid = 0
-
 /* export const PERSONAL_TRAINERS = [
   {
     id: "1",

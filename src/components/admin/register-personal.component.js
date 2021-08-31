@@ -13,7 +13,6 @@ import {cpfMask} from "../auth/CpfMask";
 import {crefMask} from "../auth/CrefMask"
 import {phoneMask} from "../auth/PhoneMask";
 import { cpf } from 'cpf-cnpj-validator'; 
-import bancos from 'bancos-brasileiros';
 import {zipMask} from "../auth/ZipMask"
 import { consultarCep } from 'correios-brasil'; 
 
