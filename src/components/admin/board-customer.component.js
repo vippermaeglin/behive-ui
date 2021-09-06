@@ -3,9 +3,11 @@ import SectionHeader from '../landing/sections/partials/SectionHeader';
 import BehiveCalendar from "../calendar/behive-calendar.component";
 import CustomerService from "../../services/customer.service";
 import AuthService from "../../services/auth.service";
+import WalletService from "../../services/wallet.service";
 import { Link } from "react-router-dom";
 import Image from '../landing/elements/Image';
 import classNames from 'classnames';
+import CurrencyFormat from 'react-currency-format';
  
 export default class BoardCustomer extends Component {
 
@@ -15,7 +17,8 @@ export default class BoardCustomer extends Component {
     console.log(this.props.currentUser)
 
     this.state = {
-      customer: null
+      customer: null,
+      balance: null
     }
   }
 
@@ -40,10 +43,26 @@ export default class BoardCustomer extends Component {
         if(response.data.length>0) {
           AuthService.setProfile(response.data[0]);
           this.setState({
-            gym: response.data[0]
+            customer: response.data[0]
           });
+          this.retrieveBalance();
           console.log(this.state.customer);
         }
+      }
+    )
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+  retrieveBalance() {
+    WalletService.getBalance(this.state.customer.sessionToken).then(
+      response => {
+        console.log("retrieveBalance");
+        this.setState({
+          balance: response.data.object.ResponseDetail.AmountPreviewTotal
+        });
+        console.log(this.state.balance);
       }
     )
     .catch(e => {
@@ -57,13 +76,9 @@ export default class BoardCustomer extends Component {
       <>
         <div className="container section-inner">
           <div>
-            <SectionHeader data={this.sectionHeader} className="center-content" />
-            <div className="form-group">
-              {this.state.customer ? (
-                <BehiveCalendar  currentEntity={this.state.customer} role={"CUSTOMER"} editable={false}/>
-              ) : ("")}
-            </div>
+            {this.state.balance ? (<CurrencyFormat className="lbl-green" value={this.state.balance} displayType={'text'} fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} prefix={'Créditos: R$ '} />): ("Créditos:")}
           </div>
+          <SectionHeader data={this.sectionHeader} className="center-content" />
           <div className={this.tilesClasses}>
             <div className="tiles-item reveal-from-bottom" data-reveal-delay="200">
                 <div className="tiles-item-inner">
@@ -95,7 +110,7 @@ export default class BoardCustomer extends Component {
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/personal/new">
+                      <Link to= "/dashboard">
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 01"
@@ -121,7 +136,7 @@ export default class BoardCustomer extends Component {
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to={"/gym/" + (this.state.customer!==null?this.state.customer.id:"")}>
+                      <Link to={"/customer/" + (this.state.customer!==null?this.state.customer.id:"")}>
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 02"
@@ -142,6 +157,11 @@ export default class BoardCustomer extends Component {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="form-group">
+              {this.state.customer ? (
+                <BehiveCalendar  currentEntity={this.state.customer} role={"CUSTOMER"} editable={false}/>
+              ) : ("")}
             </div>
         </div>
       </>

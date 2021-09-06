@@ -125,3 +125,7 @@ h5, .p-dark {
 }
 
 .hidden { display:none; }
+
+.lbl-green {
+  color:#0be128
+}

@@ -16,6 +16,9 @@ class WalletService {
       return response;
     });
   };
+  getBalance = (token) => {
+    return axios.get(API_URL+"/balance?token="+token, { headers: authHeader() });
+  };
 }
 
 export default new WalletService();
