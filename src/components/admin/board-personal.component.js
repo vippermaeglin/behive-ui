@@ -132,7 +132,7 @@ export default class BoardGym extends Component {
                   </div>
                   <div className="features-tiles-item-content">
                     <h4 className="mt-0 mb-8">
-                      Editar Perfil
+                      Atualizar Cadastro
                       </h4>
                       <div style={{ display: 'none'}}>
                     <p className="m-0 text-sm">

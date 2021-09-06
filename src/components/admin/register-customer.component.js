@@ -12,6 +12,8 @@ import PersonalService from "../../services/personal.service";
 import {cpfMask} from "../auth/CpfMask";
 import {phoneMask} from "../auth/PhoneMask";
 import { cpf } from 'cpf-cnpj-validator'; 
+import {zipMask} from "../auth/ZipMask"
+import { consultarCep } from 'correios-brasil'; 
 
 const required = (value) => {
   if (!value) {
@@ -64,9 +66,22 @@ const vpassword = (value) => {
   }
 };
 
+const vzipcode = (value) => {
+  if(value === null || value === "") return;
+  value = zipMask(value);
+  if (value.length !== 9) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        CEP inválido!
+      </div>
+    );
+  }
+};
+
 const RegisterCustomer = (props) => {
   const form = useRef();
   const checkBtn = useRef();
+  const inputAddressNumber = useRef();
 
   const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
@@ -77,6 +92,7 @@ const RegisterCustomer = (props) => {
   const [gender, setGender] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+  const [address, setAddress] = useState();
 
   const onChangeCpf = (e) => {
     const cpf = cpfMask(e.target.value);
@@ -115,6 +131,31 @@ const RegisterCustomer = (props) => {
     setGender(gender);
   };
 
+  const onChangeZipCode = (e) => {
+    const zipCode = zipMask(e.target.value);
+    if(zipCode.length ===9){
+      consultarCep(zipCode).then((response) => {
+        setAddress({
+          ...address,
+          zipCode: zipCode,
+          street: response.logradouro,
+          neighborhood: response.bairro,
+          city: response.localidade,
+          state: response.uf
+        });
+        inputAddressNumber.current.focus();
+      });
+    }
+  };
+
+  const onChangeAddressNumber = (e) => {
+    const number = e.target.value;
+    setAddress({
+      ...address,
+      number: number
+    });
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -126,7 +167,7 @@ const RegisterCustomer = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.register(cpf, email, password, "CUSTOMER", phone, userName, Moment(birthday).format('DD/MM/YYYY'), gender).then(
         (responseUser) => {
-          CustomerService.create(responseUser.data.object, null, null, null).then(
+          CustomerService.create(responseUser.data.object, address, null, null).then(
             (responseCustomer) => {
               PersonalService.createCustomerContract(responseCustomer.data.object.id, props.match.params.personalId).then(
                 (responseContract) => {
@@ -273,6 +314,74 @@ const RegisterCustomer = (props) => {
                   <option value='OUTRO'>Outro</option>
                 </Select>
               </div>
+              <div className="form-group">
+                  <label className="dark-label" htmlFor="zipCode">CEP</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="zipCode"
+                    value={address?.zipCode}
+                    onChange={onChangeZipCode}
+                    validations={[vzipcode]}
+                    maxLength="9"
+                  />        
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="street">Rua</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="street"
+                    value={address?.street}
+                    maxLength="255"
+                    disabled
+                  />        
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="addressNumber">N°/Complemento</label>
+                  <input
+                    ref = {inputAddressNumber}
+                    type="text"
+                    className="form-control"
+                    name="addressNumber"
+                    value={address?.number}
+                    onChange={onChangeAddressNumber}
+                    maxLength="255"
+                  />            
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="neighborhood">Bairro</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="neighborhood"
+                    value={address?.neighborhood}
+                    maxLength="255"
+                    disabled
+                  />        
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="city">Cidade</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="city"
+                    value={address?.city}
+                    maxLength="255"
+                    disabled
+                  />        
+                </div>
+                <div className="form-group">
+                  <label className="dark-label" htmlFor="state">Estado</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="state"
+                    value={address?.state}
+                    maxLength="255"
+                    disabled
+                  />        
+                </div>
               <div className="form-group">
                 <button className="button button-primary button-wide-mobile button-block">Cadastrar</button>
               </div>

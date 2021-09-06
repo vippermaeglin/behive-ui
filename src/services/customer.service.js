@@ -10,6 +10,9 @@ class CustomerService {
   getCustomerById = (id) => {
     return axios.get(API_URL+"?id="+id, { headers: authHeader() });
   };
+  getCustomerByUserId = (id) => {
+    return axios.get(API_URL+"?userId="+id, { headers: authHeader() });
+  };
   search = (name) => {
     return axios.get(API_URL+"/search", { headers: authHeader() });
   };

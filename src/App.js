@@ -25,6 +25,7 @@ import RegisterPersonal from "./components/admin/register-personal.component";
 import CreateCustomer from "./components/admin/create-customer.component";
 import InviteCustomer from "./components/admin/create-invite-customer.component";
 import RegisterCustomer from "./components/admin/register-customer.component";
+import BuyCredits from "./components/wallet/buy-credits.component";
 
 // Initialize Google Analytics
 ReactGA.initialize(process.env.REACT_APP_GA_CODE);
@@ -67,6 +68,7 @@ const App = () => {
             <AppRoute path="/customer/:id" component={CreateCustomer} layout={LayoutDefault}/>
             <AppRoute path="/customer-invite/:personalId" component={InviteCustomer} layout={LayoutDefault}/>
             <AppRoute path="/customer-signup/:personalId" component={RegisterCustomer} layout={LayoutDefault}/>
+            <AppRoute path="/pix" component={BuyCredits} layout={LayoutDefault}/>
           </Switch>
       )} />
   );

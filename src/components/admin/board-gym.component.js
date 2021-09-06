@@ -121,7 +121,7 @@ export default class BoardGym extends Component {
                 <div className="tiles-item-inner">
                   <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16">
-                      <Link to= "/customer/new">
+                      <Link to={"/gym/" + (this.state.gym!==null?this.state.gym.id:"")}>
                         <Image
                           src={require('../../assets/images/feature-tile-icon-02.svg')}
                           alt="Features tile icon 02"
@@ -132,7 +132,7 @@ export default class BoardGym extends Component {
                   </div>
                   <div className="features-tiles-item-content">
                     <h4 className="mt-0 mb-8">
-                      Editar Academia
+                      Atualizar Cadastro
                       </h4>
                       <div style={{ display: 'none'}}>
                     <p className="m-0 text-sm">

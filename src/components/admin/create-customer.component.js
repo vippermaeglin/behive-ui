@@ -45,7 +45,7 @@ const vlogo = (value) => {
   }
 };
 
-export default class CreateGym extends Component {
+export default class CreateCustomer extends Component {
   constructor(props) {
     super(props);
     this.retrieveUsers = this.retrieveUsers.bind(this);

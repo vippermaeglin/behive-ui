@@ -658,12 +658,12 @@ export default class CreateGym extends Component {
           workHours: g.workHours,
           socialMedia: g.socialMedia,
           logo: g.logo,
-          bankCode: g.bankData.bank.code,
-          bankAgency: g.bankData.bankAgency,
-          bankAgencyDigit: g.bankData.bankAgencyDigit,
-          bankAccount: g.bankData.bankAccount,
-          bankAccountDigit: g.bankData.bankAccountDigit,
-          bankAccountType: g.bankData.accountType.code
+          bankCode: g.bankData?.bank?.code,
+          bankAgency: g.bankData?.bankAgency,
+          bankAgencyDigit: g.bankData?.bankAgencyDigit,
+          bankAccount: g.bankData?.bankAccount,
+          bankAccountDigit: g.bankData?.bankAccountDigit,
+          bankAccountType: g.bankData?.accountType?.code
         });
       }
     )

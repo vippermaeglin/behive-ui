@@ -716,12 +716,12 @@ export default class CreateGym extends Component {
           crefExpiration: Moment(g.crefExpiration, "DD/MM/YYYY").format("YYYY-MM-DD"),
           certificates: g.certificates,
           graduation: g.graduation,
-          bankCode: g.bankData.bank.code,
-          bankAgency: g.bankData.bankAgency,
-          bankAgencyDigit: g.bankData.bankAgencyDigit,
-          bankAccount: g.bankData.bankAccount,
-          bankAccountDigit: g.bankData.bankAccountDigit,
-          bankAccountType: g.bankData.accountType.code
+          bankCode: g.bankData?.bank?.code,
+          bankAgency: g.bankData?.bankAgency,
+          bankAgencyDigit: g.bankData?.bankAgencyDigit,
+          bankAccount: g.bankData?.bankAccount,
+          bankAccountDigit: g.bankData?.bankAccountDigit,
+          bankAccountType: g.bankData?.accountType?.code
         });
       }
     )
